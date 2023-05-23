@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import { useRef } from "react";
 
 // SwiperJS
@@ -17,9 +19,9 @@ import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
 
 // Images
-import bg1 from "assets/images/SistemaEE/casa1.jpg";
-import bg2 from "assets/images/SistemaEE/casa2.jpg";
-import bg3 from "assets/images/SistemaEE/casa3.jpg";
+import bg1 from "assets/images/img-2.jpg";
+import bg2 from "assets/images/img-1.jpg";
+import bg3 from "assets/images/img-3.jpg";
 
 function Slider() {
   // install SwiperJS modules

@@ -35,27 +35,24 @@ import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 import typography from "assets/theme/base/typography";
 
 // Dashboard layout components
-import Slider from "layouts/dashboard/components/Slider";
+import Slider from "layouts/dashboard2/components/Slider";
 
 // Data
-import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
-import salesTableData from "layouts/dashboard/data/salesTableData";
-import categoriesListData from "layouts/dashboard/data/categoriesListData";
+import gradientLineChartData from "layouts/dashboard2/data/gradientLineChartData";
+import categoriesListData from "layouts/dashboard2/data/categoriesListData";
+import Dimensiones from "layouts/dashboard2/data/Dimensiones";
+import PropiedadesTermicas from "layouts/dashboard2/data/PropiedadesTermicas";
 
- // Argon Dashboard 2 MUI Components
-import DatosGenerales from "examples/Datos/DatosGenerales"; 
-import TablaDatosdefinicion from "layouts/dashboard/data/DatosDefincion";
-import DatosGenericos from "layouts/dashboard/data/DatosGenericos";
+// Elementos nuevos
 
 function Default() {
   const { size } = typography;
-  const arrNombres = ["Nombre del proyecto","Tipo de vivienda","Zona de la vivienda","Dirección o Dirección de referencia","Altura sobre el nivel del mar(m)"]
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <ArgonBox py={3}>
         <Grid container spacing={3} mb={3}>
-          {/* <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard
               title="today's money"
               count="$53,000"
@@ -86,30 +83,30 @@ function Default() {
               icon={{ color: "warning", component: <i className="ni ni-cart" /> }}
               percentage={{ color: "success", count: "+5%", text: "than last month" }}
             />
-          </Grid> */}
+          </Grid>
         </Grid>
-        {/* Datos basicos de la vivienda */}
+        {/* Datos de las dimenciones de la envolvente*/}
         <Grid container spacing={3} mb={3}>
+          <Grid item xs={12} md={8}>
+            <Dimensiones />
+
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <CategoriesList title="resultados" categories={categoriesListData} />
+          </Grid>
+        </Grid>
+        
+        {/* Propiedades térmicas de la envolvente de la vivienda */}
+        <Grid container spacing={3}>
+          <Grid item xs={12} lg={7}>
+
+          <PropiedadesTermicas/>
+
+          </Grid>
           <Grid item xs={12} lg={5}>
             <Slider />
           </Grid>
-          <Grid item xs={12} lg={7}>
-              <DatosGenericos
-                title = {arrNombres}
-              />
-          </Grid>
         </Grid>
-        {/* Datos mas especificos de la vivienda */}
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <DatosGenerales title="Definición de la vivienda" rows={TablaDatosdefinicion} />
-          </Grid>
-          
-          <Grid item xs={12} md={4}>
-            <CategoriesList title="categories" categories={categoriesListData} />
-          </Grid>
-        </Grid>
-
       </ArgonBox>
       <Footer />
     </DashboardLayout>
