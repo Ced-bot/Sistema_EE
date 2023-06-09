@@ -36,7 +36,7 @@ function DatosGenerales({ title, rows }) {
   const renderTableCells = rows.map((row, key) => {
     const tableRows = [];
     const rowKey = `row-${key}`;
-
+    console.log("fdgdg",rowKey);
     Object.entries(row).map(([cellTitle, cellContent]) =>
       Array.isArray(cellContent)
         ? tableRows.push(

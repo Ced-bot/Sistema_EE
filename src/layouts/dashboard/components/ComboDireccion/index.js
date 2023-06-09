@@ -2,32 +2,32 @@ import React, { useState } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 function Localizacion() {
-const [firstValue, setFirstValue] = useState('');
-const [secondValue, setSecondValue] = useState('');
-const [thirdValue, setThirdValue] = useState('');
+  const [firstValue, setFirstValue] = useState('');
+  const [secondValue, setSecondValue] = useState('');
+  const [thirdValue, setThirdValue] = useState('');
 
-const handleFirstValueChange = (event) => {
-    const newValue = event.target.value;
-    setFirstValue(newValue);
+  const handleFirstValueChange = (event) => {
+      const newValue = event.target.value;
+      setFirstValue(newValue);
 
-    // Aquí puedes realizar la lógica para determinar las nuevas opciones del segundo ComboBox
-    const newOptions = getNewOptions(newValue);
-    setSecondValue(newOptions[0]);
-};
+      // Aquí puedes realizar la lógica para determinar las nuevas opciones del segundo ComboBox
+      const newOptions = getNewOptions(newValue);
+      setSecondValue(newOptions[0]);
+  };
 
-const handleSecondValueChange = (event) => {
-    const newValue = event.target.value;
-    setSecondValue(newValue);
-    
-    // Aquí puedes realizar la lógica para determinar las nuevas opciones del segundo ComboBox
-    const newOptions = getNewOptionsCusco(newValue);
-    setThirdValue(newOptions[0]);
-};
+  const handleSecondValueChange = (event) => {
+      const newValue = event.target.value;
+      setSecondValue(newValue);
+      
+      // Aquí puedes realizar la lógica para determinar las nuevas opciones del segundo ComboBox
+      const newOptions = getNewOptionsCusco(newValue);
+      setThirdValue(newOptions[0]);
+  };
 
-const handleThirdValueChange = (event) => {
-    const newValue = event.target.value;
-    setThirdValue(newValue);
-};
+  const handleThirdValueChange = (event) => {
+      const newValue = event.target.value;
+      setThirdValue(newValue);
+  };
   // Función para renderizar la lista de nombres
   const renderizarDepartamentos = () => {
     const Departamentos = ['Amazonas','Áncash','Apurímac','Arequipa','Ayacucho','Cajamarca','Callao','Cusco','Huancavelica','Huánuco','Ica','Junín','La Libertad','Lambayeque',

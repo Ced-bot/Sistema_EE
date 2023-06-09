@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Icon from "@mui/material/Icon";
+import React, { useState, useEffect, useContext } from 'react';
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -28,30 +28,59 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DetailedStatisticsCard from "examples/Cards/StatisticsCards/DetailedStatisticsCard";
 import SalesTable from "examples/Tables/SalesTable";
-import CategoriesList from "examples/Lists/CategoriesList";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 
 // Argon Dashboard 2 MUI base styles
 import typography from "assets/theme/base/typography";
 
-// Dashboard layout components
-import Slider from "layouts/dashboard2/components/Slider";
+// Local Components
+import CategoriesListMod from "layouts/dashboard2/components/CategoriesListMod";
 
 // Data
 import gradientLineChartData from "layouts/dashboard2/data/gradientLineChartData";
 import categoriesListData from "layouts/dashboard2/data/categoriesListData";
 import Dimensiones from "layouts/dashboard2/data/Dimensiones";
 import PropiedadesTermicas from "layouts/dashboard2/data/PropiedadesTermicas";
+import CaracteristicasVanos from "layouts/dashboard2/data/CaracteristicasVanos";
+import ListaCerramientos from "layouts/dashboard2/data/ListaCerramientos";
+
+import { RecoilRoot } from 'recoil';
 
 // Elementos nuevos
 
 function Default() {
-  const { size } = typography;
+  const [EstadoElementos, setEstadoElementos] = useState([ ]);
+  const [nroElementos, setNroElementos] = useState(0);
+  const [opcionDif, setOpcionDif] = useState(0);
+  // ========================================================== Funciones ============================================================
+  const agregarElemento = (nuevoElemento) => {
+    setEstadoElementos([...EstadoElementos, nuevoElemento]);
+    setNroElementos(nroElementos+1);
+  };
+  const modificarElemento = (id) => {
+    setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
+  }
+  const eliminarElemento = (id) => {
+    setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
+  }
+  //============================================================ Bloques =====================================================================
+  const LibreriaTransmitancia = () => (
+    <Grid container spacing={3} mb={3}>  
+      <Grid item  xs={12} md={6}> <PropiedadesTermicas/> </Grid>
+      <Grid item xs={12} md={6} > <ListaCerramientos /> </Grid>
+    </Grid>
+  );
+  const VanosCaracteristicas = () => (
+    <Grid container spacing={3} mb={3}>  
+      <Grid item > <CaracteristicasVanos  agregarElemento={agregarElemento} nroElementos = {nroElementos} /> </Grid>
+    </Grid>
+  );
   return (
+    <RecoilRoot>
     <DashboardLayout>
       <DashboardNavbar />
       <ArgonBox py={3}>
-        <Grid container spacing={3} mb={3}>
+        {/* <Grid container spacing={3} mb={3}>
           <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard
               title="today's money"
@@ -84,32 +113,30 @@ function Default() {
               percentage={{ color: "success", count: "+5%", text: "than last month" }}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
         {/* Datos de las dimenciones de la envolvente*/}
         <Grid container spacing={3} mb={3}>
           <Grid item xs={12} md={8}>
-            <Dimensiones />
-
+            <Grid container spacing={3} mb={3}>
+              <Grid item > <Dimensiones agregarElemento={agregarElemento} nroElementos = {nroElementos} setOpcionDif={setOpcionDif} /> </Grid>
+              {/* <Grid item xs={12} md={4}>
+                <CategoriesListMod title="Elementos constructivos de la vivienda" categories={EstadoElementos} eliminarElemento = {eliminarElemento} />
+              </Grid> */}
+            </Grid>
+            
+            {/* Propiedades térmicas de la envolvente de la vivienda */} 
+            {opcionDif === 0 && <LibreriaTransmitancia />}
+            {opcionDif === 1 && <VanosCaracteristicas />}
           </Grid>
           <Grid item xs={12} md={4}>
-            <CategoriesList title="resultados" categories={categoriesListData} />
+            <CategoriesListMod title="Elementos constructivos de la vivienda" categories={EstadoElementos} eliminarElemento = {eliminarElemento} />
           </Grid>
         </Grid>
-        
-        {/* Propiedades térmicas de la envolvente de la vivienda */}
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={7}>
 
-          <PropiedadesTermicas/>
-
-          </Grid>
-          <Grid item xs={12} lg={5}>
-            <Slider />
-          </Grid>
-        </Grid>
       </ArgonBox>
       <Footer />
     </DashboardLayout>
+    </RecoilRoot>
   );
 }
 

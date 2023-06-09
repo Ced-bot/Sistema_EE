@@ -104,7 +104,7 @@ DatosGenericos.defaultProps = {
 
 // Typechecking props for the GradientLineChart
 DatosGenericos.propTypes = {
-  title: [PropTypes.string,PropTypes.string,PropTypes.string],
+  title: PropTypes.array,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
