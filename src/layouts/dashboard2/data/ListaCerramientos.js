@@ -10,7 +10,7 @@ import ArgonButton from "components/ArgonButton";
 import { Select, Space } from 'antd';
 
 const handleChange = (value) => {
-  console.log(`selected ${value}`);
+  //console.log(`selected ${value}`);
 };
 
 const ListaCerramientos = () => {

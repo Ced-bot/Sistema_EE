@@ -56,13 +56,8 @@ function Default() {
   const agregarElemento = (nuevoElemento) => {
     setEstadoElementos([...EstadoElementos, nuevoElemento]);
     setNroElementos(nroElementos+1);
+    //console.log(EstadoElementos)
   };
-  const modificarElemento = (id) => {
-    setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
-  }
-  const eliminarElemento = (id) => {
-    setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
-  }
   //============================================================ Bloques =====================================================================
   const LibreriaTransmitancia = () => (
     <Grid container spacing={3} mb={3}>  
@@ -119,9 +114,6 @@ function Default() {
           <Grid item xs={12} md={8}>
             <Grid container spacing={3} mb={3}>
               <Grid item > <Dimensiones agregarElemento={agregarElemento} nroElementos = {nroElementos} setOpcionDif={setOpcionDif} /> </Grid>
-              {/* <Grid item xs={12} md={4}>
-                <CategoriesListMod title="Elementos constructivos de la vivienda" categories={EstadoElementos} eliminarElemento = {eliminarElemento} />
-              </Grid> */}
             </Grid>
             
             {/* Propiedades térmicas de la envolvente de la vivienda */} 
@@ -129,7 +121,7 @@ function Default() {
             {opcionDif === 1 && <VanosCaracteristicas />}
           </Grid>
           <Grid item xs={12} md={4}>
-            <CategoriesListMod title="Elementos constructivos de la vivienda" categories={EstadoElementos} eliminarElemento = {eliminarElemento} />
+            <CategoriesListMod title="Elementos constructivos de la vivienda" Elementos={EstadoElementos} setEstadoElementos = {setEstadoElementos} />
           </Grid>
         </Grid>
 

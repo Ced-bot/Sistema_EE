@@ -82,7 +82,7 @@ export default function RadioGroupVanosLucernarios() {
     //================================================================================
     // Evento que se activa cuando se cambia el valor del select
     const handleChangeSelect = (value) => {
-      console.log(`selected ${value}`);
+      //console.log(`selected ${value}`);
     };    
     // =============================================================
     // Setting default values for the props of GradientLineChart

@@ -24,7 +24,7 @@ import ArgonTypography from "components/ArgonTypography";
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Switch, Space, Select } from 'antd';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { datosVanos } from 'layouts/dashboard2/components/Recoil';
 
 const StyledFormControlLabel = styled(FormControlLabel)`
@@ -40,127 +40,163 @@ const TwoLineLabel = styled('div')`
 `;
   
 export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
+  const Labels = ["Ventana","Puerta","Lucernario"]
   const diccionarioVanos = useRecoilValue(datosVanos);
+  const resetDiccionarioVanos= useResetRecoilState(datosVanos);
 
   const [value, setValue] = useState('1');
-  const [TransmitanciaValue, setTransmitanciaValue] = useState(0);
-  const [textFieldDisabled, setTextFieldDisabled] = useState(false);
   // Valores de los textfields
-  const [inputAnchura, setInputAnchura] = useState('');
-  const [inputLongitud, setInputLongitud] = useState('');
-  const [inputArea, setInputArea] = useState('');
+  const [inputPermeabilidad, setInputPermeabilidad] = useState(100);
+  const [inputAbsortividad, setInputAbsortividad] = useState(0);
+  const [inputNombre, setInputNombre] = useState(Labels[value-1]);
+  // Volores de los Switchs 
+  const [isControlSolar, setIsControlSolar] = useState(false);
+  const [isDoble, setIsDoble] = useState(false);
+  // Volores de los Switchs - Ventanas
+  const [isProyectante, setIsProyectante] = useState(false);
+  const [isHermetico, setIsHermetico] = useState(false);
+  // Volores de los Switchs - Puertas
+  const [isSilicona, setIsSilicona] = useState(false);
+  const [isBurletes, setIsBurletes] = useState(false);
+  // Volores de los Switchs - Lucernarios
 
-  const Labels = ["Ventana","Puerta","Lucernario"]
   // Evento de cambio de los radioButtons
   const handleChange = (event) => {
     setValue(event.target.value);
   };
   useEffect(() => {
+    setInputNombre(Labels[value-1])
   }, [value]);
-  // Evento de cambio del textfield de transmitancia
-  const handleTransmitanciaChange = (event) => {
-    setTransmitanciaValue(event.target.value);
+
+  const handlePermeabilidad = (event) => {
+    setInputPermeabilidad(event.target.value);
   };
-  // Enventos de cambio de los textfields
-  const handleAnchuraChange = (event) => {
-    setInputAnchura(event.target.value);
+  const handleAbsortividad = (event) => {
+    setInputAbsortividad(event.target.value);
   };
-  const handleLongitudChange = (event) => {
-    setInputLongitud(event.target.value);
+
+  const handleNombreChange = (event) => {
+    setInputNombre(event.target.value);
   };
-  useEffect(() => {
-    if (inputAnchura !== '' && inputLongitud !== '') {
-        setInputArea(inputAnchura * inputLongitud);
-    } else {
-        setInputArea('');
-    }
-  }, [inputAnchura,inputLongitud]);
-  //================================================================================
-  // Evento que se activa cuando se cambia el valor del select
-  const handleSelectChange = (selectedOption) => {
-    // Desactivar el texfield de transmitancia
-    setTextFieldDisabled(selectedOption === "Usar libreria");
-    // Reinicar el valor de la transmitancia
-    setTransmitanciaValue(0);
+  // Switchs
+  const handleControlSolar = (valor) => {
+    setIsControlSolar(valor);
+  };
+  const handleDoble = (valor) => {
+    setIsDoble(valor);
+  };
+  const handleProyectante = (valor) => {
+    setIsProyectante(valor);
+  };
+  const handleHermetico= (valor) => {
+    setIsHermetico(valor);
+  };
+  const handleSilicona = (valor) => {
+    setIsSilicona(valor);
+  };
+  const handleBurletes = (valor) => {
+    setIsBurletes(valor);
   };
   // =============================================================
   // Evento que se activa cuando se cambia el valor del select
   const handleChangeSelect = (value) => {
-    console.log(`selected ${value}`);
+    //console.log(`selected ${value}`);
   };    
   // =============================================================
   // Función para agregar un nuevo elemento a la lista
   const NuevoElemento = () => {
-    console.log("eu sou a polla --> ",diccionarioVanos)
+    //console.log(diccionarioVanos)
     agregarElemento({
       id : nroElementos,
       color: "dark",
-      icon: <i className="ni ni-image" style={{ fontSize: "12px" }} />,
+      icon: "ni ni-image",
       name: Labels[value-1],
-      description: (
-        <>
-          Area {inputArea} m2,{" "}
-          <ArgonTypography variant="caption" color="text" fontWeight="medium">
-          Transmitancia {TransmitanciaValue} W/m2K
-          </ArgonTypography>
-        </>
-      ),
+      tipo: Labels[value-1],
+      familia: "Vano",
+      longitud: parseFloat(diccionarioVanos["Longitud"]),
+      anchura: parseFloat(diccionarioVanos["Anchura"]),
+      area: diccionarioVanos["Longitud"]*diccionarioVanos["Anchura"]*diccionarioVanos["Multiplicador"],
+      transmitancia: parseFloat(diccionarioVanos["UMarco"]+diccionarioVanos["UVidrio"]), 
+      otros: {
+          cerramiento_asociado: diccionarioVanos["Cerramiento_asociado"],
+          familia_c_a: diccionarioVanos["Cerramiento_asociado"], // SE DEBE MODIFICAR
+          orientacion: diccionarioVanos["Orientacion"],
+          porcentaje_marco: parseFloat(diccionarioVanos["Porcentaje_marco"]),
+          factor_solar: parseFloat(diccionarioVanos["Porcentaje_marco"]),
+          multiplicador: parseFloat(diccionarioVanos["Multiplicador"]),
+          u_marco: parseFloat(diccionarioVanos["UMarco"]),
+          u_vidrio: parseFloat(diccionarioVanos["UVidrio"]),
+
+          // Datos comunes
+          es_control_solar:isControlSolar,
+          es_doble: isDoble,
+          permeabilidad: inputPermeabilidad,
+          absortividad: inputAbsortividad,
+          // ventas
+          es_proyectante: isProyectante,
+          es_hermetico: isHermetico,
+          // puertas
+          es_silicona: isSilicona,
+          es_burletes: isBurletes,
+      },
+
     })
+    resetDiccionarioVanos();
   };
   // Elementos independientes
   const Ventanas = () => (
-    <Grid container spacing={1} alignItems="center">
+      <>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left" spacing={1}>
           <Grid item> <Typography variant="h6">Ventana proyectante o de abatir:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isProyectante} onChange={handleProyectante} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Cuenta con cierre hermético:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isHermetico} onChange={handleHermetico} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Doble ventana:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isDoble} onChange={handleDoble} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-    </Grid>
+      </>
   );
   const Puertas = () => (
-    <Grid container spacing={1} alignItems="center">
+    <>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left" spacing={1}>
           <Grid item> <Typography variant="h6">Sellado de silicona con el vano:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isSilicona} onChange={handleSilicona} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Cuenta con burletes en la base:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isBurletes} onChange={handleBurletes} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Doble ventana:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isDoble} onChange={handleDoble} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-    </Grid>
+      </>
   );
   const Lucernarios = () => (
-    <Grid container spacing={1} alignItems="center">
+    <>
       <Box mb={2.4} ml={8}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Doble ventana:</Typography> </Grid>
-          <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+          <Grid item> <Switch checked={isDoble} onChange={handleDoble}  checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-    </Grid>
+      </>
   );
   // Setting default values for the props 
   CaracteristicasVanos.defaultProps = {nroElementos:0};
@@ -204,7 +240,7 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
                 <Box mb={2} ml={8}>
                 <Grid container alignItems="center" justifyContent="left" spacing={1}>
                     <Grid item> <Typography variant="h6">Elemento de control solar:</Typography> </Grid>
-                    <Grid item> <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
+                    <Grid item> <Switch checked={isControlSolar} onChange={handleControlSolar} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
                     <Grid item> <ArgonButton variant="gradient" color="light" size="small" onClick={() => {}}>Elemento</ArgonButton> </Grid> 
                 </Grid>
                 </Box>
@@ -218,14 +254,14 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
                         { value: 3, label: 'Valor conocido',}]} />  
                       </Space>  
                     </Grid> 
-                    <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 100 }} inputProps={{ style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField value={inputPermeabilidad} onChange={handlePermeabilidad} variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "0",  style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
                 <Box mb={2} ml={8}>
                 <Grid container alignItems="center" justifyContent="left"  spacing={1}>
                     <Grid item> <Typography variant="h6">Absortividad del marco:</Typography> </Grid>
                     <Grid item> <ArgonButton variant="gradient" color="light" size="small" onClick={() => {}}>α</ArgonButton> </Grid> 
-                    <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 100 }} inputProps={{ style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField value={inputAbsortividad} onChange={handleAbsortividad}  variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "0",  style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
               </Grid>
@@ -237,6 +273,8 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
               </Grid>
           </Grid>
           <Grid container alignItems="center" justifyContent="center"  spacing={2} style={{ marginBottom: '30px' }}>
+              <Grid item> <Typography variant="h6">Nombre: </Typography> </Grid>
+              <Grid item> <TextField value={inputNombre} onChange={handleNombreChange} style={{ width: 160 }}  inputProps={{ style: {marginLeft:'-13px',height: '20px', textAlign: "center"}}}/> </Grid>
               <Grid item> <ArgonButton variant="gradient" color="info" onClick={NuevoElemento}> Agregar&nbsp; <ArrowForwardSharpIcon fontSize="large" /></ArgonButton> </Grid> 
           </Grid>
       

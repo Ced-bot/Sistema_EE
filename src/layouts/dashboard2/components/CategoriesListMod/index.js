@@ -27,9 +27,41 @@ import Icon from "@mui/material/Icon";
 import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
 import ArgonButton from "components/ArgonButton";
+import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
+import SendIcon from '@mui/icons-material/Send';
+import axios from 'axios';
 
-function CategoriesListMod({ title, categories,eliminarElemento }) {
-  const renderItems = categories.map(({ id, color, icon, name, description }, key) => (
+function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
+
+  const eliminarElemento = (id) => {
+    setEstadoElementos(Elementos.filter(Elemento => Elemento.id !== id));
+  }
+  const modificarElemento = (id) => {
+    setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
+  }
+  const procesarDatos = () => {
+    try {
+      console.log("Los datos se enviaron",Elementos);
+      axios.post('https://c370x9jte2.execute-api.sa-east-1.amazonaws.com/ejecucion/EvaluacionNormaEM110', {
+        Cerramientos: Elementos,
+      },
+      // Headers
+      {})
+      .then((response) => {
+        // La respuesta de la función Lambda se guarda en el estado 'data'
+        //setData(response.data);
+        console.log("Los datos se procesaron");
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Hubo un error al enviar los datos a Lambda:", error);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const renderItems = Elementos.map(({ id, color, icon, name, area, transmitancia }, key) => (
     <ArgonBox
       key={id}
       component="li"
@@ -39,7 +71,7 @@ function CategoriesListMod({ title, categories,eliminarElemento }) {
       borderRadius="lg"
       py={1}
       pr={2}
-      mb={categories.length - 1 === key ? 0 : 1}
+      mb={Elementos.length - 1 === key ? 0 : 1}
     >
       <ArgonBox display="flex" alignItems="center">
         <ArgonBox
@@ -61,7 +93,7 @@ function CategoriesListMod({ title, categories,eliminarElemento }) {
               placeItems: "center",
             }}
           >
-            {icon}
+            <i className={icon} style={{ fontSize: "12px" }} />
           </Icon>
         </ArgonBox>
         <ArgonBox display="flex" flexDirection="column">
@@ -69,7 +101,10 @@ function CategoriesListMod({ title, categories,eliminarElemento }) {
             {name}
           </ArgonTypography>
           <ArgonTypography variant="caption" color="text">
-            {description}
+            Area {area} m2,{" "}
+            <ArgonTypography variant="caption" color="text" fontWeight="medium">
+            Transmitancia {transmitancia} W/m2K
+            </ArgonTypography>
           </ArgonTypography>
         </ArgonBox>
       </ArgonBox>
@@ -91,11 +126,14 @@ function CategoriesListMod({ title, categories,eliminarElemento }) {
           {title}
         </ArgonTypography>
       </ArgonBox>
-      <ArgonBox p={2} style={{ minHeight: '684.75px', maxHeight: '684.75px', overflow: 'auto' }}>
+      <ArgonBox p={2} style={{ minHeight: '784.75px', maxHeight: '784.75px', overflow: 'auto',marginBottom: '10px' }}>
         <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
           {renderItems}
         </ArgonBox>
       </ArgonBox>
+      <div style={{display: "flex", justifyContent: "center",marginBottom: '23px'}}>
+        <ArgonButton onClick={procesarDatos} style={{width: "150px"}} variant="gradient" color="info" > Procesar&nbsp; <SendIcon fontSize="large" /></ArgonButton>
+      </div>
     </Card>
   );
 }
@@ -103,8 +141,8 @@ function CategoriesListMod({ title, categories,eliminarElemento }) {
 // Typechecking props for the CategoriesList
 CategoriesListMod.propTypes = {
   title: PropTypes.string.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
-  eliminarElemento: PropTypes.func
+  Elementos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setEstadoElementos: PropTypes.func
 };
 
 export default CategoriesListMod;

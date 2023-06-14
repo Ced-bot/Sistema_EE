@@ -9,9 +9,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { styled } from '@mui/system';
 
-import Image1 from 'assets/images/SistemaEE/cubiertaEnterrada.jpg'; // reemplaza con la ruta de tu imagen
-import Image2 from 'assets/images/SistemaEE/cubiertaAire.jpg'; // reemplaza con la ruta de tu imagen
-import Image3 from 'assets/images/SistemaEE/TechoANH.jpg'; // reemplaza con la ruta de tu imagen
+import Image1 from 'assets/images/SistemaEE/techoEnterrada.jpg'; // reemplaza con la ruta de tu imagen
+import Image2 from 'assets/images/SistemaEE/techoAire.jpg'; // reemplaza con la ruta de tu imagen
+import Image3 from 'assets/images/SistemaEE/techoANH.jpg'; // reemplaza con la ruta de tu imagen
 import { Grid, TextField, Typography, Box} from '@mui/material';
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 // Argon Dashboard 2 MUI base styles
@@ -94,16 +94,15 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
     agregarElemento({
       id : nroElementos,
       color: "dark",
-      icon: <i className="ni ni-bold-up" style={{ fontSize: "12px" }} />,
-      name: Labels[value-1],
-      description: (
-        <>
-          Area {inputArea} m2,{" "}
-          <ArgonTypography variant="caption" color="text" fontWeight="medium">
-          Transmitancia {TransmitanciaValue} W/m2K
-          </ArgonTypography>
-        </>
-      ),
+      icon: "ni ni-bold-up",
+      name: inputNombre,
+      tipo: Labels[value-1],
+      familia: "Techo",
+      longitud: parseFloat(inputLongitud),
+      anchura: parseFloat(inputAnchura),
+      area: inputArea,
+      transmitancia: parseFloat(TransmitanciaValue), 
+      otros: {},
     })
   };
   // Setting default values for the props of GradientLineChart
@@ -143,13 +142,13 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
                 <Box mb={2}>
                 <Grid container alignItems="center" justifyContent="center" spacing={2.5}>
                     <Grid item> <Typography variant="h6">Anchura (m):</Typography> </Grid>
-                    <Grid item> <TextField value={inputAnchura} onChange={handleAnchuraChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField value={inputAnchura} onChange={handleAnchuraChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
                 <Box mb={2}>
                 <Grid container alignItems="center" justifyContent="center"  spacing={2}>
                     <Grid item> <Typography variant="h6">Longitud (m):</Typography> </Grid>
-                    <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
                 <Box mb={2} ml={8}>

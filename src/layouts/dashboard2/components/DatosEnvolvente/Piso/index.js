@@ -10,9 +10,9 @@ import FormLabel from '@mui/material/FormLabel';
 import { styled } from '@mui/system';
 
 
-import Image1 from 'assets/images/SistemaEE/muroTerreno.jpg'; // reemplaza con la ruta de tu imagen
-import Image2 from 'assets/images/SistemaEE/muroFachada.jpg'; // reemplaza con la ruta de tu imagen
-import Image3 from 'assets/images/SistemaEE/muroANH.jpg'; // reemplaza con la ruta de tu imagen
+import Image1 from 'assets/images/SistemaEE/sueloTerreno.jpg'; // reemplaza con la ruta de tu imagen
+import Image2 from 'assets/images/SistemaEE/sueloAire.jpg'; // reemplaza con la ruta de tu imagen
+import Image3 from 'assets/images/SistemaEE/sueloANH.jpg'; // reemplaza con la ruta de tu imagen
 import { Grid, TextField, Typography, Box } from '@mui/material';
 import { Select, Space } from 'antd';
 
@@ -32,14 +32,15 @@ const TwoLineLabel = styled('div')`
     justify-content: center;
 `;
 
-export default function RadioGroupMuro({agregarElemento,nroElementos}) {
-    const Labels = ["Muro en contacto con el terreno","Muro en contacto con el aire","Muro en contacto con ANH"]
-    const Labels2 = ["Muro de terreno","Muro de fachada","Muro con ANH"]
+export default function RadioGroupPiso({agregarElemento,nroElementos}) {
+    const Labels = ["Piso en contacto con el terreno","Piso en contacto con el aire","Piso en contacto con ANH"]
+    const Labels2 = ["Piso con terreno","Piso con aire","Piso con ANH"]
 
     // Elementos visualizables
-    const MuroEnterrado = () => (<img src={Image1} alt="Descripción" />);
-    const MuroAireExterior = () => (<img src={Image2} alt="Descripción" />);
-    const MuroANH = () => (<img src={Image3} alt="Descripción" />);
+    const SueloEnterrado = () => (<img src={Image1} alt="Descripción" />);
+    const SueloAireExterior = () => (<img src={Image2} alt="Descripción" />);
+    const SueloANH = () => (<img src={Image3} alt="Descripción" />);
+    
     const Orientacion = () => (
         <Grid container alignItems="center" justifyContent="center"  spacing={2} >
             <Grid item> <Typography variant="h6">Orientacion: </Typography> </Grid>
@@ -120,23 +121,21 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
       agregarElemento({
         id : nroElementos,
         color: "dark",
-        icon: "ni ni-map-big",
+        icon: "ni ni-ungroup",
         name: inputNombre,
         tipo: Labels[value-1],
-        familia: "Muro",
+        familia: "Piso",
         longitud: parseFloat(inputLongitud),
         anchura: parseFloat(inputAnchura),
         area: inputArea,
         transmitancia: parseFloat(TransmitanciaValue), 
-        otros: {
-          Orientacion: orientacion, 
-        },
+        otros: {},
       })
     };
     // Setting default values for the props of GradientLineChart
-    RadioGroupMuro.defaultProps = {nroElementos:0};
+    RadioGroupPiso.defaultProps = {nroElementos:0};
     // Typechecking props for the CategoriesList
-    RadioGroupMuro.propTypes = {agregarElemento: PropTypes.func, nroElementos: PropTypes.number };
+    RadioGroupPiso.propTypes = {agregarElemento: PropTypes.func, nroElementos: PropTypes.number };
     return (
         <div>
             <FormControl>
@@ -189,15 +188,15 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
                     </Box>
                 </Grid>
                 <Grid item xs={3}>
-                    {value === '1' && <MuroEnterrado />}
-                    {value === '2' && <MuroAireExterior />}   
-                    {value === '3' && <MuroANH />}   
+                    {value === '1' && <SueloEnterrado />}
+                    {value === '2' && <SueloAireExterior />}   
+                    {value === '3' && <SueloANH />}   
                 </Grid>
             </Grid>
             <Grid container alignItems="center" justifyContent="center"  spacing={2} style={{ marginBottom: '10px' }}>
                 <Grid item> <Typography variant="h6">Nombre: </Typography> </Grid>
                 <Grid item> <TextField value={inputNombre} onChange={handleNombreChange} style={{ width: 160 }}  inputProps={{ style: {marginLeft:'-13px',height: '20px', textAlign: "center"}}}/> </Grid>
-                <Grid item> {value === '2' && <Orientacion />} </Grid>
+                {/* <Grid item> {value === '2' && <Orientacion />} </Grid> */}
             </Grid> 
             <Grid container alignItems="center" justifyContent="center"  spacing={2}>
                 <Grid item> <Typography variant="h6">Transmitancia Térmicas: </Typography> </Grid>

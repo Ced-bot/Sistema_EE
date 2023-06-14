@@ -1,5 +1,5 @@
 import React, { useState, useEffect  } from 'react';
-import { AppBar, Tabs, Tab, Card, Grid, Typography, TextField } from '@mui/material';
+import { Box, Tabs, Tab, Card, Grid, Typography, TextField } from '@mui/material';
 
 // Argon Dashboard 2 MUI base styles
 import breakpoints from "assets/theme/base/breakpoints";
@@ -8,7 +8,7 @@ import ArgonButton from "components/ArgonButton";
 import { Select, Space } from 'antd';
 
 const handleChange = (value) => {
-  console.log(`selected ${value}`);
+  //console.log(`selected ${value}`);
 };
 
 const PropiedadesTermicas = () => {
@@ -43,16 +43,18 @@ const PropiedadesTermicas = () => {
             <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}> 
             </Grid>
             <Grid item xs={9} md={2} lg={16} sx={{ ml: "auto" }}>
-              <Grid container alignItems="center" justifyContent="center"  spacing={2} style={{ marginBottom: '10px' }}>
+              {/* <Grid container alignItems="center" justifyContent="center"  spacing={2} style={{ marginBottom: '10px' }}>
                 <Grid item> <Typography variant="h5">Libreria de cerramientos </Typography> </Grid>
+              </Grid> */}
+              <Grid container alignItems="center" justifyContent="center"  spacing={2}  style={{ marginBottom: '0px' }}>
+                <Grid item> <Typography variant="h6">Grupo de materiales: </Typography> </Grid>
               </Grid>
               <Grid container alignItems="center" justifyContent="center"  spacing={2}  style={{ marginBottom: '10px' }}>
-                <Grid item> <Typography variant="h6">Grupo de materiales: </Typography> </Grid>
                 <Grid item> 
                   <Space wrap>
                     <Select
                       defaultValue="Metales"
-                      style={{  width: 220, }}
+                      style={{  width: 380, }}
                       onChange={handleChange}
                       options={[
                         { value: 'Metales', label: 'Metales',},
@@ -64,13 +66,15 @@ const PropiedadesTermicas = () => {
                   </Space>
                 </Grid>
               </Grid>
-              <Grid container alignItems="center" justifyContent="center"  spacing={13.6} style={{ marginBottom: '20px' }}>
+              <Grid container alignItems="center" justifyContent="center"  spacing={13.6} style={{ marginBottom: '0px' }}>
                 <Grid item> <Typography variant="h6">Material: </Typography> </Grid>
+              </Grid>
+              <Grid container alignItems="center" justifyContent="center"  spacing={13.6} style={{ marginBottom: '50px' }}>
                 <Grid item> 
                   <Space wrap>
                     <Select
                       defaultValue="Acero"
-                      style={{  width: 220, }}
+                      style={{  width: 380, }}
                       onChange={handleChange}
                       options={[
                         { value: 'Acero', label: 'Acero',},
@@ -82,34 +86,45 @@ const PropiedadesTermicas = () => {
                 </Grid>
               </Grid>
 
-              <Grid container alignItems="center" justifyContent="center"  spacing={4} style={{ marginBottom: '10px' }}>
+              <Grid container alignItems="center" justifyContent="left"  spacing={4} >
+                <Box mb={5.5} ml={16}>
                 <Grid item>
-                  <Grid container alignItems="center" justifyContent="center"  spacing={1}>
-                      <Grid item> <Typography variant="h6">Espesor(m):</Typography> </Grid>
-                      <Grid item> <TextField label="" variant="outlined" type="number" style={{ width: 80 }} inputProps={{ style: { textAlign: "center"}}} /> </Grid>
+                  <Grid container alignItems="center" justifyContent="center"  spacing={13.1}>
+                      <Grid item> <Typography variant="h6">Espesor (m):</Typography> </Grid>
+                      <Grid item> <TextField label="" variant="outlined" type="number" style={{ width: 100 }} inputProps={{ style: { textAlign: "center"}}} /> </Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container alignItems="center" justifyContent="center"  spacing={1}>
-                      <Grid item> <Typography variant="h6">λ (W/mK):</Typography> </Grid>
-                      <Grid item> <TextField label="" variant="outlined" style={{ width: 80 }} inputProps={{ style: { textAlign: "center", paddingLeft: '0px'}}} disabled/> </Grid>
-                  </Grid>
-                </Grid>
+                </Box>
               </Grid>
-
-              <Grid container alignItems="center" justifyContent="center"  spacing={4} style={{ marginBottom: '20px' }}>
+              <Grid container alignItems="center" justifyContent="left"  spacing={4}>
+                <Box mb={5.5} ml={16}>
                 <Grid item>
-                  <Grid container alignItems="center" justifyContent="center"  spacing={2.5}>
-                      <Grid item> <Typography variant="h6">ρ (kg/m3):</Typography> </Grid>
-                      <Grid item> <TextField label="" variant="outlined" style={{ width: 80 }} inputProps={{ style: {textAlign: "center", paddingLeft: '0px'}}} disabled/> </Grid>
+                  <Grid container alignItems="center" justifyContent="center"  spacing={1}>
+                      <Grid item> <Typography variant="h6">Calor específico ĉ (J/kgK):</Typography> </Grid>
+                      <Grid item> <TextField label="" variant="outlined" style={{ width: 100 }} inputProps={{ style: { textAlign: "center", paddingLeft: '0px'}}} disabled/> </Grid>
                   </Grid>
                 </Grid>
+                </Box>
+              </Grid>
+              <Grid container alignItems="center" justifyContent="left"  spacing={4} >
+                <Box mb={5.5} ml={16}>
                 <Grid item>
-                  <Grid container alignItems="center" justifyContent="center"  spacing={2}>
-                      <Grid item> <Typography variant="h6">ĉ (J/kgK):</Typography> </Grid>
-                      <Grid item> <TextField label="" variant="outlined" style={{ width: 80 }} inputProps={{ style: { textAlign: "center", paddingLeft: '0px'}}} disabled/> </Grid>
+                  <Grid container alignItems="center" justifyContent="center"  spacing={5.6}>
+                      <Grid item> <Typography variant="h6">Densidad ρ (kg/m3):</Typography> </Grid>
+                      <Grid item> <TextField label="" variant="outlined" style={{ width: 100 }} inputProps={{ style: {textAlign: "center", paddingLeft: '0px'}}} disabled/> </Grid>
                   </Grid>
                 </Grid>
+                </Box>
+              </Grid>
+              <Grid container alignItems="center" justifyContent="left"  spacing={4} >
+                <Box mb={2} ml={16}>
+                <Grid item>
+                  <Grid container alignItems="center" justifyContent="center"  spacing={1.1}>
+                      <Grid item> <Typography variant="h6">Conductividad λ (W/mK):</Typography> </Grid>
+                      <Grid item> <TextField label="" variant="outlined" style={{ width: 100 }} inputProps={{ style: { textAlign: "center", paddingLeft: '0px'}}} disabled/> </Grid>
+                  </Grid>
+                </Grid>
+                </Box>
               </Grid>
             </Grid>
             <Grid container alignItems="center" justifyContent="center"  spacing={3}>

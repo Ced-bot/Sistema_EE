@@ -22,8 +22,8 @@ import breakpoints from "assets/theme/base/breakpoints";
 
 import RadioGroupTecho from "layouts/dashboard2/components/DatosEnvolvente/Techo";
 import RadioGroupMuro from "layouts/dashboard2/components/DatosEnvolvente/Muro";
+import RadioGroupPiso from "layouts/dashboard2/components/DatosEnvolvente/Piso";
 import RadioGroupVanosLucernarios from "layouts/dashboard2/components/DatosEnvolvente/VanosLucernarios";
-import RadioGroupParticionInterior from "layouts/dashboard2/components/DatosEnvolvente/ParticionInterior";
 
 function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
   const Techo = () => (
@@ -48,7 +48,17 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
       </Grid>
     </Grid>
   );
-  const TabContent3 = () => <Box>Contenido de la pestaña 3</Box>;
+  const Piso = () => (
+    <Grid container spacing={3} alignItems="center">
+      <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}> 
+      </Grid>
+      <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}>
+        <Grid container alignItems="center" justifyContent="center">
+          <RadioGroupPiso agregarElemento={agregarElemento} nroElementos={nroElementos} />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
   const VanosLucernarios = () => (
     <Grid container spacing={3} alignItems="center">
       <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}> 
@@ -114,8 +124,9 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
 
               {tabValue === 0 && <Techo />}
               {tabValue === 1 && <Muro />}
-              {tabValue === 2 && <TabContent3 />}
+              {tabValue === 2 && <Piso />}
               {tabValue === 3 && <VanosLucernarios />}
+              {tabValue === 4 && <VanosLucernarios />}
 
           </Grid>
       </ArgonBox>

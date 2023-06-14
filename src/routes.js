@@ -36,6 +36,7 @@ Coded by www.creative-tim.com
 // Argon Dashboard 2 MUI layouts
 import Dashboard from "layouts/dashboard";
 import Dashboard2 from "layouts/dashboard2";
+import Resultados from "layouts/resultados";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
@@ -59,10 +60,18 @@ const routes = [
   {
     type: "route",
     name: "Datos de la envolvente",
-    key: "dashboard2",
-    route: "/dashboard2",
+    key: "Envolvente",
+    route: "/Envolvente",
     icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
     component: <Dashboard2 />,
+  },
+  {
+    type: "route",
+    name: "Resultados",
+    key: "Resultados",
+    route: "/Resultados",
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
+    component: <Resultados />,
   },
   {
     type: "route",
