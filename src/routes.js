@@ -70,10 +70,10 @@ const routes = [
     name: "Resultados",
     key: "Resultados",
     route: "/Resultados",
-    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-tv-2" />,
+    icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-app" />,
     component: <Resultados />,
   },
-  {
+  /* {
     type: "route",
     name: "Tables",
     key: "tables",
@@ -106,19 +106,19 @@ const routes = [
     route: "/rtl",
     icon: <ArgonBox component="i" color="error" fontSize="14px" className="ni ni-world-2" />,
     component: <RTL />,
-  },
-  { type: "title", title: "Account Pages", key: "account-pages" },
+  }, */
+  { type: "title", title: "Cuentas de páginas", key: "account-pages" },
   {
     type: "route",
-    name: "Profile",
-    key: "profile",
-    route: "/profile",
+    name: "Perfil",
+    key: "Perfil",
+    route: "/Perfil",
     icon: <ArgonBox component="i" color="dark" fontSize="14px" className="ni ni-single-02" />,
     component: <Profile />,
   },
   {
     type: "route",
-    name: "Sign In",
+    name: "Iniciar sesión",
     key: "sign-in",
     route: "/authentication/sign-in",
     icon: (
@@ -128,7 +128,7 @@ const routes = [
   },
   {
     type: "route",
-    name: "Sign Up",
+    name: "Registrarse",
     key: "sign-up",
     route: "/authentication/sign-up",
     icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-collection" />,

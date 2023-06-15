@@ -162,7 +162,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
           <ArgonBox sx={(theme) => navbarRow(theme, { isMini })}>
             <ArgonBox pr={1}>
               <ArgonInput
-                placeholder="Type here..."
+                placeholder="Buscar..."
                 startAdornment={
                   <Icon fontSize="small" style={{ marginRight: "6px" }}>
                     search
@@ -185,7 +185,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                     fontWeight="medium"
                     color={light && transparentNavbar ? "white" : "dark"}
                   >
-                    Sign in
+                    Iniciar sesión
                   </ArgonTypography>
                 </IconButton>
               </Link>

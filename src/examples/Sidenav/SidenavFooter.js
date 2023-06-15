@@ -44,10 +44,11 @@ function SidenavFooter() {
           lineHeight={0}
         >
           <ArgonTypography color="inherit" variant="h6">
-            Need help?
+            ¿Necesitas ayuda?
           </ArgonTypography>
           <ArgonTypography color="inherit" variant="caption">
-            Please check our docs
+            Puedes revisar la documentación ó <br />
+            ponerte en contacto con nosotros
           </ArgonTypography>
         </ArgonBox>
       </ArgonBox>
@@ -62,7 +63,7 @@ function SidenavFooter() {
           fullWidth
           sx={{ mb: 1 }}
         >
-          Documentation
+          Documentacion
         </ArgonButton>
         <ArgonButton
           component={Link}
@@ -74,7 +75,7 @@ function SidenavFooter() {
           fullWidth
           mb={2}
         >
-          Upgrade to PRO
+          Contactanos
         </ArgonButton>
       </ArgonBox>
     </ArgonBox>

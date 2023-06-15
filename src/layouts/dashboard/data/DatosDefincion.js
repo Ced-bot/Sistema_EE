@@ -11,7 +11,6 @@ const TablaDatosdefinicion = [
     title3: "Masas en la pariciones internas",
   },
   {
-    title1: "asd3",
   },
 ];
 

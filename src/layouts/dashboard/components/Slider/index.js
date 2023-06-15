@@ -116,14 +116,14 @@ function Slider() {
                 <ArgonTypography variant="caption" color="dark" lineHeight={0}>
                   <ArgonBox component="i" color="dark" className="ni ni-camera-compact" />
                 </ArgonTypography>
-              </ArgonBox>
+              </ArgonBox>{/* 
               <ArgonTypography variant="h5" color="white" mb={0.5}>
                 Get started with Argon
               </ArgonTypography>
               <ArgonTypography variant="body2" color="white">
                 There&apos;s nothing I really wanted to do in life that I wasn&apos;t able to get
                 good at.
-              </ArgonTypography>
+              </ArgonTypography> */}
             </ArgonBox>
           </ArgonBox>
         </SwiperSlide>
@@ -152,13 +152,13 @@ function Slider() {
                   <ArgonBox component="i" color="dark" className="ni ni-bulb-61" />
                 </ArgonTypography>
               </ArgonBox>
-              <ArgonTypography variant="h5" color="white" mb={0.5}>
+              {/* <ArgonTypography variant="h5" color="white" mb={0.5}>
                 Faster way to create web pages
               </ArgonTypography>
               <ArgonTypography variant="body2" color="white">
                 That&apos;s my skill. I&apos;m not really specifically talented at anything except
                 for the ability to learn.
-              </ArgonTypography>
+              </ArgonTypography> */}
             </ArgonBox>
           </ArgonBox>
         </SwiperSlide>

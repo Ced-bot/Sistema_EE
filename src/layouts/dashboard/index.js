@@ -106,7 +106,7 @@ function Default() {
           </Grid>
           
           <Grid item xs={12} md={4}>
-            <CategoriesList title="categories" categories={categoriesListData} />
+            <CategoriesList title="Google Maps" categories={categoriesListData} />
           </Grid>
         </Grid>
 
