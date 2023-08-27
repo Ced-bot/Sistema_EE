@@ -55,6 +55,8 @@ import brandDark from "assets/images/logo-ct-dark.png";
 import "assets/css/nucleo-icons.css";
 import "assets/css/nucleo-svg.css";
 
+import { RecoilRoot } from 'recoil';
+
 export default function App() {
   const [controller, dispatch] = useArgonController();
   const { miniSidenav, direction, layout, openConfigurator, sidenavColor, darkSidenav, darkMode } =
@@ -141,6 +143,7 @@ export default function App() {
   );
 
   return direction === "rtl" ? (
+    <RecoilRoot>
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
         <CssBaseline />
@@ -165,7 +168,9 @@ export default function App() {
         </Routes>
       </ThemeProvider>
     </CacheProvider>
+    </RecoilRoot>
   ) : (
+    <RecoilRoot>
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
       {layout === "dashboard" && (
@@ -188,5 +193,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </ThemeProvider>
+    </RecoilRoot>
   );
 }

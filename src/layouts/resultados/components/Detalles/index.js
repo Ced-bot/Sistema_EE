@@ -26,12 +26,49 @@ import ArgonTypography from "components/ArgonTypography";
 // Billing page components
 import Transaction from "layouts/billing/components/Transaction";
 
-function Transactions() {
+// RECOIL
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { datosEnvolvente,datosRes } from 'layouts/dashboard2/components/Recoil';
+import { resIndicador } from 'layouts/resultados/components/Recoil';
+function Detalles() {
+  // Recoil
+  const datosEnv = useRecoilValue(datosEnvolvente);
+  const resultados = useRecoilValue(datosRes);
+  const indicador = useRecoilValue(resIndicador);
+  // Generar la lista de los valores que se deben mostrar
+  let newArray;
+  if (indicador === "Transmitancia térmica máxima") {
+    newArray = Array(1).fill(1);
+  } else if (indicador === "Infiltraciones") {
+    let arrCumplen = []
+    let arrNoCumplen = []
+    resultados["resultadosInfiltraciones"][0].forEach(dictionary => {
+      for (const key in dictionary) {
+        if (dictionary[key] === "Si cumple") {
+          arrCumplen.push(datosEnv["inf"][key]) //////////////////
+        }
+      }
+    });
+    let arrPuertas = resultados["resultadosInfiltraciones"][1].every(element =>  Object.values(element)[0] === "Si cumple");
+    newArray = Array(2).fill(2);
+
+  } else if (indicador === "Condensación") {
+    newArray = Array(2).fill(3);
+  } else if (indicador === "Incidencias") {
+    newArray = Array(2).fill(4);
+  } else {
+    newArray = []; // Valor por defecto si ASD no es igual a "ss2" ni "ss5"
+  }
+
+  // Resultados de la TTM
+  
+  //console.log("ssd");
+  //console.log(datosEnv);
   return (
     <Card sx={{ height: "100%" }}>
       <ArgonBox display="flex" justifyContent="space-between" alignItems="center" pt={3} px={2}>
         <ArgonTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-          Your Transaction&apos;s
+          Detalles
         </ArgonTypography>
         <ArgonBox display="flex" alignItems="flex-start">
           <ArgonBox color="text" mr={0.5} lineHeight={0}>
@@ -52,9 +89,10 @@ function Transactions() {
             fontWeight="bold"
             textTransform="uppercase"
           >
-            newest
+            Cumplen
           </ArgonTypography>
         </ArgonBox>
+
         <ArgonBox
           component="ul"
           display="flex"
@@ -63,21 +101,18 @@ function Transactions() {
           m={0}
           sx={{ listStyle: "none" }}
         >
-          <Transaction
-            color="error"
-            icon="arrow_downward"
-            name="Netflix"
-            description="27 March 2020, at 12:30 PM"
-            value="- $ 2,500"
-          />
-          <Transaction
-            color="success"
-            icon="arrow_upward"
-            name="Apple"
-            description="27 March 2020, at 04:30 AM"
-            value="+ $ 2,000"
-          />
+          {newArray.map((item, index) => (
+              <Transaction
+              key={index}
+              color="error"
+              icon="arrow_downward"
+              name={item}
+              description="27 March 2020, at 12:30 PM"
+              value="- $ 2,500"
+            />
+          ))}
         </ArgonBox>
+        
         <ArgonBox mt={1} mb={2}>
           <ArgonTypography
             variant="caption"
@@ -85,7 +120,7 @@ function Transactions() {
             fontWeight="bold"
             textTransform="uppercase"
           >
-            yesterday
+            No cumplen
           </ArgonTypography>
         </ArgonBox>
         <ArgonBox
@@ -130,4 +165,4 @@ function Transactions() {
   );
 }
 
-export default Transactions;
+export default Detalles;

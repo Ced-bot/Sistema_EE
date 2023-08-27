@@ -25,7 +25,7 @@ const categoriesListData = [
       <>
           {" "}
         <ArgonTypography variant="caption" color="text" fontWeight="medium">
-           
+           sad
         </ArgonTypography>
       </>
     ),
@@ -39,7 +39,7 @@ const categoriesListData = [
       <>
         {" "}
         <ArgonTypography variant="caption" color="text" fontWeight="medium">
-          
+          asd
         </ArgonTypography>
       </>
     ),
@@ -53,7 +53,7 @@ const categoriesListData = [
       <>
         {" "}
         <ArgonTypography variant="caption" color="text" fontWeight="medium">
-          
+          asd
         </ArgonTypography>
       </>
     ),
@@ -66,7 +66,7 @@ const categoriesListData = [
     description: (
       <>
         <ArgonTypography variant="caption" color="text" fontWeight="medium">
-          
+          asd
         </ArgonTypography>
       </>
     ),

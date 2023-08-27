@@ -44,8 +44,6 @@ import PropiedadesTermicas from "layouts/dashboard2/data/PropiedadesTermicas";
 import CaracteristicasVanos from "layouts/dashboard2/data/CaracteristicasVanos";
 import ListaCerramientos from "layouts/dashboard2/data/ListaCerramientos";
 
-import { RecoilRoot } from 'recoil';
-
 // Elementos nuevos
 
 function Default() {
@@ -71,7 +69,6 @@ function Default() {
     </Grid>
   );
   return (
-    <RecoilRoot>
     <DashboardLayout>
       <DashboardNavbar />
       <ArgonBox py={3}>
@@ -128,7 +125,6 @@ function Default() {
       </ArgonBox>
       <Footer />
     </DashboardLayout>
-    </RecoilRoot>
   );
 }
 

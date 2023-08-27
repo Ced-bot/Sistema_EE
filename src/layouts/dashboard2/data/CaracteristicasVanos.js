@@ -23,7 +23,7 @@ import ArgonTypography from "components/ArgonTypography";
 
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Switch, Space, Select } from 'antd';
-
+// RECOIL
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { datosVanos } from 'layouts/dashboard2/components/Recoil';
 

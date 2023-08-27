@@ -13,6 +13,9 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+// react-router-dom components
+import { Link } from "react-router-dom";
+
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -27,10 +30,21 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI contexts
 import { useArgonController } from "context";
 
-function Bill({ name, company, email, vat, noGutter }) {
+// Recoil
+import { useRecoilState } from 'recoil';
+import { resIndicador } from 'layouts/resultados/components/Recoil';
+
+function Indicador({ name,conclusion,titulos, elementos, noGutter }) {
   const [controller] = useArgonController();
   const { darkMode } = controller;
-
+  const [res, setRes] = useRecoilState(resIndicador);
+  // Variables
+  const palabra = conclusion ? 'Si se cumple' :'No se cumple';
+  const color = conclusion ? 'green' :'red';
+  // Funciones
+  const handleClick = () => {
+    setRes(name);
+  };
   return (
     <ArgonBox
       component="li"
@@ -45,7 +59,20 @@ function Bill({ name, company, email, vat, noGutter }) {
         backgroundColor: darkMode ? background.default : grey[100],
       })}
     >
-      <ArgonBox width="100%" display="flex" flexDirection="column">
+      <ArgonBox width="100%" display="flex" flexDirection="column"
+      component={Link}
+      color={"dark"}
+      to={""}
+      onClick={handleClick}
+      sx={{
+        lineHeight: 0,
+        transition: "all 0.2s cubic-bezier(.34,1.61,.7,1.3)",
+        p: 0.5,
+
+        "&:hover, &:focus": {
+          transform: "translateX(5px)",
+        },
+      }}>
         <ArgonBox
           display="flex"
           justifyContent="space-between"
@@ -53,16 +80,34 @@ function Bill({ name, company, email, vat, noGutter }) {
           flexDirection={{ xs: "column", sm: "row" }}
           mb={1}
         >
-          <ArgonTypography variant="button" fontWeight="medium" textTransform="capitalize">
-            {name}
+          <ArgonTypography variant="button" fontWeight="medium" >
+            
+            <span style={{ color: 'black' }}>{name} </span> <span style={{ color: color }}>({palabra})</span>
           </ArgonTypography>
 
-          <ArgonBox
+          {/* <ArgonBox
             display="flex"
             alignItems="center"
             mt={{ xs: 2, sm: 0 }}
             ml={{ xs: -1.5, sm: 0 }}
           >
+            <ArgonTypography
+              component={Link}
+              variant="button"
+              color={"dark"}
+              to={"/"}
+              sx={{
+                lineHeight: 0,
+                transition: "all 0.2s cubic-bezier(.34,1.61,.7,1.3)",
+                p: 0.5,
+
+                "&:hover, &:focus": {
+                  transform: "translateX(5px)",
+                },
+              }}
+            >
+              <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+            </ArgonTypography>
             <ArgonBox mr={1}>
               <ArgonButton variant="text" color="error">
                 <Icon>delete</Icon>&nbsp;Delete
@@ -71,47 +116,37 @@ function Bill({ name, company, email, vat, noGutter }) {
             <ArgonButton variant="text" color="dark">
               <Icon>edit</Icon>&nbsp;Edit
             </ArgonButton>
+          </ArgonBox> */}
+        </ArgonBox>
+
+        {elementos.map((item, index) => (
+          <ArgonBox key={index} mb={1} lineHeight={0}>
+            <ArgonTypography variant="caption" color="text">
+              {titulos[index]}:&nbsp;&nbsp;&nbsp;
+              <ArgonTypography variant="caption" fontWeight="medium">
+                {item}
+              </ArgonTypography>
+            </ArgonTypography>
           </ArgonBox>
-        </ArgonBox>
-        <ArgonBox mb={1} lineHeight={0}>
-          <ArgonTypography variant="caption" color="text">
-            Company Name:&nbsp;&nbsp;&nbsp;
-            <ArgonTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              {company}
-            </ArgonTypography>
-          </ArgonTypography>
-        </ArgonBox>
-        <ArgonBox mb={1} lineHeight={0}>
-          <ArgonTypography variant="caption" color="text">
-            Email Address:&nbsp;&nbsp;&nbsp;
-            <ArgonTypography variant="caption" fontWeight="medium">
-              {email}
-            </ArgonTypography>
-          </ArgonTypography>
-        </ArgonBox>
-        <ArgonTypography variant="caption" color="text">
-          VAT Number:&nbsp;&nbsp;&nbsp;
-          <ArgonTypography variant="caption" fontWeight="medium">
-            {vat}
-          </ArgonTypography>
-        </ArgonTypography>
+        ))}
+
       </ArgonBox>
     </ArgonBox>
   );
 }
 
 // Setting default values for the props of Bill
-Bill.defaultProps = {
+Indicador.defaultProps = {
   noGutter: false,
 };
 
 // Typechecking props for the Bill
-Bill.propTypes = {
+Indicador.propTypes = {
   name: PropTypes.string.isRequired,
-  company: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  vat: PropTypes.string.isRequired,
+  conclusion: PropTypes.bool,
+  titulos: PropTypes.array,
+  elementos: PropTypes.array,
   noGutter: PropTypes.bool,
 };
 
-export default Bill;
+export default Indicador;

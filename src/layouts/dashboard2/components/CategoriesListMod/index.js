@@ -31,8 +31,15 @@ import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 
-function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
+// Recoil
+import { useRecoilState } from 'recoil';
+import { datosRes,datosEnvolvente } from 'layouts/dashboard2/components/Recoil';
 
+function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
+  // RECOIL
+  const [resultados, setResultados] = useRecoilState(datosRes);
+  const [datosEnv, setdatosEnv] = useRecoilState(datosEnvolvente);
+  //////////////////////////////////////////////////////////////////////
   const eliminarElemento = (id) => {
     setEstadoElementos(Elementos.filter(Elemento => Elemento.id !== id));
   }
@@ -52,6 +59,8 @@ function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
         //setData(response.data);
         console.log("Los datos se procesaron");
         console.log(response.data);
+        setResultados(response.data);
+        setdatosEnv(Elementos);
       })
       .catch((error) => {
         console.error("Hubo un error al enviar los datos a Lambda:", error);
