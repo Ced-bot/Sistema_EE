@@ -20,21 +20,25 @@ export const datosRes = atom({
   default: {
     message:"No hay datos",
     resultadosTTM:[
-      {Piso:"Todavía no se procesaron datos"},
-      {Muro: "Todavía no se procesaron datos"},
-      {Techo: "Todavía no se procesaron datos"}
+      {Piso: ["Todavía no se procesaron datos",0]},
+      {Muro: ["Todavía no se procesaron datos",0]},
+      {Techo: ["Todavía no se procesaron datos",0]}
     ],
     resultadosInfiltraciones:[
-      [{"-1":'Todavía no se procesaron datos'}], // Ventanas
-      [{"-1":'Todavía no se procesaron datos'}], // Puertas
+      [{"msg":'Todavía no se procesaron datos'}], // Ventanas
+      [{"msg":'Todavía no se procesaron datos'}], // Puertas
     ],
-    resultadosCondesaciones:"Sin datos",
-    resultadosIncidencia:"Sin datos",
+    resultadosCondensacion:[
+      {"msg":['Todavía no se procesaron datos',""]}
+    ],
+    resultadosIncidencia:[
+      {"msg":['Todavía no se procesaron datos',""]}
+    ],
   }, // Valor inicial
 });
 
 
 export const datosEnvolvente = atom({
   key: 'datosEnvolvente',
-  default: {}, // Valor inicial
+  default: [], // Valor inicial
 });

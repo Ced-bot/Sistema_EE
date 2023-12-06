@@ -110,7 +110,7 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
       id : nroElementos,
       color: "dark",
       icon: "ni ni-image",
-      name: Labels[value-1],
+      name: inputNombre,
       tipo: Labels[value-1],
       familia: "Vano",
       longitud: parseFloat(diccionarioVanos["Longitud"]),
@@ -122,7 +122,7 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
           familia_c_a: diccionarioVanos["Cerramiento_asociado"], // SE DEBE MODIFICAR
           orientacion: diccionarioVanos["Orientacion"],
           porcentaje_marco: parseFloat(diccionarioVanos["Porcentaje_marco"]),
-          factor_solar: parseFloat(diccionarioVanos["Porcentaje_marco"]),
+          factor_solar: parseFloat(diccionarioVanos["Factor_solar"]),
           multiplicador: parseFloat(diccionarioVanos["Multiplicador"]),
           u_marco: parseFloat(diccionarioVanos["UMarco"]),
           u_vidrio: parseFloat(diccionarioVanos["UVidrio"]),

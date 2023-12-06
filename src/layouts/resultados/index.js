@@ -25,17 +25,21 @@ import MasterCard from "examples/Cards/MasterCard";
 import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
 
 // resultados page components
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import BaseLayout from "layouts/resultados/components/BaseLayout";
 import Caracteristicas from "layouts/resultados/components/Caracteristicas";
 import Invoices from "layouts/resultados/components/Invoices";
 import Indicadores from "layouts/resultados/components/Indicadores";
 import Detalles from "layouts/resultados/components/Detalles";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Footer from "examples/Footer";
 
 function Billing() {
   const [opcionDif, setOpcionDif] = useState(0);
   return (
-    <BaseLayout stickyNavbar>
-      <ArgonBox mt={4}>
+    <DashboardLayout>
+      <DashboardNavbar />
+      <ArgonBox mt={3}>
         
         <ArgonBox mb={3}>
           <Grid container spacing={3}>
@@ -59,7 +63,8 @@ function Billing() {
         </ArgonBox>
         
       </ArgonBox>
-    </BaseLayout>
+      <Footer />
+    </DashboardLayout>
   );
 }
 

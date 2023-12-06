@@ -35,16 +35,30 @@ function Indicadores({opcionDif}) {
   //console.log(resultados);
   /////////////////////////////
   // Resultados de la TTM
-  const respTtmPiso = resultados["resultadosTTM"][0]["Piso"] === "Si cumple"? "Si se cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][0]["Piso"];
-  const respTtmMuro= resultados["resultadosTTM"][1]["Muro"] === "Si cumple"? "Si se cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][1]["Muro"];
-  const respTtmTecho= resultados["resultadosTTM"][2]["Techo"] === "Si cumple"? "Si se cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][2]["Techo"];
-  const conclusionTTM = [respTtmPiso,respTtmMuro,respTtmTecho].every(element =>  Object.values(element)[0] === "Si se cumple con lo indicado en la norma EM 110");
+  const respTtmPiso = resultados["resultadosTTM"][0]["Piso"][0] === "Si cumple"? "Si cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][0]["Piso"][0];
+  const respTtmMuro= resultados["resultadosTTM"][1]["Muro"][0] === "Si cumple"? "Si cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][1]["Muro"][0];
+  const respTtmTecho= resultados["resultadosTTM"][2]["Techo"][0] === "Si cumple"? "Si cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][2]["Techo"][0];
+  //const conclusionTTM = [respTtmPiso,respTtmMuro,respTtmTecho].every(element =>  Object.values(element)[0] === "Si cumple con lo indicado en la norma EM 110");
+  const conclusionTTM = [respTtmPiso,respTtmMuro,respTtmTecho].every((variable) => variable === "Si cumplen");
+  console.log([respTtmPiso,respTtmMuro,respTtmTecho]);
+
   // Resultados de las infitraciones 
   const infVentanas = resultados["resultadosInfiltraciones"][0].every(element =>  Object.values(element)[0] === "Si cumple"); // Ni yo lo entiendo xD
-  const respVentanas = infVentanas ? "Si se cumple con lo indicado en la norma EM 110" : ((resultados["resultadosInfiltraciones"][0][0]["-1"] === "Si cumple")? "No cumple" : resultados["resultadosInfiltraciones"][0][0]["-1"]);
+  const respVentanas = infVentanas ? "Si cumplen con lo indicado en la norma EM 110" : ((resultados["resultadosInfiltraciones"][0][0]["msg"] === "Si cumple")? "No cumplen" : resultados["resultadosInfiltraciones"][0][0]["msg"]);
   const infPuertas = resultados["resultadosInfiltraciones"][1].every(element =>  Object.values(element)[0] === "Si cumple");
-  const respPuertas = infPuertas ? "Si se cumple con lo indicado en la norma EM 110" : ((resultados["resultadosInfiltraciones"][1][0]["-1"] === "Si cumple")? "No cumple" : resultados["resultadosInfiltraciones"][1][0]["-1"]);
-  const conclusionInf = [respVentanas,respPuertas].every(element =>  Object.values(element)[0] === "Si se cumple con lo indicado en la norma EM 110");
+  const respPuertas = infPuertas ? "Si cumplen con lo indicado en la norma EM 110" : ((resultados["resultadosInfiltraciones"][1][0]["msg"] === "Si cumple")? "No cumplen" : resultados["resultadosInfiltraciones"][1][0]["msg"]);
+  //const conclusionInf = [respVentanas,respPuertas].every(element =>  Object.values(element)[0] === "Si cumplen con lo indicado en la norma EM 110");
+  const conclusionInf = respVentanas === "Si cumplen con lo indicado en la norma EM 110" && respPuertas === "Si cumplen con lo indicado en la norma EM 110";
+
+  // Resultados de la condensación
+  const infCondensacion = resultados["resultadosCondensacion"].every(element =>  Object.values(element)[0][0] === "Si cumple");
+  const respCondensacion = infCondensacion ? "Si cumplen con lo indicado en la norma EM 110" : ((resultados["resultadosCondensacion"][0]["msg"][0] === "Si cumple")? "No cumplen" : resultados["resultadosCondensacion"][0]["msg"][0]);
+  const conclusionCerr = (respCondensacion === "Si cumplen con lo indicado en la norma EM 110");
+
+  // Resultados de la incidencia
+  const infIncidencia = resultados["resultadosIncidencia"].every(element =>  Object.values(element)[0][0] === "Si cumple");
+  const respIncidencia = infIncidencia ? "Si cumplen con lo indicado en la norma EM 110" : ((resultados["resultadosIncidencia"][0]["msg"][0] === "Si cumple")? "No cumplen" : resultados["resultadosIncidencia"][0]["msg"][0]);
+  const conclusionInc = (respIncidencia === "Si cumplen con lo indicado en la norma EM 110");
 
   const Envolvente = () => (
     < >
@@ -64,15 +78,15 @@ function Indicadores({opcionDif}) {
           />
           <Indicador
             name="Condensación"
-            conclusion = {conclusionTTM}
-            titulos = {["Ventanas","Puertas"]}
-            elementos = {[respVentanas,respPuertas]}
+            conclusion = {conclusionCerr}
+            titulos = {["Cerramientos"]}
+            elementos = {[respCondensacion]}
           />
           <Indicador
             name="Incidencias"
-            conclusion = {conclusionTTM}
-            titulos = {["Ventanas","Puertas"]}
-            elementos = {[respVentanas,respPuertas]}
+            conclusion = {conclusionInc}
+            titulos = {["Vanos"]}
+            elementos = {[respIncidencia]}
           />
         </ArgonBox>
     </>

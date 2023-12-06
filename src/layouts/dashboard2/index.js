@@ -27,7 +27,6 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DetailedStatisticsCard from "examples/Cards/StatisticsCards/DetailedStatisticsCard";
-import SalesTable from "examples/Tables/SalesTable";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 
 // Argon Dashboard 2 MUI base styles

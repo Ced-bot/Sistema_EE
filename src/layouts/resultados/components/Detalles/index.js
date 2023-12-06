@@ -35,29 +35,64 @@ function Detalles() {
   const datosEnv = useRecoilValue(datosEnvolvente);
   const resultados = useRecoilValue(datosRes);
   const indicador = useRecoilValue(resIndicador);
+
+  let arrCumplen = []
+  let arrNoCumplen = []
   // Generar la lista de los valores que se deben mostrar
-  let newArray;
   if (indicador === "Transmitancia térmica máxima") {
-    newArray = Array(1).fill(1);
-  } else if (indicador === "Infiltraciones") {
-    let arrCumplen = []
-    let arrNoCumplen = []
-    resultados["resultadosInfiltraciones"][0].forEach(dictionary => {
+    resultados["resultadosTTM"].forEach(dictionary => {
       for (const key in dictionary) {
-        if (dictionary[key] === "Si cumple") {
-          arrCumplen.push(datosEnv["inf"][key]) //////////////////
-        }
+        let Nombre = key, ext1 = "Valor de TTM: "+ (dictionary[key][1] === "Nulo"? "No hay datos": (dictionary[key][1]+ " W/m2K"));
+        if (dictionary[key][0] === "Si cumplen") { arrCumplen.push([Nombre,ext1]); }
+        else if (dictionary[key][0] != "Todavía no se procesaron datos"){ arrNoCumplen.push([Nombre,ext1]); }
       }
     });
-    let arrPuertas = resultados["resultadosInfiltraciones"][1].every(element =>  Object.values(element)[0] === "Si cumple");
-    newArray = Array(2).fill(2);
-
+  } else if (indicador === "Infiltraciones") {
+    // Revisar que elementos cumplen o no con la norma 
+    const ventPuer = [...resultados["resultadosInfiltraciones"][0], ...resultados["resultadosInfiltraciones"][1]];
+    ventPuer.forEach(dictionary => {
+      for (const key in dictionary) {
+        // Obtener los datos adicionales de los elementos
+        let Nombre = "--", ext1 = "";
+        datosEnv.forEach(cerr => {
+          if (cerr["id"].toString() === key) {
+            Nombre = cerr["name"];
+            let otros = cerr["otros"];
+            if (cerr["tipo"] === "Ventana"){ext1 = (otros["es_proyectante"]? "Es proyectante: Si":"Es proyectante: No") +", "+ (otros["es_hermetico"]? "Es hermética: Si":"Es hermética: No");}
+            else{ext1 = (otros["es_silicona"]? "Sellado de silicona: Si":"Sellado de silicona: No") +", "+ (otros["es_burletes"]? "Tiene burletes: Si":"Tiene burletes: No");}
+          }
+        });
+        // Colocar los datos donde corresponden
+        if (dictionary[key] === "Si cumple" & key != "msg") { arrCumplen.push([Nombre,ext1]); }
+        else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
+      }
+    });
   } else if (indicador === "Condensación") {
-    newArray = Array(2).fill(3);
+    resultados["resultadosCondensacion"].forEach(dictionary => {
+      for (const key in dictionary) {
+        let Nombre = "--",  ext1 = dictionary[key][1];
+        datosEnv.forEach(cerr => {
+          if (cerr["id"].toString() === key) { Nombre = cerr["name"]; }
+        });
+        // Colocar los datos donde corresponden
+        if (dictionary[key][0] === "Si cumple" & key != "msg") { arrCumplen.push([Nombre,ext1]); }
+        else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
+      }
+    });
   } else if (indicador === "Incidencias") {
-    newArray = Array(2).fill(4);
+    resultados["resultadosIncidencia"].forEach(dictionary => {
+      for (const key in dictionary) {
+        let Nombre = "--",  ext1 = dictionary[key][1];
+        datosEnv.forEach(cerr => {
+          if (cerr["id"].toString() === key) { Nombre = cerr["name"]; }
+        });
+        // Colocar los datos donde corresponden
+        if (dictionary[key][0] === "Si cumple" & key != "msg") { arrCumplen.push([Nombre,ext1]); }
+        else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
+      }
+    });
   } else {
-    newArray = []; // Valor por defecto si ASD no es igual a "ss2" ni "ss5"
+    //newArray = []; // Valor por defecto si ASD no es igual a "ss2" ni "ss5"
   }
 
   // Resultados de la TTM
@@ -101,14 +136,14 @@ function Detalles() {
           m={0}
           sx={{ listStyle: "none" }}
         >
-          {newArray.map((item, index) => (
+          {arrCumplen.map((item, index) => (
               <Transaction
               key={index}
-              color="error"
-              icon="arrow_downward"
-              name={item}
-              description="27 March 2020, at 12:30 PM"
-              value="- $ 2,500"
+              color="success"
+              icon="done"
+              name={item[0]}
+              description={item[1]}
+              value="Editar"
             />
           ))}
         </ArgonBox>
@@ -131,34 +166,16 @@ function Detalles() {
           m={0}
           sx={{ listStyle: "none" }}
         >
+        {arrNoCumplen.map((item, index) => (
           <Transaction
-            color="success"
-            icon="arrow_upward"
-            name="Stripe"
-            description="26 March 2020, at 13:45 PM"
-            value="+ $ 750"
+            key={index}
+            color="error"
+            icon="close"
+            name={item[0]}
+            description={item[1]}
+            value="Editar"
           />
-          <Transaction
-            color="success"
-            icon="arrow_upward"
-            name="HubSpot"
-            description="26 March 2020, at 12:30 PM"
-            value="+ $ 1,000"
-          />
-          <Transaction
-            color="success"
-            icon="arrow_upward"
-            name="Creative Tim"
-            description="26 March 2020, at 08:30 AM"
-            value="+ $ 2,500"
-          />
-          <Transaction
-            color="dark"
-            icon="priority_high"
-            name="Webflow"
-            description="26 March 2020, at 05:00 AM"
-            value="Pending"
-          />
+        ))}
         </ArgonBox>
       </ArgonBox>
     </Card>

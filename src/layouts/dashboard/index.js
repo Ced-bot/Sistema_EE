@@ -27,7 +27,6 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DetailedStatisticsCard from "examples/Cards/StatisticsCards/DetailedStatisticsCard";
-import SalesTable from "examples/Tables/SalesTable";
 import CategoriesList from "examples/Lists/CategoriesList";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
 

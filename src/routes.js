@@ -37,7 +37,8 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Dashboard2 from "layouts/dashboard2";
 import Resultados from "layouts/resultados";
-import Tables from "layouts/tables";
+import HFM100 from "layouts/HFM100";
+import HFM100Detalles from "layouts/HFM100Detalles";
 import Billing from "layouts/billing";
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
@@ -73,16 +74,27 @@ const routes = [
     icon: <ArgonBox component="i" color="primary" fontSize="14px" className="ni ni-app" />,
     component: <Resultados />,
   },
-  /* {
+  {
     type: "route",
-    name: "Tables",
-    key: "tables",
-    route: "/tables",
+    name: "HFM-100",
+    key: "HFM-100",
+    route: "/HFM-100",
     icon: (
       <ArgonBox component="i" color="warning" fontSize="14px" className="ni ni-calendar-grid-58" />
     ),
-    component: <Tables />,
+    component: <HFM100 />,
   },
+  {
+    type: "route",
+    name: "HFM-100-Detalles",
+    key: "HFM-100-Detalles",
+    route: "/HFM-100-Detalles/*",
+    icon: (
+      <ArgonBox component="i" color="warning" fontSize="14px" className="ni ni-calendar-grid-58" />
+    ),
+    component: <HFM100Detalles />,
+  },
+  /*
   {
     type: "route",
     name: "Billing",

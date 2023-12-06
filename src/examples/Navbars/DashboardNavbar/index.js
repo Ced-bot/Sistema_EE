@@ -147,13 +147,22 @@ function DashboardNavbar({ absolute, light, isMini }) {
           color={light && transparentNavbar ? "white" : "dark"}
           mb={{ xs: 1, md: 0 }}
           sx={(theme) => navbarRow(theme, { isMini })}
-        >
-          <Breadcrumbs
-            icon="home"
-            title={route[route.length - 1]}
-            route={route}
-            light={transparentNavbar ? light : false}
-          />
+        > 
+          { route.includes("HFM-100-Detalles") ? (
+            <Breadcrumbs
+              icon="home"
+              title={route[route.length - 1].split(".")[0]}
+              route={route}
+              light={transparentNavbar ? light : false}
+            />
+          ) : (
+            <Breadcrumbs
+              icon="home"
+              title={route[route.length - 1]}
+              route={route}
+              light={transparentNavbar ? light : false}
+            />
+          )}
           <Icon fontSize="medium" sx={navbarDesktopMenu} onClick={handleMiniSidenav}>
             {miniSidenav ? "menu_open" : "menu"}
           </Icon>

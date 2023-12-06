@@ -24,19 +24,15 @@ import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Icon from "@mui/material/Icon";
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
-import ArgonTypography from "components/ArgonTypography";
-import ArgonButton from "components/ArgonButton";
 
 // Argon Dashboard 2 MUI base styles
 import borders from "assets/theme/base/borders";
 
-// Images
-import masterCardLogo from "assets/images/logos/mastercard.png";
-import visaLogo from "assets/images/logos/visa.png";
 
-function Caracteristicas({setOpcionDif}) {
+function Listas({setOpcionDif}) {
   const { borderWidth, borderColor } = borders;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
@@ -67,29 +63,26 @@ function Caracteristicas({setOpcionDif}) {
     //console.log(newValue);
   };
   return (
-    <Card id="delete-account">
-      <ArgonBox p={2}>
-        <Grid container alignItems="center" justifyContent="center">
-          <Grid item xs={12} sm={8} lg={10}>
+    <Card id="delete-account" >
+        <ArgonBox>
             <AppBar position="static">
-              <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
-                <Tab label="Envolvente" />
-                <Tab label="Demanda" />
-                <Tab label="Mejoras" />
-              </Tabs>
+                <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
+                <Tab label="Materiales" />
+                <Tab label="Calibraciones" />
+                <Tab label="Puntos" />
+                </Tabs>
             </AppBar>
-          </Grid>
-        </Grid> 
-      </ArgonBox>
+        </ArgonBox>
+        
     </Card>
   );
 }
 // Setting default values for the props of GradientLineChart
-Caracteristicas.defaultProps = {
+Listas.defaultProps = {
 };
 // Typechecking props for the CategoriesList
-Caracteristicas.propTypes = {
+Listas.propTypes = {
   setOpcionDif: PropTypes.func,
 };
 
-export default Caracteristicas;
+export default Listas;

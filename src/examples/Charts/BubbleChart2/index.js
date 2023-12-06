@@ -80,7 +80,7 @@ function BubbleChart({ title, description, height, chart }) {
     </ArgonBox>
   );
 
-  return title || description ? <Card>{renderChart}</Card> : renderChart;
+  return renderChart;
 }
 
 // Setting default values for the props of BubbleChart
