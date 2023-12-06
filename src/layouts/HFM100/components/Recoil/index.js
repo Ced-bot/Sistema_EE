@@ -9,3 +9,9 @@ export const loadingTabla= atom({
     key: 'loadingTabla',
     default: false
   });
+
+  
+export const datosGraficos= atom({
+  key: 'datosGraficos',
+  default: []
+});

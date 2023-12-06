@@ -3,25 +3,40 @@ import BubbleChart from "examples/Charts/BubbleChart";
 
 // Recoil
 import { useRecoilValue } from 'recoil';
-import { elementosHFM100 } from 'layouts/HFM100/components/Recoil';
+import { elementosHFM100, datosGraficos } from 'layouts/HFM100/components/Recoil';
 
 function ScatterChart (data) {
 	
 	// Datos 
+	const seleccionados = useRecoilValue(datosGraficos);
 	const elemHFM100 = useRecoilValue(elementosHFM100);
 	const dataX = [];
 	const dataY = [];
 
-	for (let i = 0; i < elemHFM100.length; i++) {
-		var diccionario = {
-			x: (parseFloat(elemHFM100[i].tempInferior.S) + parseFloat((elemHFM100[i].tempSuperior.S)))/2,
-			y: parseFloat(elemHFM100[i].condTermica.S),
-			r: 10,
+	if (seleccionados.length > 0){
+		for (let i = 0; i < seleccionados.length; i++) {
+			var diccionario = {
+				x: (parseFloat(seleccionados[i].tempInf) + parseFloat((seleccionados[i].tempSup)))/2,
+				y: parseFloat(seleccionados[i].condc),
+				r: 10,
+			};
+			if(i % 2 === 0){dataX.push(diccionario);}
+			else{dataY.push(diccionario);}
+			
 		};
-		if(i % 2 === 0){dataX.push(diccionario);}
-		else{dataY.push(diccionario);}
-		
-	  };
+	}
+	else{
+		for (let i = 0; i < elemHFM100.length; i++) {
+			var diccionario = {
+				x: (parseFloat(elemHFM100[i].tempInferior.S) + parseFloat((elemHFM100[i].tempSuperior.S)))/2,
+				y: parseFloat(elemHFM100[i].condTermica.S),
+				r: 10,
+			};
+			if(i % 2 === 0){dataX.push(diccionario);}
+			else{dataY.push(diccionario);}
+			
+		};
+	}
 
 	return (
 		<BubbleChart

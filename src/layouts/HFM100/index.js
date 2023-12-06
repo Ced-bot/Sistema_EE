@@ -51,6 +51,7 @@ import { useRecoilState } from 'recoil';
 import { elementosHFM100, loadingTabla } from 'layouts/HFM100/components/Recoil';
 
 function Tables() {
+  // Variables para la subidad de los datos de HFM
   const [excelData, setExcelData] = useState(null);
   const [elemHFM100, setElemHFM100] = useRecoilState(elementosHFM100);
   const [loadTabla, setLoadTabla] = useRecoilState(loadingTabla);
