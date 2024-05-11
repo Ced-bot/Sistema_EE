@@ -42,7 +42,7 @@ function Detalles() {
   if (indicador === "Transmitancia térmica máxima") {
     resultados["resultadosTTM"].forEach(dictionary => {
       for (const key in dictionary) {
-        let Nombre = key, ext1 = "Valor de TTM: "+ (dictionary[key][1] === "Nulo"? "No hay datos": (dictionary[key][1]+ " W/m2K"));
+        let Nombre = key, ext1 = "Valor de TTM: "+ (dictionary[key][1] === "Nulo"? "No hay datos": (dictionary[key][1]+ " W/m²K"));
         if (dictionary[key][0] === "Si cumplen") { arrCumplen.push([Nombre,ext1]); }
         else if (dictionary[key][0] != "Todavía no se procesaron datos"){ arrNoCumplen.push([Nombre,ext1]); }
       }

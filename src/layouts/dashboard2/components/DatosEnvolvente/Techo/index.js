@@ -173,7 +173,7 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
             <Grid item> <Typography variant="h6">Transmitancia Térmicas: </Typography> </Grid>
             <Grid item> <Select2 options={["Directa", "Usar libreria"]} onChange={handleSelectChange}/> </Grid> 
             <Grid item> &emsp;&emsp;<TextField id="TextField-Transmitancia" value={TransmitanciaValue} variant="outlined" type="number"  style={{ width: 100 }} disabled={textFieldDisabled} onChange={handleTransmitanciaChange} inputProps={{ min: "0", style: { textAlign: "center"}}}/> </Grid>
-            <Grid item> <Typography variant="h6">W/m2K </Typography> </Grid>
+            <Grid item> <Typography variant="h6">W/m²K </Typography> </Grid>
             <Grid item> <ArgonButton variant="gradient" color="info" onClick={NuevoElemento}> Agregar&nbsp; <ArrowForwardSharpIcon fontSize="large" /></ArgonButton> </Grid> 
         </Grid>
         {/* <Box mb={2} ml={8}> </Box>

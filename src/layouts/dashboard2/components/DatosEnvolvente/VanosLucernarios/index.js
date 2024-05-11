@@ -97,7 +97,7 @@ export default function RadioGroupVanosLucernarios() {
                 <Grid item style={{ transform: "translateX(15px)" }}> <Typography variant="h6">Orientación: </Typography> </Grid>
                 <Grid item style={{ transform: "translateX(5px)" }}> <TextField id="" defaultValue="--" style={{ width: 80 }} disabled /> </Grid>
             </Grid>
-            <Grid container spacing={6} alignItems="center">
+            <Grid container spacing={2} alignItems="center">
                 <Grid item>
                     <Box mb={2}>
                     <Grid container alignItems="center" justifyContent="left" spacing={2.03}>
@@ -122,18 +122,18 @@ export default function RadioGroupVanosLucernarios() {
                 <Grid item>
                     <Box mb={2}>
                     <Grid container alignItems="center" justifyContent="left" spacing={1}>
-                        <Grid item> <Typography variant="h6">Porcentaje del marco (%):</Typography> </Grid>
+                        <Grid item> <Typography variant="h6">Por. del marco (%):</Typography> </Grid>
                         <Grid item> <TextField value={inputPorcentaje} onChange={handlePorcentajeChange} variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "0", max: "100", style: { textAlign: "center"}}} /> </Grid>
                     </Grid>
                     </Box>
                     <Box mb={2}>
-                    <Grid container alignItems="center" justifyContent="left"  spacing={11.14}>
+                    <Grid container alignItems="center" justifyContent="left"  spacing={4.65}>
                         <Grid item> <Typography variant="h6" >Factor solar (-):</Typography> </Grid>
                         <Grid item> <TextField value={inputFactorSolar} onChange={handleFactorSolarChange} variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "0", style: { textAlign: "center"}}} disabled={textFieldDisabled} /> </Grid>
                     </Grid>
                     </Box>
                     <Box mb={2}>
-                    <Grid container alignItems="center" justifyContent="left"  spacing={15.6}>
+                    <Grid container alignItems="center" justifyContent="left"  spacing={9.1}>
                         <Grid item> <Typography variant="h6">Area (m2):</Typography> </Grid>
                         <Grid item> <TextField  value={inputArea} label="" variant="outlined" type="number" disabled  style={{ width: 100}} inputProps={{ style: { textAlign: "center"}}}/> </Grid>
                     </Grid>
@@ -144,7 +144,7 @@ export default function RadioGroupVanosLucernarios() {
                 </Grid>
             </Grid>
             <Grid container alignItems="center" justifyContent="center"  spacing={2}  style={{ marginBottom: '10px' }}>
-                <Grid item> <Typography variant="h6">Transmitancias Térmicas (W/m2K)</Typography> </Grid>
+                <Grid item> <Typography variant="h6">Transmitancias Térmicas (W/m²K)</Typography> </Grid>
             </Grid> 
             <Grid container alignItems="center" justifyContent="center"  spacing={2}>
                 <Grid item > <Typography variant="h6">Marco: </Typography> </Grid>

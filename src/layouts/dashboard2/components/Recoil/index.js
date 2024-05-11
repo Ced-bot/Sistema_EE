@@ -42,3 +42,13 @@ export const datosEnvolvente = atom({
   key: 'datosEnvolvente',
   default: [], // Valor inicial
 });
+
+// DATOS DE LOS MATERIALES DE LA BD
+export const datosMateriales = atom({
+  key: 'datosMateriales',
+  default: {}, // Valor inicial
+});
+export const loadingMats= atom({
+  key: 'loadingMats',
+  default: false
+});

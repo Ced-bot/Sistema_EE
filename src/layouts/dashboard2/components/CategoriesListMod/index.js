@@ -32,7 +32,7 @@ import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 
 // Recoil
-import { useRecoilState } from 'recoil';
+import { useRecoilState} from 'recoil';
 import { datosRes,datosEnvolvente } from 'layouts/dashboard2/components/Recoil';
 
 function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
@@ -112,7 +112,7 @@ function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
           <ArgonTypography variant="caption" color="text">
             Area {area} m2,{" "}
             <ArgonTypography variant="caption" color="text" fontWeight="medium">
-            Transmitancia {transmitancia} W/m2K
+            Transmitancia {transmitancia} W/m²K
             </ArgonTypography>
           </ArgonTypography>
         </ArgonBox>

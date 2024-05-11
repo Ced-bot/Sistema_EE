@@ -146,19 +146,19 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
   // Elementos independientes
   const Ventanas = () => (
       <>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left" spacing={1}>
-          <Grid item> <Typography variant="h6">Ventana proyectante o de abatir:</Typography> </Grid>
+          <Grid item> <Typography variant="h6">Proyectante o de abatir:</Typography> </Grid>
           <Grid item> <Switch checked={isProyectante} onChange={handleProyectante} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
-          <Grid item> <Typography variant="h6">Cuenta con cierre hermético:</Typography> </Grid>
+          <Grid item> <Typography variant="h6">Cierre hermético:</Typography> </Grid>
           <Grid item> <Switch checked={isHermetico} onChange={handleHermetico} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Doble ventana:</Typography> </Grid>
           <Grid item> <Switch checked={isDoble} onChange={handleDoble} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
@@ -168,19 +168,19 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
   );
   const Puertas = () => (
     <>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left" spacing={1}>
-          <Grid item> <Typography variant="h6">Sellado de silicona con el vano:</Typography> </Grid>
+          <Grid item> <Typography variant="h6">Sellado de silicona en vano:</Typography> </Grid>
           <Grid item> <Switch checked={isSilicona} onChange={handleSilicona} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
-          <Grid item> <Typography variant="h6">Cuenta con burletes en la base:</Typography> </Grid>
+          <Grid item> <Typography variant="h6">Burletes en la base:</Typography> </Grid>
           <Grid item> <Switch checked={isBurletes} onChange={handleBurletes} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
       </Grid>
       </Box>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Doble ventana:</Typography> </Grid>
           <Grid item> <Switch checked={isDoble} onChange={handleDoble} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
@@ -190,7 +190,7 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
   );
   const Lucernarios = () => (
     <>
-      <Box mb={2.4} ml={8}>
+      <Box mb={2.4} ml={-4}>
       <Grid container alignItems="center" justifyContent="left"  spacing={1}>
           <Grid item> <Typography variant="h6">Doble ventana:</Typography> </Grid>
           <Grid item> <Switch checked={isDoble} onChange={handleDoble}  checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
@@ -236,15 +236,15 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
           </FormControl>
           
           <Grid container spacing={12} alignItems="center">
-              <Grid item xs={6}>
-                <Box mb={2} ml={8}>
+              <Grid item xs={7}>
+                <Box mb={2} ml={5}>
                 <Grid container alignItems="center" justifyContent="left" spacing={1}>
-                    <Grid item> <Typography variant="h6">Elemento de control solar:</Typography> </Grid>
+                    <Grid item> <Typography variant="h6">Elem. de control solar:</Typography> </Grid>
                     <Grid item> <Switch checked={isControlSolar} onChange={handleControlSolar} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} /> </Grid>
                     <Grid item> <ArgonButton variant="gradient" color="light" size="small" onClick={() => {}}>Elemento</ArgonButton> </Grid> 
                 </Grid>
                 </Box>
-                <Box mb={2} ml={8}>
+                <Box mb={2} ml={5}>
                 <Grid container alignItems="center" justifyContent="left"  spacing={1}>
                     <Grid item> <Typography variant="h6">Permeabilidad:</Typography> </Grid>
                     <Grid item> <Space wrap> 
@@ -254,19 +254,19 @@ export default function CaracteristicasVanos({agregarElemento,nroElementos}) {
                         { value: 3, label: 'Valor conocido',}]} />  
                       </Space>  
                     </Grid> 
-                    <Grid item> <TextField value={inputPermeabilidad} onChange={handlePermeabilidad} variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "0",  style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField value={inputPermeabilidad} onChange={handlePermeabilidad} variant="outlined" type="number" style={{ width: 90 }} inputProps={{ min: "0",  style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
-                <Box mb={2} ml={8}>
+                <Box mb={2} ml={5}>
                 <Grid container alignItems="center" justifyContent="left"  spacing={1}>
                     <Grid item> <Typography variant="h6">Absortividad del marco:</Typography> </Grid>
                     <Grid item> <ArgonButton variant="gradient" color="light" size="small" onClick={() => {}}>α</ArgonButton> </Grid> 
-                    <Grid item> <TextField value={inputAbsortividad} onChange={handleAbsortividad}  variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "0",  style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField value={inputAbsortividad} onChange={handleAbsortividad}  variant="outlined" type="number" style={{ width: 90 }} inputProps={{ min: "0",  style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
               </Grid>
               
-              <Grid item xs={6}>
+              <Grid item xs={5}>
                   {value === '1' && <Ventanas />}
                   {value === '2' && <Puertas />}   
                   {value === '3' && <Lucernarios />}   
