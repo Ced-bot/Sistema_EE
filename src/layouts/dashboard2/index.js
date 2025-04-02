@@ -43,23 +43,44 @@ import PropiedadesTermicas from "layouts/dashboard2/data/PropiedadesTermicas";
 import CaracteristicasVanos from "layouts/dashboard2/data/CaracteristicasVanos";
 import ListaCerramientos from "layouts/dashboard2/data/ListaCerramientos";
 
-// Elementos nuevos
+//Recoil
+import { useRecoilState} from 'recoil';
+import { datosEnvolvente } from 'layouts/dashboard2/components/Recoil';
 
+// Elementos nuevos
 function Default() {
-  const [EstadoElementos, setEstadoElementos] = useState([ ]);
-  const [nroElementos, setNroElementos] = useState(0);
+  // Recoil
+  const [datosEnvolventeR, setDatosEnvolventeR] = useRecoilState(datosEnvolvente);
+  //console.log(JSON.stringify(datosEnvolventeR)); 
+
+  const [EstadoElementos, setEstadoElementos] = useState(datosEnvolventeR);
+  const [nroElementos, setNroElementos] = useState(datosEnvolventeR.length);
   const [opcionDif, setOpcionDif] = useState(0);
+  const [elementosEnvol, setElementosEnvol] = useState([]);
   // ========================================================== Funciones ============================================================
   const agregarElemento = (nuevoElemento) => {
     setEstadoElementos([...EstadoElementos, nuevoElemento]);
     setNroElementos(nroElementos+1);
-    //console.log(EstadoElementos)
+    // Guardar los datos agregdos para que no se pierdan
+    setDatosEnvolventeR([...datosEnvolventeR, nuevoElemento]);
+    console.log(JSON.stringify([...datosEnvolventeR, nuevoElemento]));
+  };
+  const agregarTransmitancia = (nuevoElemento) => {
+    //const existe = elementosEnvol.some( (diccionario) => JSON.stringify(diccionario) === JSON.stringify(nuevoElemento));
+    //if (!existe){
+    //}
+    nuevoElemento.id = elementosEnvol.length;
+    setElementosEnvol([...elementosEnvol, nuevoElemento]);
+    //console.log([...elementosEnvol, nuevoElemento]);
+  };
+  const limpiarTransmitancias = () => {
+    setElementosEnvol([]);
   };
   //============================================================ Bloques =====================================================================
   const LibreriaTransmitancia = () => (
     <Grid container spacing={3} mb={3}>  
-      <Grid item  xs={12} md={6}> <PropiedadesTermicas/> </Grid>
-      <Grid item xs={12} md={6} > <ListaCerramientos /> </Grid>
+      <Grid item xs={12} md={6}> <PropiedadesTermicas agregarTransmitancia={agregarTransmitancia} limpiarTransmitancias={limpiarTransmitancias}/> </Grid>
+      <Grid item xs={12} md={6}> <ListaCerramientos elementosEnvol={elementosEnvol} /> </Grid>
     </Grid>
   );
   const VanosCaracteristicas = () => (
@@ -113,11 +134,11 @@ function Default() {
             </Grid>
             
             {/* Propiedades térmicas de la envolvente de la vivienda */} 
-            {opcionDif === 0 && <LibreriaTransmitancia />}
-            {opcionDif === 1 && <VanosCaracteristicas />}
+            {opcionDif === 0 && LibreriaTransmitancia()}
+            {opcionDif === 1 && VanosCaracteristicas()}
           </Grid>
           <Grid item xs={12} md={4}>
-            <CategoriesListMod title="Elementos constructivos de la vivienda" Elementos={EstadoElementos} setEstadoElementos = {setEstadoElementos} />
+            <CategoriesListMod title="Elementos constructivos de la vivienda" Elementos={EstadoElementos} setEstadoElementos = {setEstadoElementos} setDatosEnvolventeR = {setDatosEnvolventeR} />
           </Grid>
         </Grid>
 

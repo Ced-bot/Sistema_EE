@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import React, { useState, useEffect  } from 'react';
+// porp-types is a library for typechecking of props
+import PropTypes from "prop-types";
 
-function Localizacion() {
-  const [firstValue, setFirstValue] = useState('');
+import { FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
+
+function Localizacion({ubicacionVivienda}) {
+  const [firstValue, setFirstValue] = useState('Cusco');
   const [secondValue, setSecondValue] = useState('');
   const [thirdValue, setThirdValue] = useState('');
+
+  useEffect(() => {
+      setFirstValue(ubicacionVivienda["departamento"]);
+      setSecondValue(ubicacionVivienda["provincia"]);
+      setThirdValue(ubicacionVivienda["distrito"]);
+    
+  }, [ubicacionVivienda]); // Se ejecuta cada vez que `info` cambia
+
 
   const handleFirstValueChange = (event) => {
       const newValue = event.target.value;
@@ -68,7 +79,7 @@ function Localizacion() {
         "Tumbes": ["Tumbes", "Contralmirante Villar", "Zarumilla"],
         "Ucayali": ["Coronel Portillo", "Atalaya", "Padre Abad", "Purús"],
     };
-    if (newValue=="Cusco" && newValue.length > 0 ){
+    if (newValue =="Cusco" && newValue.length > 0 ){
         return Provincias[newValue];}
     else{
         return [""];}
@@ -91,35 +102,43 @@ function Localizacion() {
         "Quispicanchi": ["Urcos", "Andahuaylillas", "Camanti", "Ccarhuayo", "Ccatca", "Cusipata", "Huaro", "Lucre", "Marcapata", "Ocongate", "Oropesa", "Quiquijana"],
         "Urubamba": ["Urubamba", "Chinchero", "Huayllabamba", "Machupicchu", "Maras", "Ollantaytambo", "Yucay"]
     };
-    if (newValue.length > 0){
+    if (newValue.length > 0 && newValue in cusco){
         return cusco[newValue];}
     else{
         return [];}
   };
 
   return (
-    <div>
-      <FormControl sx={{minWidth: 220 }}>
+    <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+      <FormControl sx={{ flex: 1, minWidth: 0, marginRight: 1 }}>
         <InputLabel sx={{ fontSize: 14 }}>Departamento</InputLabel>
-        <Select value={firstValue} onChange={handleFirstValueChange}>
-            {renderizarDepartamentos()}
+        <Select value={firstValue} onChange={handleFirstValueChange} disabled={true}>
+          {renderizarDepartamentos()}
         </Select>
       </FormControl>
-      <FormControl  sx={{ minWidth: 20 }}>
-      </FormControl>
-      <FormControl sx={{minWidth: 220 }}>
+
+      <FormControl sx={{ flex: 1, minWidth: 0, marginRight: 1 }}>
         <InputLabel sx={{ fontSize: 14 }}>Provincia</InputLabel>
-        <Select value={secondValue} onChange={handleSecondValueChange}>
+        <Select
+          value={secondValue}
+          onChange={handleSecondValueChange}
+          displayEmpty
+          renderValue={(selected) => selected || ""}
+        >
           {getNewOptions(firstValue).map((option) => (
             <MenuItem key={option} value={option}>{option}</MenuItem>
           ))}
         </Select>
       </FormControl>
-      <FormControl  sx={{ minWidth: 20 }}>
-      </FormControl>
-      <FormControl sx={{minWidth: 220 }}>
-        <InputLabel sx={{ fontSize: 14 }}>Distrito</InputLabel>
-        <Select value={thirdValue} onChange={handleThirdValueChange}>
+
+      <FormControl sx={{ flex: 1, minWidth: 0 }}>
+        <InputLabel sx={{ fontSize: 14 }}>Distrito o Villa</InputLabel>
+        <Select
+          value={thirdValue}
+          onChange={handleThirdValueChange}
+          displayEmpty
+          renderValue={(selected) => selected || ""}
+        >
           {getNewOptionsCusco(secondValue).map((option) => (
             <MenuItem key={option} value={option}>{option}</MenuItem>
           ))}
@@ -128,5 +147,10 @@ function Localizacion() {
     </div>
   );
 }
+
+// Typechecking props for the GradientLineChart
+Localizacion.propTypes = {
+  ubicacionVivienda: PropTypes.instanceOf({})
+};
 
 export default Localizacion;

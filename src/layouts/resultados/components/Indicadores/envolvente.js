@@ -23,13 +23,13 @@ import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
 
 // Billing page components
-import Indicador from "layouts/resultados/components/Indicador";
+import IndicadorEM110 from "layouts/resultados/components/Indicador/envolvente";
 import { Grid, TextField, Typography, Box } from '@mui/material';
 
 // RECOIL
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { datosRes } from 'layouts/dashboard2/components/Recoil';
-function Indicadores({opcionDif}) {
+function IndicadoresEM110() {
   // Recoil
   const resultados = useRecoilValue(datosRes);
   //console.log(resultados);
@@ -60,61 +60,6 @@ function Indicadores({opcionDif}) {
   const respIncidencia = infIncidencia ? "Si cumplen con lo indicado en la norma EM 110" : ((resultados["resultadosIncidencia"][0]["msg"][0] === "Si cumple")? "No cumplen" : resultados["resultadosIncidencia"][0]["msg"][0]);
   const conclusionInc = (respIncidencia === "Si cumplen con lo indicado en la norma EM 110");
 
-  const Envolvente = () => (
-    < >
-        <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Indicador
-            name="Transmitancia térmica máxima"
-            conclusion = {conclusionTTM}
-            titulos = {["Pisos","Muros","Techos"]}
-            elementos = {[respTtmPiso,respTtmMuro,respTtmTecho]}
-            noGutter
-          />
-          <Indicador
-            name="Infiltraciones"
-            conclusion = {conclusionInf}
-            titulos = {["Ventanas","Puertas"]}
-            elementos = {[respVentanas,respPuertas]}
-          />
-          <Indicador
-            name="Condensación"
-            conclusion = {conclusionCerr}
-            titulos = {["Cerramientos"]}
-            elementos = {[respCondensacion]}
-          />
-          <Indicador
-            name="Incidencias"
-            conclusion = {conclusionInc}
-            titulos = {["Vanos"]}
-            elementos = {[respIncidencia]}
-          />
-        </ArgonBox>
-    </>
-  );
-  const Demanda = () => (
-    < >
-        <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Indicador
-            name="oliver liam"
-            company="viking burrito"
-            email="oliver@burrito.com"
-            vat="FRB1235476"
-          />
-        </ArgonBox>
-    </>
-  );
-  const Mejoras = () => (
-    < >
-        <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Indicador
-            name="oliver liam"
-            company="viking burrito"
-            email="oliver@burrito.com"
-            vat="FRB1235476"
-          />
-        </ArgonBox>
-    </>
-  );
 
   return (
     <Card id="delete-account">
@@ -124,20 +69,42 @@ function Indicadores({opcionDif}) {
         </ArgonTypography>
       </ArgonBox>
       <ArgonBox pt={1} pb={2} px={2}>
-        {opcionDif === 0 && <Envolvente />}
-        {opcionDif === 1 && <Demanda /> }   
-        {opcionDif === 2 && <Mejoras />}   
-
+        <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+          <IndicadorEM110
+            name="Transmitancia térmica máxima"
+            conclusion = {conclusionTTM}
+            titulos = {["Pisos","Muros","Techos"]}
+            elementos = {[respTtmPiso,respTtmMuro,respTtmTecho]}
+            noGutter
+          />
+          <IndicadorEM110
+            name="Infiltraciones"
+            conclusion = {conclusionInf}
+            titulos = {["Ventanas","Puertas"]}
+            elementos = {[respVentanas,respPuertas]}
+          />
+          <IndicadorEM110
+            name="Condensación"
+            conclusion = {conclusionCerr}
+            titulos = {["Cerramientos"]}
+            elementos = {[respCondensacion]}
+          />
+          <IndicadorEM110
+            name="Incidencias"
+            conclusion = {conclusionInc}
+            titulos = {["Vanos"]}
+            elementos = {[respIncidencia]}
+          />
+        </ArgonBox>
       </ArgonBox>
     </Card>
   );
 }
 // Setting default values for the props of GradientLineChart
-Indicadores.defaultProps = {
+IndicadoresEM110.defaultProps = {
 };
 // Typechecking props for the CategoriesList
-Indicadores.propTypes = {
-  opcionDif: PropTypes.number,
+IndicadoresEM110.propTypes = {
 };
 
-export default Indicadores;
+export default IndicadoresEM110;

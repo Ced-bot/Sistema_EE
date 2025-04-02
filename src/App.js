@@ -51,6 +51,30 @@ import { useArgonController, setMiniSidenav, setOpenConfigurator } from "context
 import brand from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 
+import {
+  Chart as ChartJS,
+  ArcElement, // 📌 Necesario para gráficos circulares
+  LinearScale, // 📌 Escala numérica (obligatoria para gráficos de barras y líneas)
+  CategoryScale, // 📌 Escala de categorías (para el eje X en gráficos de barras)
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
+
+// 🔹 Registrar las escalas necesarias
+ChartJS.register(
+  ArcElement,
+  LinearScale, // 📌 Esto evita el error "linear is not a registered scale"
+  CategoryScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 // Icon Fonts
 import "assets/css/nucleo-icons.css";
 import "assets/css/nucleo-svg.css";

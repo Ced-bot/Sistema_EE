@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
-
+import { message } from "antd";
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
@@ -35,40 +35,46 @@ import axios from 'axios';
 import { useRecoilState} from 'recoil';
 import { datosRes,datosEnvolvente } from 'layouts/dashboard2/components/Recoil';
 
-function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
+function CategoriesListMod({ title, Elementos,setEstadoElementos, setDatosEnvolventeR }) {
   // RECOIL
   const [resultados, setResultados] = useRecoilState(datosRes);
   const [datosEnv, setdatosEnv] = useRecoilState(datosEnvolvente);
   //////////////////////////////////////////////////////////////////////
   const eliminarElemento = (id) => {
     setEstadoElementos(Elementos.filter(Elemento => Elemento.id !== id));
+    setDatosEnvolventeR(Elementos.filter(Elemento => Elemento.id !== id));
   }
   const modificarElemento = (id) => {
     setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
   }
   const procesarDatos = () => {
     try {
-      console.log("Los datos se enviaron",Elementos);
-      axios.post('https://c370x9jte2.execute-api.sa-east-1.amazonaws.com/ejecucion/EvaluacionNormaEM110', {
-        Cerramientos: Elementos,
-      },
-      // Headers
-      {})
-      .then((response) => {
-        // La respuesta de la función Lambda se guarda en el estado 'data'
-        //setData(response.data);
-        console.log("Los datos se procesaron");
-        console.log(response.data);
-        setResultados(response.data);
-        setdatosEnv(Elementos);
-      })
-      .catch((error) => {
-        console.error("Hubo un error al enviar los datos a Lambda:", error);
-      });
+      const loadingMsg = message.loading("Procesando datos...", 0); // Muestra el mensaje de carga
+  
+      console.log("Los datos se enviaron", Elementos);
+      axios
+        .post(
+          "https://c370x9jte2.execute-api.sa-east-1.amazonaws.com/ejecucion/EvaluacionNormaEM110",
+          { Cerramientos: Elementos }
+        )
+        .then((response) => {
+          console.log("Los datos se procesaron");
+          console.log(response.data);
+          setResultados(response.data);
+          setdatosEnv(Elementos);
+  
+          loadingMsg(); // Cierra el mensaje de carga
+          message.success("Datos procesados exitosamente"); // Muestra éxito
+        })
+        .catch((error) => {
+          loadingMsg(); // Cierra el mensaje de carga
+          message.error("Error al procesar los datos"); // Muestra error
+          console.error("Hubo un error al enviar los datos a Lambda:", error);
+        });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const renderItems = Elementos.map(({ id, color, icon, name, area, transmitancia }, key) => (
     <ArgonBox
@@ -151,7 +157,8 @@ function CategoriesListMod({ title, Elementos,setEstadoElementos }) {
 CategoriesListMod.propTypes = {
   title: PropTypes.string.isRequired,
   Elementos: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setEstadoElementos: PropTypes.func
+  setEstadoElementos: PropTypes.func,
+  setDatosEnvolventeR: PropTypes.func
 };
 
 export default CategoriesListMod;

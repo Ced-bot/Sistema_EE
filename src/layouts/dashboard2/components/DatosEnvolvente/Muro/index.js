@@ -21,6 +21,11 @@ import ArgonButton from "components/ArgonButton";
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 import ArgonTypography from "components/ArgonTypography";
 
+// Recoil
+import { useRecoilValue, useRecoilState} from 'recoil';
+import { transmCerramiento, activarCapas, estadoSelect } from '../../Recoil';
+
+
 const StyledFormControlLabel = styled(FormControlLabel)`
     display: flex;
     flex-direction: row;
@@ -33,6 +38,11 @@ const TwoLineLabel = styled('div')`
 `;
 
 export default function RadioGroupMuro({agregarElemento,nroElementos}) {
+    // Recoil
+    const transmitanciaVal = useRecoilValue(transmCerramiento);
+    const [activarCapasR, setActivarCapasR] = useRecoilState(activarCapas);
+    const [estadoSelectR, setEstadoSelectR] = useRecoilState(estadoSelect);
+
     const Labels = ["Muro en contacto con el terreno","Muro en contacto con el aire","Muro en contacto con ANH"]
     const Labels2 = ["Muro de terreno","Muro de fachada","Muro con ANH"]
 
@@ -63,15 +73,14 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
         </Grid>
     );
 
-    
     const [value, setValue] = useState('1');
     const [TransmitanciaValue, setTransmitanciaValue] = useState(0);
     const [textFieldDisabled, setTextFieldDisabled] = useState(false);
     const [orientacion, setOrientacion] = useState("Norte");
     // Valores de los textfields
-    const [inputAnchura, setInputAnchura] = useState('');
-    const [inputLongitud, setInputLongitud] = useState('');
-    const [inputArea, setInputArea] = useState('');
+    const [inputAnchura, setInputAnchura] = useState(0);
+    const [inputLongitud, setInputLongitud] = useState(0);
+    const [inputArea, setInputArea] = useState(0);
     const [inputNombre, setInputNombre] = useState(Labels2[value-1]);
   
     // Evento de cambio de los radioButtons
@@ -101,16 +110,24 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
     };
     useEffect(() => {
       if (inputAnchura !== '' && inputLongitud !== '') {
-          setInputArea(inputAnchura * inputLongitud);
+        setInputArea((inputAnchura * inputLongitud).toFixed(3));
       } else {
           setInputArea('');
       }
     }, [inputAnchura,inputLongitud]);
+
+    
+    useEffect(() => {
+      setTransmitanciaValue(transmitanciaVal);
+    }, [transmitanciaVal]);  
     //================================================================================
     // Evento que se activa cuando se cambia el valor del select
     const handleSelectChange = (selectedOption) => {
+      setEstadoSelectR(selectedOption);
       // Desactivar el texfield de transmitancia
-      setTextFieldDisabled(selectedOption === "Usar libreria");
+      setTextFieldDisabled(selectedOption === "Calcular");
+      // Activar panel de capas de los cerramientos
+      setActivarCapasR(selectedOption === "Calcular");
       // Reinicar el valor de la transmitancia
       setTransmitanciaValue(0);
     };
@@ -126,7 +143,7 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
         familia: "Muro",
         longitud: parseFloat(inputLongitud),
         anchura: parseFloat(inputAnchura),
-        area: inputArea,
+        area: parseFloat(inputArea).toFixed(3),
         transmitancia: parseFloat(TransmitanciaValue), 
         otros: {
           Orientacion: orientacion, 
@@ -183,7 +200,7 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
                     </Box>
                     <Box mb={2} ml={8}>
                     <Grid container alignItems="center" justifyContent="center"  spacing={2}>
-                        <Grid item> <Typography variant="h6">Area (m2):</Typography> </Grid>
+                        <Grid item> <Typography variant="h6">Area (m²):</Typography> </Grid>
                         <Grid item> <TextField  value={inputArea} label="" variant="outlined" disabled  style={{ width: 110}} inputProps={{ style: { textAlign: "right"}}}/> </Grid>
                     </Grid>
                     </Box>
@@ -201,7 +218,7 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
             </Grid> 
             <Grid container alignItems="center" justifyContent="center"  spacing={2}>
                 <Grid item> <Typography variant="h6">Transmitancia Térmicas: </Typography> </Grid>
-                <Grid item> <Select2 options={["Directa", "Usar libreria"]} onChange={handleSelectChange}/> </Grid> 
+                <Grid item> <Select2 options={["Conocida", "Calcular"]} value={estadoSelectR} onChange={handleSelectChange}/> </Grid> 
                 <Grid item> &emsp;&emsp;<TextField id="TextField-Transmitancia" value={TransmitanciaValue} variant="outlined" type="number"  style={{ width: 100 }} disabled={textFieldDisabled} onChange={handleTransmitanciaChange} inputProps={{ min: "0", style: { textAlign: "center"}}}/> </Grid>
                 <Grid item> <Typography variant="h6">W/m²K </Typography> </Grid>
                 <Grid item> <ArgonButton variant="gradient" color="info" onClick={NuevoElemento}> Agregar&nbsp; <ArrowForwardSharpIcon fontSize="large" /></ArgonButton> </Grid> 

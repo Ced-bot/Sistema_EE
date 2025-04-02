@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
+import { useState, useEffect, useRef } from "react";
 
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
@@ -42,13 +43,13 @@ import salesTableData from "layouts/dashboard/data/salesTableData";
 import categoriesListData from "layouts/dashboard/data/categoriesListData";
 
  // Argon Dashboard 2 MUI Components
-import DatosGenerales from "examples/Datos/DatosGenerales"; 
-import TablaDatosdefinicion from "layouts/dashboard/data/DatosDefincion";
+import DatosGenerales from "layouts/dashboard/data/DatosGenerales"; 
 import DatosGenericos from "layouts/dashboard/data/DatosGenericos";
+import GoogleMaps from "./components/GoogleMaps";
 
 function Default() {
   const { size } = typography;
-  const arrNombres = ["Nombre del proyecto","Tipo de vivienda","Zona de la vivienda","Dirección o Dirección de referencia","Altura sobre el nivel del mar(m)"]
+  const arrNombres = ["Nombre del proyecto","Tipo de vivienda","Zona de la vivienda","Dirección o Dirección de referencia","Altura sobre el nivel del mar (m)"]
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -89,8 +90,8 @@ function Default() {
         </Grid>
         {/* Datos basicos de la vivienda */}
         <Grid container spacing={3} mb={3}>
-          <Grid item xs={12} lg={5}>
-            <Slider />
+          <Grid item xs={12} md={5}>
+              <GoogleMaps />
           </Grid>
           <Grid item xs={12} lg={7}>
               <DatosGenericos
@@ -101,11 +102,11 @@ function Default() {
         {/* Datos mas especificos de la vivienda */}
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <DatosGenerales title="Definición de la vivienda" rows={TablaDatosdefinicion} />
+            <DatosGenerales />
           </Grid>
           
-          <Grid item xs={12} md={4}>
-            <CategoriesList title="Google Maps" categories={categoriesListData} />
+          <Grid item xs={12} lg={4}>
+            <Slider />
           </Grid>
         </Grid>
 

@@ -20,7 +20,6 @@ import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Pie } from "react-chartjs-2";
-
 // @mui material components
 import Card from "@mui/material/Card";
 

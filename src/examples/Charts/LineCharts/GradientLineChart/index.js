@@ -20,7 +20,26 @@ import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Line } from "react-chartjs-2";
-
+import {
+  Chart as ChartJS,
+  LinearScale, // 📌 Escala numérica (obligatoria para gráficos de barras y líneas)
+  CategoryScale, // 📌 Escala de categorías (para el eje X en gráficos de barras)
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from "chart.js";
+// 🔹 Registrar las escalas necesarias
+ChartJS.register(
+  LinearScale, // 📌 Esto evita el error "linear is not a registered scale"
+  CategoryScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 // @mui material components
 import Card from "@mui/material/Card";
 

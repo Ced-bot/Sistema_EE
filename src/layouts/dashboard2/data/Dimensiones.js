@@ -25,6 +25,10 @@ import RadioGroupMuro from "layouts/dashboard2/components/DatosEnvolvente/Muro";
 import RadioGroupPiso from "layouts/dashboard2/components/DatosEnvolvente/Piso";
 import RadioGroupVanosLucernarios from "layouts/dashboard2/components/DatosEnvolvente/VanosLucernarios";
 
+// Recoil
+import { useRecoilState} from 'recoil';
+import { transmCerramiento, activarCapas } from '../components/Recoil';
+
 function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
   const Techo = () => (
     <Grid container spacing={3} alignItems="center">
@@ -73,6 +77,7 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
 
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  // Recoil
 
   useEffect(() => {
     // A function that sets the orientation state of the tabs.
@@ -95,6 +100,8 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
   }, [tabsOrientation]);
 
   const handleSetTabValue = (event, newValue) => {
+    // Desactivar componentes
+    //
     setTabValue(newValue);
     if(newValue == 3){
       // Mostrar datos de vanos

@@ -134,7 +134,7 @@ export default function RadioGroupVanosLucernarios() {
                     </Box>
                     <Box mb={2}>
                     <Grid container alignItems="center" justifyContent="left"  spacing={9.1}>
-                        <Grid item> <Typography variant="h6">Area (m2):</Typography> </Grid>
+                        <Grid item> <Typography variant="h6">Area (m²):</Typography> </Grid>
                         <Grid item> <TextField  value={inputArea} label="" variant="outlined" type="number" disabled  style={{ width: 100}} inputProps={{ style: { textAlign: "center"}}}/> </Grid>
                     </Grid>
                     </Box>

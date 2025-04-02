@@ -21,6 +21,10 @@ import Select2 from "examples/Select";
 import ArgonButton from "components/ArgonButton";
 import ArgonTypography from "components/ArgonTypography";
 
+// Recoil
+import { useRecoilValue, useRecoilState} from 'recoil';
+import { transmCerramiento, activarCapas, estadoSelect } from '../../Recoil';
+
 const StyledFormControlLabel = styled(FormControlLabel)`
     display: flex;
     flex-direction: row;
@@ -39,7 +43,13 @@ const TechoAireExterior = () => (<img src={Image2} alt="Descripción" />);
 const TechoANH = () => (<img src={Image3} alt="Descripción" />);
 
   
-export default function RadioGroupTecho({agregarElemento,nroElementos}) {
+export default function RadioGroupTecho({agregarElemento, nroElementos}) {
+  // Recoil
+  const transmitanciaVal = useRecoilValue(transmCerramiento);
+  const [activarCapasR, setActivarCapasR] = useRecoilState(activarCapas);
+  const [estadoSelectR, setEstadoSelectR] = useRecoilState(estadoSelect);
+
+
   // Listas
   const Labels = ["Techo enterrado","Techo en contacto con el aire","Techo en contacto con ANH"]
   const Labels2 = ["Techo enterrado","Techo con aire","Techo con ANH"]
@@ -48,9 +58,9 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
   const [TransmitanciaValue, setTransmitanciaValue] = useState(0);
   const [textFieldDisabled, setTextFieldDisabled] = useState(false);
   // Valores de los textfields
-  const [inputAnchura, setInputAnchura] = useState('');
-  const [inputLongitud, setInputLongitud] = useState('');
-  const [inputArea, setInputArea] = useState('');
+  const [inputAnchura, setInputAnchura] = useState(0);
+  const [inputLongitud, setInputLongitud] = useState(0);
+  const [inputArea, setInputArea] = useState(0);
   const [inputNombre, setInputNombre] = useState(Labels2[value-1]);
   // Evento de cambio de los radioButtons
   const handleChange = (event) => {
@@ -75,16 +85,24 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
   };
   useEffect(() => {
     if (inputAnchura !== '' && inputLongitud !== '') {
-        setInputArea(inputAnchura * inputLongitud);
+      setInputArea((inputAnchura * inputLongitud).toFixed(3));
     } else {
         setInputArea('');
     }
   }, [inputAnchura,inputLongitud]);
+
+  
+  useEffect(() => {
+    setTransmitanciaValue(transmitanciaVal);
+  }, [transmitanciaVal]);  
   //================================================================================
   // Evento que se activa cuando se cambia el valor del select
   const handleSelectChange = (selectedOption) => {
+    setEstadoSelectR(selectedOption);
     // Desactivar el texfield de transmitancia
-    setTextFieldDisabled(selectedOption === "Usar libreria");
+    setTextFieldDisabled(selectedOption === "Calcular");
+    // Activar panel de capas de los cerramientos
+    setActivarCapasR(selectedOption === "Calcular");
     // Reinicar el valor de la transmitancia
     setTransmitanciaValue(0);
   };
@@ -100,7 +118,7 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
       familia: "Techo",
       longitud: parseFloat(inputLongitud),
       anchura: parseFloat(inputAnchura),
-      area: inputArea,
+      area: parseFloat(inputArea).toFixed(3),
       transmitancia: parseFloat(TransmitanciaValue), 
       otros: {},
     })
@@ -153,7 +171,7 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
                 </Box>
                 <Box mb={2} ml={8}>
                 <Grid container alignItems="center" justifyContent="center"  spacing={2}>
-                    <Grid item> <Typography variant="h6">Area (m2):</Typography> </Grid>
+                    <Grid item> <Typography variant="h6">Area (m²):</Typography> </Grid>
                     <Grid item> <TextField  value={inputArea} label="" variant="outlined" disabled  style={{ width: 110}} inputProps={{ style: { textAlign: "right"}}}/> </Grid>
                 </Grid>
                 </Box>
@@ -171,7 +189,7 @@ export default function RadioGroupTecho({agregarElemento,nroElementos}) {
         </Grid> 
         <Grid container alignItems="center" justifyContent="center"  spacing={2}>
             <Grid item> <Typography variant="h6">Transmitancia Térmicas: </Typography> </Grid>
-            <Grid item> <Select2 options={["Directa", "Usar libreria"]} onChange={handleSelectChange}/> </Grid> 
+            <Grid item> <Select2 options={["Conocida", "Calcular"]}  value={estadoSelectR} onChange={handleSelectChange}/> </Grid> 
             <Grid item> &emsp;&emsp;<TextField id="TextField-Transmitancia" value={TransmitanciaValue} variant="outlined" type="number"  style={{ width: 100 }} disabled={textFieldDisabled} onChange={handleTransmitanciaChange} inputProps={{ min: "0", style: { textAlign: "center"}}}/> </Grid>
             <Grid item> <Typography variant="h6">W/m²K </Typography> </Grid>
             <Grid item> <ArgonButton variant="gradient" color="info" onClick={NuevoElemento}> Agregar&nbsp; <ArrowForwardSharpIcon fontSize="large" /></ArgonButton> </Grid> 

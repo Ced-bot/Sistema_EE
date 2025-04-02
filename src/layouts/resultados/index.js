@@ -29,13 +29,41 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import BaseLayout from "layouts/resultados/components/BaseLayout";
 import Caracteristicas from "layouts/resultados/components/Caracteristicas";
 import Invoices from "layouts/resultados/components/Invoices";
-import Indicadores from "layouts/resultados/components/Indicadores";
+import IndicadoresEM110 from "layouts/resultados/components/Indicadores/envolvente";
+import IndicadoresDemanda from "layouts/resultados/components/Indicadores/demanda";
+import IndicadoresReporte from "layouts/resultados/components/Indicadores/reporte";
 import Detalles from "layouts/resultados/components/Detalles";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 function Billing() {
   const [opcionDif, setOpcionDif] = useState(0);
+
+  const Envolvente = () => (
+    < >
+      <Grid item xs={12} md={7}>
+        <IndicadoresEM110 />
+      </Grid>
+      <Grid item xs={12} md={5}>
+        <Detalles />
+      </Grid>
+    </>
+  );
+  const Demanda = () => (
+    < >
+      <Grid item xs={12} md={12}>
+        <IndicadoresDemanda />
+      </Grid>
+    </>
+  );
+  const Mejoras = () => (
+    < >
+      <Grid item xs={12} md={12}>
+        <IndicadoresReporte />
+      </Grid>
+    </>
+  );
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -53,12 +81,9 @@ function Billing() {
         <ArgonBox mb={3}>
           <Grid container spacing={3}>
             {/* Información de los indicadores y sus detalles */}
-            <Grid item xs={12} md={7}>
-              <Indicadores opcionDif={opcionDif} />
-            </Grid>
-            <Grid item xs={12} md={5}>
-              <Detalles />
-            </Grid>
+            {opcionDif === 0 && <Envolvente />}
+            {opcionDif === 1 && <Demanda /> }   
+            {opcionDif === 2 && <Mejoras />}  
           </Grid>
         </ArgonBox>
         

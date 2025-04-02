@@ -64,7 +64,7 @@ function Caracteristicas({setOpcionDif}) {
   const handleSetTabValue = (event, newValue) => {
     setTabValue(newValue);
     setOpcionDif(newValue);
-    //console.log(newValue);
+    //console.log("ASD", newValue);
   };
   return (
     <Card id="delete-account">

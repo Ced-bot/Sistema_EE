@@ -34,7 +34,7 @@ import { useArgonController } from "context";
 import { useRecoilState } from 'recoil';
 import { resIndicador } from 'layouts/resultados/components/Recoil';
 
-function Indicador({ name,conclusion,titulos, elementos, noGutter }) {
+function IndicadorEM110({ name,conclusion,titulos, elementos, noGutter }) {
   const [controller] = useArgonController();
   const { darkMode } = controller;
   const [res, setRes] = useRecoilState(resIndicador);
@@ -81,7 +81,6 @@ function Indicador({ name,conclusion,titulos, elementos, noGutter }) {
           mb={1}
         >
           <ArgonTypography variant="button" fontWeight="medium" >
-            
             <span style={{ color: 'black' }}>{name} </span> <span style={{ color: color }}>({palabra})</span>
           </ArgonTypography>
 
@@ -106,7 +105,7 @@ function Indicador({ name,conclusion,titulos, elementos, noGutter }) {
                 },
               }}
             >
-              <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon>
+              <Icon sx={{ fontWeight: "bold" }}>chevron_right</Icon> 
             </ArgonTypography>
             <ArgonBox mr={1}>
               <ArgonButton variant="text" color="error">
@@ -136,12 +135,12 @@ function Indicador({ name,conclusion,titulos, elementos, noGutter }) {
 }
 
 // Setting default values for the props of Bill
-Indicador.defaultProps = {
+IndicadorEM110.defaultProps = {
   noGutter: false,
 };
 
 // Typechecking props for the Bill
-Indicador.propTypes = {
+IndicadorEM110.propTypes = {
   name: PropTypes.string.isRequired,
   conclusion: PropTypes.bool,
   titulos: PropTypes.array,
@@ -149,4 +148,4 @@ Indicador.propTypes = {
   noGutter: PropTypes.bool,
 };
 
-export default Indicador;
+export default IndicadorEM110;

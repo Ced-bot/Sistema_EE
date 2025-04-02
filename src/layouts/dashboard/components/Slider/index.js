@@ -40,7 +40,7 @@ function Slider() {
           navigation.init();
           navigation.update();
         }}
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 5000000 }}
         speed={800}
         spaceBetween={0}
         slidesPerView={1}
@@ -102,7 +102,7 @@ function Slider() {
             }}
           >
             <ArgonBox position="absolute" bottom={16} ml={6} py={2.5} textAlign="left" width="80%">
-              <ArgonBox
+              {/* <ArgonBox
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -116,7 +116,8 @@ function Slider() {
                 <ArgonTypography variant="caption" color="dark" lineHeight={0}>
                   <ArgonBox component="i" color="dark" className="ni ni-camera-compact" />
                 </ArgonTypography>
-              </ArgonBox>{/* 
+              </ArgonBox> */}
+              {/* 
               <ArgonTypography variant="h5" color="white" mb={0.5}>
                 Get started with Argon
               </ArgonTypography>
@@ -127,7 +128,7 @@ function Slider() {
             </ArgonBox>
           </ArgonBox>
         </SwiperSlide>
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <ArgonBox
             sx={{
               position: "relative",
@@ -152,13 +153,13 @@ function Slider() {
                   <ArgonBox component="i" color="dark" className="ni ni-bulb-61" />
                 </ArgonTypography>
               </ArgonBox>
-              {/* <ArgonTypography variant="h5" color="white" mb={0.5}>
+              <ArgonTypography variant="h5" color="white" mb={0.5}>
                 Faster way to create web pages
               </ArgonTypography>
               <ArgonTypography variant="body2" color="white">
                 That&apos;s my skill. I&apos;m not really specifically talented at anything except
                 for the ability to learn.
-              </ArgonTypography> */}
+              </ArgonTypography>
             </ArgonBox>
           </ArgonBox>
         </SwiperSlide>
@@ -196,7 +197,7 @@ function Slider() {
               </ArgonTypography>
             </ArgonBox>
           </ArgonBox>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </Card>
   );
