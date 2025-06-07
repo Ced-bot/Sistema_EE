@@ -23,7 +23,7 @@ import ArgonTypography from "components/ArgonTypography";
 
 // Recoil
 import { useRecoilValue, useRecoilState} from 'recoil';
-import { transmCerramiento, activarCapas, estadoSelect } from '../../Recoil';
+import { transmCerramiento, activarCapas, estadoSelect, capasElemento } from '../../Recoil';
 
 const StyledFormControlLabel = styled(FormControlLabel)`
     display: flex;
@@ -46,6 +46,7 @@ const TechoANH = () => (<img src={Image3} alt="Descripción" />);
 export default function RadioGroupTecho({agregarElemento, nroElementos}) {
   // Recoil
   const transmitanciaVal = useRecoilValue(transmCerramiento);
+  const capasElementoR = useRecoilValue(capasElemento);
   const [activarCapasR, setActivarCapasR] = useRecoilState(activarCapas);
   const [estadoSelectR, setEstadoSelectR] = useRecoilState(estadoSelect);
 
@@ -62,6 +63,8 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
   const [inputLongitud, setInputLongitud] = useState(0);
   const [inputArea, setInputArea] = useState(0);
   const [inputNombre, setInputNombre] = useState(Labels2[value-1]);
+
+  
   // Evento de cambio de los radioButtons
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -106,22 +109,94 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
     // Reinicar el valor de la transmitancia
     setTransmitanciaValue(0);
   };
+  //================================================================================
+  // Evento que se activa cuando se cambia el valor del select de metodo de calculo
+  const [estadoSelectCalT, setEetadoSelectCalTR] = useState("Metodo");
+  const handleSelectCalTRChange = (selectedOption) => {
+    setEetadoSelectCalTR(selectedOption);
+    // Desactivar el texfield de transmitancia
+    if (capasElementoR.length > 0){
+      // Calcular porcentaje de areas
+      const areaTotal = capasElementoR.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
+      setInputArea(areaTotal);
+
+      // 4) Determina la cantidad máxima de "elementos" en los subarreglos
+      const maxElementos = Math.max(...capasElementoR.map(item => item.elementos.length));
+
+      // 5) Calcula el arreglo final
+      let resistenciVertical = 0.04 + 0.13;
+      for (let idx = 0; idx < maxElementos; idx++) {
+        let sumaInversa = 0;
+        let nuevaAreaTotal = 0;
+        capasElementoR.forEach(item => {
+          const elemento = item.elementos[idx];
+          if (elemento && elemento.resistencia) {
+            nuevaAreaTotal += item.anchura * item.longitud
+          }
+        });
+
+        capasElementoR.forEach(item => {
+          const elemento = item.elementos[idx];
+          if (elemento && elemento.resistencia) {
+            sumaInversa += (item.anchura * item.longitud / nuevaAreaTotal)/parseFloat(elemento.resistencia);
+            console.log(item.porcentaje, "-->" ,elemento.resistencia, "-->", item.porcentaje/parseFloat(elemento.resistencia));
+          }
+        });
+        console.log(1/sumaInversa);
+
+        resistenciVertical += 1/sumaInversa;
+      }
+
+      
+      console.log(capasElementoR)
+      let resistenciHorizontal = 0;
+      capasElementoR.forEach(item => {
+        let sumaInversa = 0.04 + 0.13;
+        item.elementos.forEach(item2 => {
+          sumaInversa += parseFloat(item2.resistencia);
+        });
+        resistenciHorizontal += (item.anchura * item.longitud / areaTotal)/sumaInversa;
+      });
+      resistenciHorizontal = 1/resistenciHorizontal;
+
+      console.log("VERTICAL--HORIZONTAL")
+      console.log(resistenciVertical, resistenciHorizontal)
+
+      if(selectedOption === "Horizontal"){
+
+      }
+      else if(selectedOption === "Vertical"){
+        
+      }
+      else if(selectedOption === "Horizontal/Vertical"){
+        
+      }
+    }
+    // Reinicar el valor de la transmitancia
+    setTransmitanciaValue(0);
+  };
   // =============================================================
   // Función para agregar un nuevo elemento a la lista
   const NuevoElemento = () => {
-    agregarElemento({
-      id : nroElementos,
-      color: "dark",
-      icon: "ni ni-bold-up",
-      name: inputNombre,
-      tipo: Labels[value-1],
-      familia: "Techo",
-      longitud: parseFloat(inputLongitud),
-      anchura: parseFloat(inputAnchura),
-      area: parseFloat(inputArea).toFixed(3),
-      transmitancia: parseFloat(TransmitanciaValue), 
-      otros: {},
-    })
+    
+      const Elemento = {
+        id : nroElementos,
+        color: "dark",
+        icon: "ni ni-bold-up",
+        name: inputNombre,
+        tipo: Labels[value-1],
+        familia: "Techo",
+        longitud: parseFloat(inputLongitud),
+        anchura: parseFloat(inputAnchura),
+        area: parseFloat(inputArea).toFixed(3),
+        transmitancia: parseFloat(TransmitanciaValue), 
+        otros: {},
+      }
+      if (capasElementoR.length > 0){
+        Elemento.capas = capasElementoR;
+      }
+      console.log(Elemento);
+      agregarElemento(Elemento);
   };
   // Setting default values for the props of GradientLineChart
   RadioGroupTecho.defaultProps = {nroElementos:0};
@@ -188,10 +263,12 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
             <Grid item> <TextField value={inputNombre} onChange={handleNombreChange} style={{ width: 160 }}  inputProps={{ style: {marginLeft:'-13px',height: '20px', textAlign: "center"}}}/> </Grid>
         </Grid> 
         <Grid container alignItems="center" justifyContent="center"  spacing={2}>
-            <Grid item> <Typography variant="h6">Transmitancia Térmicas: </Typography> </Grid>
+            <Grid item> <Typography variant="h6">Transmitancia Térmicas (W/m²K): </Typography> </Grid>
+            <Grid item> <TextField id="TextField-Transmitancia" value={TransmitanciaValue} variant="outlined" type="number"  style={{ width: 100 }} disabled={textFieldDisabled} onChange={handleTransmitanciaChange} inputProps={{ min: "0", style: { textAlign: "center"}}}/> </Grid>
+
+            <Grid item> <Select2 options={["Horizontal", "Vertical", "Horizontal/Vertical"]}  value={estadoSelectCalT} onChange={handleSelectCalTRChange} style={{ width: "160px" }}/> </Grid> 
+
             <Grid item> <Select2 options={["Conocida", "Calcular"]}  value={estadoSelectR} onChange={handleSelectChange}/> </Grid> 
-            <Grid item> &emsp;&emsp;<TextField id="TextField-Transmitancia" value={TransmitanciaValue} variant="outlined" type="number"  style={{ width: 100 }} disabled={textFieldDisabled} onChange={handleTransmitanciaChange} inputProps={{ min: "0", style: { textAlign: "center"}}}/> </Grid>
-            <Grid item> <Typography variant="h6">W/m²K </Typography> </Grid>
             <Grid item> <ArgonButton variant="gradient" color="info" onClick={NuevoElemento}> Agregar&nbsp; <ArrowForwardSharpIcon fontSize="large" /></ArgonButton> </Grid> 
         </Grid>
         {/* <Box mb={2} ml={8}> </Box>

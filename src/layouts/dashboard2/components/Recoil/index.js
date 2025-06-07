@@ -42,7 +42,7 @@ export const datosEnvolvente = atom({
   key: 'datosEnvolvente',
   default: [
     {
-       "id":5,
+       "id":0,
        "color":"dark",
        "icon":"ni ni-map-big",
        "name":"Muro frontal",
@@ -54,10 +54,62 @@ export const datosEnvolvente = atom({
        "transmitancia":0.7,
        "otros":{
           "Orientacion":"Norte"
-       }
+       },
+       "capas": [
+          {
+            "nombre":"Elemento 1",      // e.g. "Techo"
+            "anchura": 1,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              },
+                {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              },
+              {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"Elemento 2",      // e.g. "Techo"
+            "anchura": 1,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              },
+                {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              },
+              {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              }
+            ]
+          },
+       ]
     },
     {
-       "id":7,
+       "id":1,
        "color":"dark",
        "icon":"ni ni-map-big",
        "name":"Muro posterior",
@@ -69,10 +121,44 @@ export const datosEnvolvente = atom({
        "transmitancia":0.7,
        "otros":{
           "Orientacion":"Sur"
-       }
+       },
+       "capas": [
+          {
+            "nombre":"Elemento 1",      // e.g. "Techo"
+            "anchura": 1,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              },
+                {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"Elemento 2",      // e.g. "Techo"
+            "anchura": 1,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "teste 1",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.01",
+              }
+            ]
+          },
+       ]
     },
     {
-       "id":8,
+       "id":2,
        "color":"dark",
        "icon":"ni ni-map-big",
        "name":"Muro lateral izquierdo",
@@ -87,7 +173,7 @@ export const datosEnvolvente = atom({
        }
     },
     {
-       "id":9,
+       "id":3,
        "color":"dark",
        "icon":"ni ni-map-big",
        "name":"Muro lateral derecho",
@@ -102,7 +188,7 @@ export const datosEnvolvente = atom({
        }
     },
     {
-       "id":10,
+       "id":4,
        "color":"dark",
        "icon":"ni ni-bold-up",
        "name":"Techo principal",
@@ -117,7 +203,7 @@ export const datosEnvolvente = atom({
        }
     },
     {
-       "id":11,
+       "id":5,
        "color":"dark",
        "icon":"ni ni-ungroup",
        "name":"Piso principal",
@@ -132,7 +218,7 @@ export const datosEnvolvente = atom({
        }
     },
     {
-       "id":12,
+       "id":6,
        "color":"dark",
        "icon":"ni ni-image",
        "name":"Ventana",
@@ -162,7 +248,7 @@ export const datosEnvolvente = atom({
        }
     },
     {
-       "id":13,
+       "id":7,
        "color":"dark",
        "icon":"ni ni-image",
        "name":"Puerta",
@@ -192,7 +278,7 @@ export const datosEnvolvente = atom({
        }
     },
     {
-       "id":14,
+       "id":8,
        "color":"dark",
        "icon":"ni ni-image",
        "name":"Lucernario",
@@ -222,6 +308,142 @@ export const datosEnvolvente = atom({
        }
     }
  ], // Valor inicial
+});
+export const capasElemento = atom({
+  key: 'capasElemento',
+  default: [
+          {
+            "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
+            "anchura": 1.71,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Concreto Simple: Mezcla 1:8 + 50% P.M.",
+                "transmitancia": "0.01",
+                "resistencia": "0.26",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"ZÓCALO",      // e.g. "Techo"
+            "anchura": 2.28,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1. Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO",      // e.g. "Techo"
+            "anchura": 8.68,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO 2",      // e.g. "Techo"
+            "anchura": 0.57,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"VIGAS",      // e.g. "Techo"
+            "anchura": 0.46,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.56",
+                "espesor": "0.1",
+              },
+              {
+                "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.33",
+                "espesor": "0.3",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          }
+       ], // Valor inicial
 });
 
 // DATOS DE LOS MATERIALES DE LA BD

@@ -15,6 +15,7 @@ Coded by www.creative-tim.com
 
 // react-router-dom components
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -30,6 +31,8 @@ import ArgonButton from "components/ArgonButton";
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
+
+import Collapse from "@mui/material/Collapse"; 
 
 // Recoil
 import { useRecoilState} from 'recoil';
@@ -75,64 +78,143 @@ function CategoriesListMod({ title, Elementos,setEstadoElementos, setDatosEnvolv
       console.error(error);
     }
   };
+  // ===================================================================== // ====================================================== //
+  // Renderizado de elementos de la envolvente
+  const [openId, setOpenId] = useState(null);
+  const handleToggle = (id) => {
+    setOpenId((prevId) => (prevId === id ? null : id));
+  };
 
-  const renderItems = Elementos.map(({ id, color, icon, name, area, transmitancia }, key) => (
-    <ArgonBox
-      key={id}
-      component="li"
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      borderRadius="lg"
-      py={1}
-      pr={2}
-      mb={Elementos.length - 1 === key ? 0 : 1}
-    >
-      <ArgonBox display="flex" alignItems="center">
-        <ArgonBox
-          display="grid"
-          alignItems="center"
-          justifyContent="center"
-          bgColor={color}
-          borderRadius="lg"
-          shadow="md"
-          color="white"
-          width="2rem"
-          height="2rem"
-          mr={2}
-          variant="gradient"
-        >
-          <Icon
-            sx={{
-              display: "grid",
-              placeItems: "center",
-            }}
-          >
-            <i className={icon} style={{ fontSize: "12px" }} />
-          </Icon>
+  const renderItems = Elementos.map(({ id, color, icon, name, area, transmitancia, capas }, key) => {
+    const handleClick = (e) => {
+      if (
+        e.target.closest("button") ||
+        e.target.closest("svg")
+      ) {
+        return;
+      }
+      handleToggle(id);
+    };
+
+    return (
+      <ArgonBox
+        key={id}
+        component="li"
+        display="flex"
+        flexDirection="column"
+        borderRadius="lg"
+        py={1}
+        pr={2}
+        mb={Elementos.length - 1 === key ? 0 : 1}
+        onClick={handleClick}
+        style={{
+          cursor: "pointer",
+          width: "100%",
+          maxWidth: "600px"
+        }}
+      >
+        <ArgonBox display="flex" justifyContent="space-between" alignItems="center">
+          <ArgonBox display="flex" alignItems="center">
+            <ArgonBox
+              display="grid"
+              alignItems="center"
+              justifyContent="center"
+              bgColor={color}
+              borderRadius="lg"
+              shadow="md"
+              color="white"
+              width="2rem"
+              height="2rem"
+              mr={2}
+              variant="gradient"
+            >
+              <Icon sx={{ display: "grid", placeItems: "center" }}>
+                <i className={icon} style={{ fontSize: "12px" }} />
+              </Icon>
+            </ArgonBox>
+            <ArgonBox display="flex" flexDirection="column">
+              <ArgonTypography variant="button" color={color} fontWeight="medium" gutterBottom>
+                {name}
+              </ArgonTypography>
+              <ArgonTypography variant="caption" color="text">
+                Area {area} m²,{" "}
+                <ArgonTypography variant="caption" color="text" fontWeight="medium">
+                  Transmitancia {transmitancia} W/m²K
+                </ArgonTypography>
+              </ArgonTypography>
+            </ArgonBox>
+          </ArgonBox>
+          <ArgonBox display="flex">
+            <ArgonButton
+              variant="text"
+              color="dark"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Acción editar
+              }}
+            >
+              <Icon>edit</Icon>&nbsp;Edit.
+            </ArgonButton>
+            <ArgonButton
+              variant="text"
+              color="error"
+              onClick={(e) => {
+                e.stopPropagation();
+                eliminarElemento(id);
+              }}
+            >
+              <Icon>delete</Icon>&nbsp;Elim.
+            </ArgonButton>
+          </ArgonBox>
         </ArgonBox>
-        <ArgonBox display="flex" flexDirection="column">
-          <ArgonTypography variant="button" color={color} fontWeight="medium" gutterBottom>
-            {name}
-          </ArgonTypography>
-          <ArgonTypography variant="caption" color="text">
-            Area {area} m2,{" "}
-            <ArgonTypography variant="caption" color="text" fontWeight="medium">
-            Transmitancia {transmitancia} W/m²K
-            </ArgonTypography>
-          </ArgonTypography>
-        </ArgonBox>
+
+        {capas && capas.length > 0 && (
+          <Collapse in={openId === id} timeout="auto" unmountOnExit>
+            <ArgonBox mt={1} mb={1}>
+              {capas.map((capa, idx) => (
+                <ArgonBox key={`${id}-capa-${idx}`} mb={0.5}>
+                  <ArgonTypography variant="caption" color="primary" fontWeight="bold" mb={0.5}>
+                    {capa.nombre} (Anchura: {capa.anchura} m, Longitud: {capa.longitud} m)
+                  </ArgonTypography>
+                  {capa.elementos.map((elemento, jdx) => (
+                    <ArgonBox
+                      key={`${id}-capa-${idx}-elemento-${jdx}`}
+                      display="flex"
+                      flexDirection="column"
+                      py={0.25}
+                      px={1}
+                      ml={2}
+                    >
+                      <ArgonBox display="flex" alignItems="center">
+                        <ArgonTypography variant="caption" color="text" fontWeight="bold" mr={0.5}>
+                          {elemento.name}
+                        </ArgonTypography>
+                        <ArgonTypography variant="caption" color="text">
+                          Resistencia {elemento.resistencia} m²K/W, Espesor {elemento.espesor} m
+                        </ArgonTypography>
+                      </ArgonBox>
+                    </ArgonBox>
+                  ))}
+                </ArgonBox>
+              ))}
+            </ArgonBox>
+          </Collapse>
+        )}
       </ArgonBox>
-      <ArgonBox display="flex">
-        <ArgonButton variant="text" color="dark">
-          <Icon>edit</Icon>&nbsp;Edit.
-        </ArgonButton>
-        <ArgonButton variant="text" color="error" onClick={() => eliminarElemento(id)}>
-          <Icon>delete</Icon>&nbsp;Elim.
-        </ArgonButton>
-      </ArgonBox>
-    </ArgonBox>
-  ));
+    );
+  });
+
+// Contenedor padre para centrar la lista
+<ArgonBox
+  component="ul"
+  display="flex"
+  flexDirection="column"
+  alignItems="center"
+  style={{ listStyle: "none", padding: 0, margin: 0 }}
+>
+  {renderItems}
+</ArgonBox>
+
 
   return (
     <Card>

@@ -23,7 +23,7 @@ import ArgonTypography from "components/ArgonTypography";
 
 // Recoil
 import { useRecoilValue, useRecoilState} from 'recoil';
-import { transmCerramiento, activarCapas, estadoSelect } from '../../Recoil';
+import { transmCerramiento, activarCapas, estadoSelect, capasElemento } from '../../Recoil';
 
 const StyledFormControlLabel = styled(FormControlLabel)`
     display: flex;
@@ -39,6 +39,7 @@ const TwoLineLabel = styled('div')`
 export default function RadioGroupPiso({agregarElemento,nroElementos}) {
     // Recoil
     const transmitanciaVal = useRecoilValue(transmCerramiento);
+    const capasElementoR = useRecoilValue(capasElemento);
     const [activarCapasR, setActivarCapasR] = useRecoilState(activarCapas);
     const [estadoSelectR, setEstadoSelectR] = useRecoilState(estadoSelect);
 
@@ -134,7 +135,8 @@ export default function RadioGroupPiso({agregarElemento,nroElementos}) {
     // =============================================================
     // Función para agregar un nuevo elemento a la lista
     const NuevoElemento = () => {
-      agregarElemento({
+      
+      const Elemento = {
         id : nroElementos,
         color: "dark",
         icon: "ni ni-ungroup",
@@ -146,7 +148,11 @@ export default function RadioGroupPiso({agregarElemento,nroElementos}) {
         area: parseFloat(inputArea).toFixed(3),
         transmitancia: parseFloat(TransmitanciaValue), 
         otros: {},
-      })
+      }
+      if (capasElementoR.length > 0){
+        Elemento.capas = capasElementoR;
+      }
+      agregarElemento(Elemento);
     };
     // Setting default values for the props of GradientLineChart
     RadioGroupPiso.defaultProps = {nroElementos:0};

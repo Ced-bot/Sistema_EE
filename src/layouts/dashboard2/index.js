@@ -63,7 +63,8 @@ function Default() {
     setNroElementos(nroElementos+1);
     // Guardar los datos agregdos para que no se pierdan
     setDatosEnvolventeR([...datosEnvolventeR, nuevoElemento]);
-    console.log(JSON.stringify([...datosEnvolventeR, nuevoElemento]));
+    //console.log(JSON.stringify([...datosEnvolventeR, nuevoElemento]));
+    console.log("SE AGREGO EL NUEVO ELEMENTO");
   };
   const agregarTransmitancia = (nuevoElemento) => {
     //const existe = elementosEnvol.some( (diccionario) => JSON.stringify(diccionario) === JSON.stringify(nuevoElemento));

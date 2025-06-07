@@ -10,11 +10,11 @@ import ArgonTypography from "components/ArgonTypography";
 import ArrowForwardSharpIcon from '@mui/icons-material/ArrowForwardSharp';
 import ArgonButton from "components/ArgonButton";
 import { Select, Space } from 'antd';
-
+import { Modal, Input, Form } from "antd";
 
 // Recoil
 import { useRecoilState, useRecoilValue} from 'recoil';
-import { transmCerramiento, activarCapas} from 'layouts/dashboard2/components/Recoil';
+import { transmCerramiento, activarCapas, capasElemento} from 'layouts/dashboard2/components/Recoil';
 
 // Colores predefinidos para cada capa
 const colors = [
@@ -37,6 +37,7 @@ const ListaCerramientos = ({elementosEnvol}) => {
 
   // Recoil
   const [transmitanciaVal, setTransmitanciaVal] = useRecoilState(transmCerramiento);
+  const [capasElementoR, setCapasElementoR] = useRecoilState(capasElemento);
   const activarCapasR = useRecoilValue(activarCapas);
 
   useEffect(() => {
@@ -67,7 +68,8 @@ const ListaCerramientos = ({elementosEnvol}) => {
      
     // Convertir valores a números y calcular R_total
     const R_total = elementosEnvol.reduce((sum, capa) => {
-      return sum + (Number(capa.espesor) / parseFloat(capa.transmitancia));
+      //return sum + (Number(capa.espesor) / parseFloat(capa.transmitancia));
+      return sum + parseFloat(capa.resistencia);
     }, 0);
     setTotalResitencia((R_total > 0 ? 1 / R_total : 0).toFixed(4))
     setTransmitanciaVal((R_total > 0 ? 1 / R_total : 0).toFixed(4))
@@ -75,8 +77,49 @@ const ListaCerramientos = ({elementosEnvol}) => {
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
+  // =============================================== // =================================================== //
+  // Estado para el modal y los valores del formulario
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [inputAnchura, setInputAnchura] = useState(0);
+  const [inputLongitud, setInputLongitud] = useState(0);
+  const [nombre, setNombre] = useState("");
+  // Enventos de cambio de los textfields
+  const handleAnchuraChange = (event) => {
+    setInputAnchura(event.target.value);
+  };
+  const handleLongitudChange = (event) => {
+    setInputLongitud(event.target.value);
+  };
+  const handleNombreChange = (event) => {
+    setNombre(event.target.value);
+  };
+  // Abre el modal
+  const openModal = () => setIsModalOpen(true);
+  // Cierra el modal
+  const closeModal = () => setIsModalOpen(false);
+  // Maneja el OK
+  const handleOk = () => {
+    // Agregar la lista de capas
+    // elementosEnvol -- Es un arreglo de diccionarios
+    const novoElem = {
+      "nombre": nombre,
+      "anchura": inputAnchura,
+      "longitud": inputLongitud,
+      "elementos": elementosEnvol
+    };
+    setCapasElementoR((prev) => [...prev, novoElem]);
 
-  const renderItems = elementosEnvol.map(({ id, name, transmitancia }, key) => (
+    // Cierra el modal
+    setIsModalOpen(false);
+    setInputAnchura(0);
+    setInputLongitud(0);
+    setNombre("");
+
+  };
+
+
+  const renderItems = elementosEnvol.map(({ id, name, transmitancia, resistencia }, key) => (
     <ArgonBox
       key={id}
       component="li"
@@ -91,10 +134,13 @@ const ListaCerramientos = ({elementosEnvol}) => {
       <ArgonBox display="flex" alignItems="center">
         <ArgonBox display="flex" flexDirection="column">
           <ArgonTypography variant="button" color="dark" fontWeight="medium" gutterBottom sx={{ fontSize: '0.75rem' }}>
-            {name} {/* Reduce el tamaño de fuente */}
+            {`C${key + 1}: ${name}`} {/* Reduce el tamaño de fuente */}
           </ArgonTypography>
+          {/* <ArgonTypography variant="caption" color="dark" sx={{ fontSize: '0.75rem' }}>
+            Transmitancia {transmitancia} W/m²K 
+          </ArgonTypography> */}
           <ArgonTypography variant="caption" color="dark" sx={{ fontSize: '0.75rem' }}>
-            Transmitancia {transmitancia} W/m²K {/* Reduce el tamaño de fuente */}
+            Resistencia {resistencia} m²K/W {/* Reduce el tamaño de fuente */}
           </ArgonTypography>
         </ArgonBox>
       </ArgonBox>
@@ -117,33 +163,28 @@ const ListaCerramientos = ({elementosEnvol}) => {
   ListaCerramientos.propTypes = { elementosEnvol: PropTypes.array};
   return (
     <Box sx={{ pointerEvents: activarCapasR ? "auto" : "none", opacity: activarCapasR ? 1 : 0.5 }}>
-      <Grid container spacing={2}  sx={{ height: '100vh' }}>
+      <Grid container spacing={2}  sx={{ height: '201vh' }}>
         <Grid item lg={14} sx={{ ml: 'auto', flexGrow: 1, height: '23%', maxHeight: '23%', overflowY: 'auto' }}>
           <Card sx={{ height: '100%' }}> {/* Aseguramos que el Card ocupe el 100% de la altura */}
             <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
               <ArgonTypography variant="h5" fontWeight="medium">
-                Lista de cerramientos
+                Lista de capas
               </ArgonTypography>
             </ArgonBox>
-            <ArgonBox p={2} sx={{ height: '100%', overflow: 'auto', marginBottom: '10px' }}>
+            <ArgonBox p={2} sx={{ height: '350%', overflow: 'auto', marginBottom: '10px' }}>
               <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
                 {renderItems} {/* Aquí estarían tus ítems que se van a renderizar */}
               </ArgonBox>
             </ArgonBox>
-          </Card>
-        </Grid>
-
-        <Grid item lg={14} sx={{ ml: 'auto', flexGrow: 1, height: '77%' }}>
-          <Card>
-            <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
+            {/* <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
                 <ArgonTypography variant="h5" fontWeight="medium" >
                   Capas
                 </ArgonTypography>
-            </ArgonBox>
+            </ArgonBox> */}
               
               
             <ArgonBox display="flex" justifyContent="center" alignItems="center" height="100%">
-              <ArgonBox display="flex" width="80%" height="100px">
+              <ArgonBox display="flex" width="80%" height="80px">
                 {elementosEnvol.map((item, index) => (
                   <ArgonBox
                     key={index}
@@ -160,22 +201,127 @@ const ListaCerramientos = ({elementosEnvol}) => {
                     }}
                   >
                     <ArgonTypography variant="caption" sx={{ fontSize: "0.75rem" }}>
-                      {`${item.espesor} m`} {/* Mostrar el espesor */}
+                      {`C${index + 1}: ${item.espesor} m`} {/* Mostrar el espesor */}
                     </ArgonTypography>
                   </ArgonBox>
                 ))}
               </ArgonBox>
             </ArgonBox>
 
-              <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
+              {/* <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
                 <ArgonTypography variant="caption" color="dark" sx={{ fontSize: '0.75rem' }}>
                   {`U = 1 / R(total), donde R(total) = Σ ( e(i) / λ(i))`}
                 </ArgonTypography>
-              </ArgonBox>
+              </ArgonBox> */}
               <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
                 <ArgonTypography variant="caption" color="dark" sx={{ fontSize: '0.75rem' }}>
                   Transmitancia Total: {totalResitencia} W/m²K
                 </ArgonTypography>
+              </ArgonBox>
+              <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
+                <Grid container alignItems="center" justifyContent="center"  spacing={3}>
+                    <Grid item> <ArgonButton variant="gradient" color="info" onClick={openModal}> Agregar elemento independiente </ArgonButton> </Grid> 
+                </Grid>
+                <Modal
+                  title={
+                    <Typography variant="h5" align="center" fontWeight="bold">
+                      Agregar Capa Heterogénea
+                    </Typography>
+                  }
+                  open={isModalOpen}
+                  onOk={handleOk}
+                  onCancel={closeModal}
+                  centered
+                  zIndex={1500} // Modal al frente de todo
+                  footer={[
+                    <ArgonButton
+                      key="cancelar"
+                      color="dark"
+                      variant="gradient"
+                      onClick={closeModal}
+                    >
+                      Cancelar
+                    </ArgonButton>,
+                    <ArgonButton
+                      key="agregar"
+                      color="info"
+                      variant="gradient"
+                      onClick={handleOk}
+                      sx={{ ml: 1 }} // Separación entre botones
+                    >
+                      Agregar
+                    </ArgonButton>,
+                  ]}
+                >
+                  <Grid container direction="column" spacing={2} alignItems="center">
+                    
+                    {/* Fila 3: Nombre */}
+                    <Grid item>
+                      <Grid container spacing={2} alignItems="center" justifyContent="center">
+                        <Grid item>
+                          <Typography variant="h6">
+                            Nombre:
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <TextField
+                            value={nombre} 
+                            onChange={handleNombreChange}
+                            variant="outlined"
+                            size="small"
+                            style={{ width: 150 }}
+                            inputProps={{ style: {marginLeft:'-13px', textAlign: "center"}}} // Texto alineado a la izquierda
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    {/* Fila 1: Anchura */}
+                    <Grid item>
+                      <Grid container spacing={2} alignItems="center" justifyContent="center">
+                        <Grid item>
+                          <Typography variant="h6">
+                            Anchura (m):
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <TextField
+                            value={inputAnchura} 
+                            onChange={handleAnchuraChange}
+                            variant="outlined"
+                            type="number"
+                            size="small"
+                            style={{ width: 100, textAlign: "center" }}
+                            inputProps={{ min: "1", style: { textAlign: "center" } }}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    {/* Fila 2: Longitud */}
+                    <Grid item>
+                      <Grid container spacing={2} alignItems="center" justifyContent="center">
+                        <Grid item>
+                          <Typography variant="h6">
+                            Longitud (m):
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <TextField
+                            value={inputLongitud} 
+                            onChange={handleLongitudChange}
+                            variant="outlined"
+                            type="number"
+                            size="small"
+                            style={{ width: 100, textAlign: "center" }}
+                            inputProps={{ min: "1", style: { textAlign: "center" } }}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                  </Grid>
+                </Modal>
               </ArgonBox>
               <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
               </ArgonBox>

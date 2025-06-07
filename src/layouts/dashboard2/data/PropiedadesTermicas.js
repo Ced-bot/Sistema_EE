@@ -170,15 +170,18 @@ const PropiedadesTermicas = ({agregarTransmitancia, limpiarTransmitancias}) => {
   // Agregar propiedades termicas a la izquierda
   const argregarPropiedades = () => {
     let trans = null;
+    let resist = null;
     if (nombreMat[0] === -1){
       trans = 1/ (espesor /  parseFloat(dataMaterial.conductividad));
+      resist = (espesor /  parseFloat(dataMaterial.conductividad));
     }
     else{
       trans = parseFloat(nombreMat[0]);
+      resist = 1/parseFloat(nombreMat[0]);
     }
     if (!isNaN(trans) && typeof trans === 'number'  && Number.isFinite(trans)) {
       //console.log(trans, typeof trans)
-      agregarTransmitancia({name: nombreMat[1], transmitancia:trans.toFixed(4), espesor: espesor });
+      agregarTransmitancia({name: nombreMat[1], transmitancia:trans.toFixed(4), resistencia:resist.toFixed(4), espesor: espesor });
     }
     else{
       message.error(`Valor no valido.`);

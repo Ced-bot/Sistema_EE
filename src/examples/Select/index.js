@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from "prop-types";
 import './Select.css';
 
-function Select2({ options, onChange }) {
+function Select2({ options, onChange, style }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -15,7 +15,7 @@ function Select2({ options, onChange }) {
   };
 
   return (
-    <div className="select-container">
+    <div className="select-container" style = {style}>
       <div className="select-display" onClick={toggling}>
         <div>{selectedOption || options[0]}</div>
         <div>{isOpen ? '▲' : '▼'}</div>
@@ -37,11 +37,13 @@ function Select2({ options, onChange }) {
 Select2.defaultProps = {
   options: ["",""],
   onChange: "",
+  style:{},
 };
 // Typechecking props for the GradientLineChart
 Select2.propTypes = {
   options: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  style: PropTypes.object
 };
 
 export default Select2;
