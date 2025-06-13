@@ -163,7 +163,7 @@ const ListaCerramientos = ({elementosEnvol}) => {
   ListaCerramientos.propTypes = { elementosEnvol: PropTypes.array};
   return (
     <Box sx={{ pointerEvents: activarCapasR ? "auto" : "none", opacity: activarCapasR ? 1 : 0.5 }}>
-      <Grid container spacing={2}  sx={{ height: '201vh' }}>
+      <Grid container spacing={2}  sx={{ height: '274vh' }}>
         <Grid item lg={14} sx={{ ml: 'auto', flexGrow: 1, height: '23%', maxHeight: '23%', overflowY: 'auto' }}>
           <Card sx={{ height: '100%' }}> {/* Aseguramos que el Card ocupe el 100% de la altura */}
             <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
@@ -220,12 +220,12 @@ const ListaCerramientos = ({elementosEnvol}) => {
               </ArgonBox>
               <ArgonBox display="flex" justifyContent="center" alignItems="center" pt={2} px={2}>
                 <Grid container alignItems="center" justifyContent="center"  spacing={3}>
-                    <Grid item> <ArgonButton variant="gradient" color="info" onClick={openModal}> Agregar elemento independiente </ArgonButton> </Grid> 
+                    <Grid item> <ArgonButton variant="gradient" color="info" onClick={openModal}> Agregar composición </ArgonButton> </Grid> 
                 </Grid>
                 <Modal
                   title={
                     <Typography variant="h5" align="center" fontWeight="bold">
-                      Agregar Capa Heterogénea
+                      Dimensiones del elemento
                     </Typography>
                   }
                   open={isModalOpen}
@@ -281,7 +281,7 @@ const ListaCerramientos = ({elementosEnvol}) => {
                       <Grid container spacing={2} alignItems="center" justifyContent="center">
                         <Grid item>
                           <Typography variant="h6">
-                            Anchura (m):
+                            Largo (m):
                           </Typography>
                         </Grid>
                         <Grid item>
@@ -303,7 +303,7 @@ const ListaCerramientos = ({elementosEnvol}) => {
                       <Grid container spacing={2} alignItems="center" justifyContent="center">
                         <Grid item>
                           <Typography variant="h6">
-                            Longitud (m):
+                            Alto (m):
                           </Typography>
                         </Grid>
                         <Grid item>

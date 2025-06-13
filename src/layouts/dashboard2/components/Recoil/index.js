@@ -446,6 +446,11 @@ export const capasElemento = atom({
        ], // Valor inicial
 });
 
+export const valsEditar = atom({
+  key: 'valsEditar',
+  default: {}, // Valor inicial
+});
+
 // DATOS DE LOS MATERIALES DE LA BD
 export const datosMateriales = atom({
   key: 'datosMateriales',
@@ -464,7 +469,7 @@ export const transmCerramiento = atom({
 // Panel de seleccion de materiales del cerramiento
 export const activarCapas = atom({
   key: 'activarCapas',
-  default: false
+  default: true
 });
 // Estado inicial del select de cada elemtno de la envolvente
 export const estadoSelect = atom({

@@ -194,13 +194,13 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
                 <Grid item xs={7}>
                     <Box mb={2}>
                     <Grid container alignItems="center" justifyContent="center" spacing={2.5}>
-                        <Grid item> <Typography variant="h6">Anchura (m):</Typography> </Grid>
+                        <Grid item> <Typography variant="h6">Largo (m):</Typography> </Grid>
                         <Grid item> <TextField value={inputAnchura} onChange={handleAnchuraChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{min: "1", style: { textAlign: "center"}}} /> </Grid>
                     </Grid>
                     </Box>
                     <Box mb={2}>
-                    <Grid container alignItems="center" justifyContent="center"  spacing={2}>
-                        <Grid item> <Typography variant="h6">Longitud (m):</Typography> </Grid>
+                    <Grid container alignItems="center" justifyContent="center"  spacing={4}>
+                        <Grid item> <Typography variant="h6">Alto (m):</Typography> </Grid>
                         <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{min: "1", style: { textAlign: "center"}}} /> </Grid>
                     </Grid>
                     </Box>
@@ -223,7 +223,7 @@ export default function RadioGroupMuro({agregarElemento,nroElementos}) {
                 <Grid item> {value === '2' && <Orientacion />} </Grid>
             </Grid> 
             <Grid container alignItems="center" justifyContent="center"  spacing={2}>
-                <Grid item> <Typography variant="h6">Transmitancia Térmicas: </Typography> </Grid>
+                <Grid item> <Typography variant="h6">Transmitancia Térmica: </Typography> </Grid>
                 <Grid item> <Select2 options={["Conocida", "Calcular"]} value={estadoSelectR} onChange={handleSelectChange}/> </Grid> 
                 <Grid item> &emsp;&emsp;<TextField id="TextField-Transmitancia" value={TransmitanciaValue} variant="outlined" type="number"  style={{ width: 100 }} disabled={textFieldDisabled} onChange={handleTransmitanciaChange} inputProps={{ min: "0", style: { textAlign: "center"}}}/> </Grid>
                 <Grid item> <Typography variant="h6">W/m²K </Typography> </Grid>

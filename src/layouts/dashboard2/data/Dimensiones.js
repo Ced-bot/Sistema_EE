@@ -27,7 +27,7 @@ import RadioGroupVanosLucernarios from "layouts/dashboard2/components/DatosEnvol
 
 // Recoil
 import { useRecoilState} from 'recoil';
-import { transmCerramiento, activarCapas } from '../components/Recoil';
+import { transmCerramiento } from '../components/Recoil';
 
 function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
   const Techo = () => (

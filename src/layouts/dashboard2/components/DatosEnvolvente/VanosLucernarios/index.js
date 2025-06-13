@@ -101,13 +101,13 @@ export default function RadioGroupVanosLucernarios() {
                 <Grid item>
                     <Box mb={2}>
                     <Grid container alignItems="center" justifyContent="left" spacing={2.03}>
-                        <Grid item> <Typography variant="h6">Anchura (m):</Typography> </Grid>
+                        <Grid item> <Typography variant="h6">Largo (m):</Typography> </Grid>
                         <Grid item> <TextField value={inputAnchura} onChange={handleAnchuraChange} variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
                     </Grid>
                     </Box>
                     <Box mb={2}>
-                    <Grid container alignItems="center" justifyContent="left"  spacing={1.63}>
-                        <Grid item> <Typography variant="h6">Longitud (m):</Typography> </Grid>
+                    <Grid container alignItems="center" justifyContent="left"  spacing={3.53}>
+                        <Grid item> <Typography variant="h6">Alto (m):</Typography> </Grid>
                         <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} variant="outlined" type="number" style={{ width: 100 }} inputProps={{ min: "1",  style: { textAlign: "center"}}} /> </Grid>
                     </Grid>
                     </Box>

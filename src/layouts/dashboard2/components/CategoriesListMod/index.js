@@ -36,19 +36,31 @@ import Collapse from "@mui/material/Collapse";
 
 // Recoil
 import { useRecoilState} from 'recoil';
-import { datosRes,datosEnvolvente } from 'layouts/dashboard2/components/Recoil';
+import { datosRes,datosEnvolvente, valsEditar, capasElemento } from 'layouts/dashboard2/components/Recoil';
 
-function CategoriesListMod({ title, Elementos,setEstadoElementos, setDatosEnvolventeR }) {
+function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvolventeR }) {
   // RECOIL
   const [resultados, setResultados] = useRecoilState(datosRes);
   const [datosEnv, setdatosEnv] = useRecoilState(datosEnvolvente);
+  const [valsEditarR, setValsEditarR] = useRecoilState(valsEditar);
+  const [capasElementoR, setCapasElemento] = useRecoilState(capasElemento);
   //////////////////////////////////////////////////////////////////////
   const eliminarElemento = (id) => {
     setEstadoElementos(Elementos.filter(Elemento => Elemento.id !== id));
     setDatosEnvolventeR(Elementos.filter(Elemento => Elemento.id !== id));
   }
   const modificarElemento = (id) => {
-    setEstadoElementos(EstadoElementos.filter(Elemento => Elemento.id !== id));
+    const elementoMmd = Elementos.find(item => item.id === id);
+    if(elementoMmd){
+      const capasEl = elementoMmd.capas;
+      setValsEditarR({
+        anchura: elementoMmd.anchura,
+        longitud: elementoMmd.longitud,
+        transmitancia: elementoMmd.transmitancia,
+        name: elementoMmd.name
+      });
+      setCapasElemento(capasEl);
+    }
   }
   const procesarDatos = () => {
     try {
@@ -151,6 +163,7 @@ function CategoriesListMod({ title, Elementos,setEstadoElementos, setDatosEnvolv
               onClick={(e) => {
                 e.stopPropagation();
                 // Acción editar
+                modificarElemento(id);
               }}
             >
               <Icon>edit</Icon>&nbsp;Edit.
@@ -174,7 +187,7 @@ function CategoriesListMod({ title, Elementos,setEstadoElementos, setDatosEnvolv
               {capas.map((capa, idx) => (
                 <ArgonBox key={`${id}-capa-${idx}`} mb={0.5}>
                   <ArgonTypography variant="caption" color="primary" fontWeight="bold" mb={0.5}>
-                    {capa.nombre} (Anchura: {capa.anchura} m, Longitud: {capa.longitud} m)
+                    {capa.nombre} (Largo: {capa.anchura} m, Alto: {capa.longitud} m)
                   </ArgonTypography>
                   {capa.elementos.map((elemento, jdx) => (
                     <ArgonBox
