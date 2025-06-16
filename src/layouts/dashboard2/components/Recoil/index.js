@@ -45,7 +45,316 @@ export const datosEnvolvente = atom({
        "id":0,
        "color":"dark",
        "icon":"ni ni-map-big",
-       "name":"Muro frontal",
+       "name":"Muro Este",
+       "tipo":"Muro en contacto con el aire",
+       "familia":"Muro",
+       "longitud":2.7,
+       "anchura":6,
+       "area":16.200,
+       "transmitancia":0.7,
+       "otros":{
+          "Orientacion":"Este"
+       },
+       "capas": [
+          {
+            "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
+            "anchura": 1.71,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Concreto Simple: Mezcla 1:8 + 50% P.M.",
+                "transmitancia": "0.01",
+                "resistencia": "0.26",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"ZÓCALO",      // e.g. "Techo"
+            "anchura": 2.28,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1. Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO",      // e.g. "Techo"
+            "anchura": 8.68,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO 2",      // e.g. "Techo"
+            "anchura": 0.57,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"VIGAS",      // e.g. "Techo"
+            "anchura": 0.46,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.56",
+                "espesor": "0.1",
+              },
+              {
+                "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.36",
+                "espesor": "0.31",
+              }
+            ]
+          }
+        ]
+    },
+    {
+       "id":110,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro Este Fraccional",
+       "tipo":"Muro en contacto con el aire",
+       "familia":"Muro",
+       "longitud":2.7,
+       "anchura":6,
+       "area":16.200,
+       "transmitancia":0.7,
+       "otros":{
+          "Orientacion":"Este"
+       },
+       "capas": [
+          {
+            "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
+            "anchura": 0.18,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Concreto Simple: Mezcla 1:8 + 50% P.M.",
+                "transmitancia": "0.01",
+                "resistencia": "0.26",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"ZÓCALO",      // e.g. "Techo"
+            "anchura": 0.24,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1. Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO",      // e.g. "Techo"
+            "anchura": 0.23,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"Ventana",      // e.g. "Techo"
+            "anchura": 0.66,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: CONTRAVENTANA",
+                "transmitancia": "0.01",
+                "resistencia": "0.41",
+                "espesor": "0.04",
+              },
+              {
+                "name": "C2. Camara de aire ",
+                "transmitancia": "0.01",
+                "resistencia": "0.08",
+                "espesor": "0.16",
+              },
+              {
+                "name": "C3: MARCO V-01",
+                "transmitancia": "0.01",
+                "resistencia": "0.19",
+                "espesor": "0.028",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO 2",      // e.g. "Techo"
+            "anchura": 0.57,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"VIGAS",      // e.g. "Techo"
+            "anchura": 0.46,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.56",
+                "espesor": "0.1",
+              },
+              {
+                "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.36",
+                "espesor": "0.31",
+              }
+            ]
+          }
+        ]
+    },
+    {
+       "id":1,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro Norte",
        "tipo":"Muro en contacto con el aire",
        "familia":"Muro",
        "longitud":2.7,
@@ -57,62 +366,316 @@ export const datosEnvolvente = atom({
        },
        "capas": [
           {
-            "nombre":"Elemento 1",      // e.g. "Techo"
-            "anchura": 1,
+            "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
+            "anchura": 1.58,
             "longitud": 1,
             "elementos": [
               {
-                "name": "teste 1",
+                "name": "C1: Mortero Cemento - Arena 1:3",
                 "transmitancia": "0.01",
                 "resistencia": "0.01",
-                "espesor": "0.01",
-              },
-                {
-                "name": "teste 1",
-                "transmitancia": "0.01",
-                "resistencia": "0.01",
-                "espesor": "0.01",
+                "espesor": "0.02",
               },
               {
-                "name": "teste 1",
+                "name": "C2. Concreto Simple: Mezcla 1:8 + 50% P.M.",
                 "transmitancia": "0.01",
-                "resistencia": "0.01",
+                "resistencia": "0.26",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
                 "espesor": "0.01",
               }
             ]
           },
           {
-            "nombre":"Elemento 2",      // e.g. "Techo"
-            "anchura": 1,
+            "nombre":"ZÓCALO",      // e.g. "Techo"
+            "anchura": 2.10,
             "longitud": 1,
             "elementos": [
               {
-                "name": "teste 1",
+                "name": "C1. Mortero Cemento - Arena 1:3",
                 "transmitancia": "0.01",
                 "resistencia": "0.01",
-                "espesor": "0.01",
-              },
-                {
-                "name": "teste 1",
-                "transmitancia": "0.01",
-                "resistencia": "0.01",
-                "espesor": "0.01",
+                "espesor": "0.02",
               },
               {
-                "name": "teste 1",
+                "name": "C2. Adobe ",
                 "transmitancia": "0.01",
-                "resistencia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
                 "espesor": "0.01",
               }
             ]
           },
-       ]
+          {
+            "nombre":"MURO",      // e.g. "Techo"
+            "anchura": 7.98,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO 2",      // e.g. "Techo"
+            "anchura": 0.53,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"VIGAS",      // e.g. "Techo"
+            "anchura": 0.42,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.56",
+                "espesor": "0.1",
+              },
+              {
+                "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.33",
+                "espesor": "0.3",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"Muro triangular",      // e.g. "Techo"
+            "anchura": 2.73,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          }
+        ]
     },
     {
-       "id":1,
+       "id":2,
        "color":"dark",
        "icon":"ni ni-map-big",
-       "name":"Muro posterior",
+       "name":"Muro Oeste",
+       "tipo":"Muro en contacto con el aire",
+       "familia":"Muro",
+       "longitud":2.7,
+       "anchura":5.5,
+       "area":14.850,
+       "transmitancia":0.7,
+       "otros":{
+          "Orientacion":"Oeste"
+       },
+       "capas": [
+          {
+            "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
+            "anchura": 1.71,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Concreto Simple: Mezcla 1:8 + 50% P.M.",
+                "transmitancia": "0.01",
+                "resistencia": "0.26",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"ZÓCALO",      // e.g. "Techo"
+            "anchura": 2.28,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1. Mortero Cemento - Arena 1:3",
+                "transmitancia": "0.01",
+                "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO",      // e.g. "Techo"
+            "anchura": 8.66,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO 2",      // e.g. "Techo"
+            "anchura": 0.57,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"VIGAS",      // e.g. "Techo"
+            "anchura": 0.46,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.56",
+                "espesor": "0.1",
+              },
+              {
+                "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.33",
+                "espesor": "0.3",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          }
+        ]
+    },
+    {
+       "id":3,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro Sur",
        "tipo":"Muro en contacto con el aire",
        "familia":"Muro",
        "longitud":2.7,
@@ -124,68 +687,162 @@ export const datosEnvolvente = atom({
        },
        "capas": [
           {
-            "nombre":"Elemento 1",      // e.g. "Techo"
-            "anchura": 1,
+            "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
+            "anchura": 0.83,
             "longitud": 1,
             "elementos": [
               {
-                "name": "teste 1",
+                "name": "C1: Mortero Cemento - Arena 1:3",
                 "transmitancia": "0.01",
                 "resistencia": "0.01",
-                "espesor": "0.01",
+                "espesor": "0.02",
               },
-                {
-                "name": "teste 1",
+              {
+                "name": "C2. Concreto Simple: Mezcla 1:8 + 50% P.M.",
                 "transmitancia": "0.01",
-                "resistencia": "0.01",
+                "resistencia": "0.26",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
                 "espesor": "0.01",
               }
             ]
           },
           {
-            "nombre":"Elemento 2",      // e.g. "Techo"
-            "anchura": 1,
+            "nombre":"ZÓCALO",      // e.g. "Techo"
+            "anchura": 1.10,
             "longitud": 1,
             "elementos": [
               {
-                "name": "teste 1",
+                "name": "C1. Mortero Cemento - Arena 1:3",
                 "transmitancia": "0.01",
                 "resistencia": "0.01",
+                "espesor": "0.02",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
                 "espesor": "0.01",
               }
             ]
           },
-       ]
-    },
-    {
-       "id":2,
-       "color":"dark",
-       "icon":"ni ni-map-big",
-       "name":"Muro lateral izquierdo",
-       "tipo":"Muro en contacto con el aire",
-       "familia":"Muro",
-       "longitud":2.7,
-       "anchura":5.5,
-       "area":14.850,
-       "transmitancia":0.7,
-       "otros":{
-          "Orientacion":"SO"
-       }
-    },
-    {
-       "id":3,
-       "color":"dark",
-       "icon":"ni ni-map-big",
-       "name":"Muro lateral derecho",
-       "tipo":"Muro en contacto con el aire",
-       "familia":"Muro",
-       "longitud":2.7,
-       "anchura":6,
-       "area":16.200,
-       "transmitancia":0.7,
-       "otros":{
-          "Orientacion":"Norte"
-       }
+          {
+            "nombre":"MURO",      // e.g. "Techo"
+            "anchura": 4.18,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO 2",      // e.g. "Techo"
+            "anchura": 0.28,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"VIGAS",      // e.g. "Techo"
+            "anchura": 0.22,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.56",
+                "espesor": "0.1",
+              },
+              {
+                "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
+                "transmitancia": "0.01",
+                "resistencia": "0.33",
+                "espesor": "0.3",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+          {
+            "nombre":"MURO TRIANGULAR",      // e.g. "Techo"
+            "anchura": 2.48,
+            "longitud": 1,
+            "elementos": [
+              {
+                "name": "C1: Enlucido con yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              },
+              {
+                "name": "C2. Adobe ",
+                "transmitancia": "0.01",
+                "resistencia": "0.44",
+                "espesor": "0.40",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
+              }
+            ]
+          },
+        ]
     },
     {
        "id":4,
@@ -312,7 +969,7 @@ export const datosEnvolvente = atom({
 export const capasElemento = atom({
   key: 'capasElemento',
   default: [
-          {
+          /* {
             "nombre":"SOBRECIMIENTOS",      // e.g. "Techo"
             "anchura": 1.71,
             "longitud": 1,
@@ -442,7 +1099,7 @@ export const capasElemento = atom({
                 "espesor": "0.01",
               }
             ]
-          }
+          } */
        ], // Valor inicial
 });
 
