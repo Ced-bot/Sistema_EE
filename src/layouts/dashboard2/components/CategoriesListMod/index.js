@@ -23,7 +23,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
-import { message } from "antd";
+import { message, Tooltip } from "antd";
 // Argon Dashboard 2 MUI components
 import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
@@ -44,22 +44,38 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
   const [datosEnv, setdatosEnv] = useRecoilState(datosEnvolvente);
   const [valsEditarR, setValsEditarR] = useRecoilState(valsEditar);
   const [capasElementoR, setCapasElemento] = useRecoilState(capasElemento);
+
+  const [eliminarCapas, setEliminarCapas] = useState(false);
   //////////////////////////////////////////////////////////////////////
   const eliminarElemento = (id) => {
     setEstadoElementos(Elementos.filter(Elemento => Elemento.id !== id));
     setDatosEnvolventeR(Elementos.filter(Elemento => Elemento.id !== id));
   }
+  const eliminarElementoCapa = (ids) => {
+    const resultado = Elementos.map((item) => {
+      if (item.id === ids[0] && Array.isArray(item.capas)) {
+        return { ...item, capas: item.capas.filter((_, idx) => idx !== ids[1]) };
+      }
+      return item;
+    });
+
+    setEstadoElementos(resultado);
+    setDatosEnvolventeR(resultado);
+  }
+
   const modificarElemento = (id) => {
     const elementoMmd = Elementos.find(item => item.id === id);
     if(elementoMmd){
       const capasEl = elementoMmd.capas;
       setValsEditarR({
-        anchura: elementoMmd.anchura,
-        longitud: elementoMmd.longitud,
+        area: elementoMmd.area,
         transmitancia: elementoMmd.transmitancia,
-        name: elementoMmd.name
+        name: elementoMmd.name,
+        orientacion: elementoMmd.otros? elementoMmd.otros.Orientacion: "--"
       });
       setCapasElemento(capasEl);
+      // Activar eliminacion de capas
+      setEliminarCapas(true);
     }
   }
   const procesarDatos = () => {
@@ -186,9 +202,30 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
             <ArgonBox mt={1} mb={1}>
               {capas.map((capa, idx) => (
                 <ArgonBox key={`${id}-capa-${idx}`} mb={0.5}>
-                  <ArgonTypography variant="caption" color="primary" fontWeight="bold" mb={0.5}>
-                    {capa.nombre} (Largo: {capa.anchura} m, Alto: {capa.longitud} m)
-                  </ArgonTypography>
+                  <ArgonBox display="flex" alignItems="center" justifyContent="space-between" flexWrap="nowrap">
+                    <ArgonTypography
+                      variant="caption"
+                      color="primary"
+                      fontWeight="bold"
+                      mb={0.5}
+                      style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                    >
+                      {capa.nombre} (Largo: {capa.anchura} m, Alto: {capa.longitud} m)
+                    </ArgonTypography>
+
+                    <ArgonButton
+                      variant="text"
+                      color="error"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        eliminarElementoCapa([id,idx]);
+                      }}
+                      style={{ flexShrink: 0 }} // evita que se reduzca
+                    >
+                      <Icon>delete</Icon>&nbsp;Elim.
+                    </ArgonButton>
+                  </ArgonBox>
+
                   {capa.elementos.map((elemento, jdx) => (
                     <ArgonBox
                       key={`${id}-capa-${idx}-elemento-${jdx}`}
@@ -198,14 +235,22 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
                       px={1}
                       ml={2}
                     >
-                      <ArgonBox display="flex" alignItems="center">
-                        <ArgonTypography variant="caption" color="text" fontWeight="bold" mr={0.5}>
-                          {elemento.name}
-                        </ArgonTypography>
-                        <ArgonTypography variant="caption" color="text">
-                          Resistencia {elemento.resistencia} m²K/W, Espesor {elemento.espesor} m
-                        </ArgonTypography>
-                      </ArgonBox>
+                      <Tooltip title={elemento.name}>
+                        <ArgonBox display="flex" alignItems="center">
+                          <ArgonTypography
+                            variant="caption"
+                            color="text"
+                            fontWeight="bold"
+                            mr={0.5}
+                          >
+                            {elemento.name.substring(0, 2)}:
+                          </ArgonTypography>
+                          <ArgonTypography variant="caption" color="text">
+                            Resistencia {elemento.resistencia} m²K/W, Espesor {elemento.espesor} m
+                          </ArgonTypography>
+
+                        </ArgonBox>
+                      </Tooltip>
                     </ArgonBox>
                   ))}
                 </ArgonBox>

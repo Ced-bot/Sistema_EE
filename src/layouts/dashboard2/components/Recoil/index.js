@@ -176,8 +176,14 @@ export const datosEnvolvente = atom({
               {
                 "name": "C2.1: Viga collar de madera 3''x2'' (2 piezas) Madera de densidad media",
                 "transmitancia": "0.01",
-                "resistencia": "0.36",
-                "espesor": "0.31",
+                "resistencia": "0.33",
+                "espesor": "0.3",
+              },
+              {
+                "name": "C3: Enlucido de yeso",
+                "transmitancia": "0.01",
+                "resistencia": "0.03",
+                "espesor": "0.01",
               }
             ]
           }

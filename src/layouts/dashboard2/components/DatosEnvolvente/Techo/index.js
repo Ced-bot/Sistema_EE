@@ -65,6 +65,7 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
   const [inputArea, setInputArea] = useState(0);
   const [inputNombre, setInputNombre] = useState(Labels2[value-1]);
 
+  const [areaDisab, setAreaDisab] = useState(false);
   
   // Evento de cambio de los radioButtons
   const handleChange = (event) => {
@@ -114,34 +115,68 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
   // Evento que se activa cuando se cambia el valor del select de metodo de calculo
   useEffect(() => {
     if("name" in valsEditarR){
-      setInputAnchura(valsEditarR.anchura);
-      setInputLongitud(valsEditarR.longitud);
+      //setInputAnchura("--");
+      //setInputLongitud("--");
+      setInputArea(valsEditarR.area);
       setTransmitanciaValue(valsEditarR.transmitancia);
       setInputNombre(valsEditarR.name);
+      setEstadoSelectOri(valsEditarR.orientacion); 
+      // Desactivar elementos
+      console.log(valsEditarR)
+
+      setAreaDisab(true);
     }
   }, [valsEditarR]);  
 
+  function agruparCapasPorBloques(elementos, minElementos) {
+    return elementos.map((elemento) => {
+      const capas = elemento.elementos;
+      const total = capas.length;
+      const resultado = [];
+
+      const bloque = Math.ceil(total / minElementos);
+
+      for (let i = 0; i < total; i += bloque) {
+        const grupo = capas.slice(i, i + bloque);
+        const suma = grupo.reduce(
+          (acc, capa) => {
+            acc.transmitancia += parseFloat(capa.transmitancia);
+            acc.resistencia += parseFloat(capa.resistencia);
+            acc.espesor += parseFloat(capa.espesor);
+            return acc;
+          },
+          { transmitancia: 0, resistencia: 0, espesor: 0 }
+        );
+        resultado.push(suma);
+      }
+
+      return { ...elemento, capas: resultado };
+    });
+  }
   const [estadoSelectCalT, setEetadoSelectCalTR] = useState("Metodo");
-  const resistenciaVertical = (maxElementos) => {
+  const resistenciaVertical = (minElementos) => {
+      // Reducir capas
+      const capasReduc = agruparCapasPorBloques(capasElementoR, minElementos);
+
       let resistenciVertical = 0.04 + 0.13;
-      for (let idx = 0; idx < maxElementos; idx++) {
+      for (let idx = 0; idx < minElementos; idx++) {
         let sumaInversa = 0;
         let nuevaAreaTotal = 0;
-        capasElementoR.forEach(item => {
+        capasReduc.forEach(item => {
           const elemento = item.elementos[idx];
           if (elemento && elemento.resistencia) {
             nuevaAreaTotal += item.anchura * item.longitud
           }
         });
 
-        capasElementoR.forEach(item => {
+        capasReduc.forEach(item => {
           const elemento = item.elementos[idx];
           if (elemento && elemento.resistencia) {
             sumaInversa += (item.anchura * item.longitud / nuevaAreaTotal)/parseFloat(elemento.resistencia);
-            console.log(item.porcentaje, "-->" ,elemento.resistencia, "-->", item.porcentaje/parseFloat(elemento.resistencia));
+            //console.log(item.porcentaje, "-->" ,elemento.resistencia, "-->", item.porcentaje/parseFloat(elemento.resistencia));
           }
         });
-        console.log(1/sumaInversa);
+        //console.log(1/sumaInversa);
 
         resistenciVertical += 1/sumaInversa;
       }
@@ -168,7 +203,8 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
       const areaTotal = capasElementoR.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
       setInputArea(areaTotal.toFixed(3));
       // 4) Determina la cantidad máxima de "elementos" en los subarreglos
-      const maxElementos = Math.max(...capasElementoR.map(item => item.elementos.length));
+      //const maxElementos = Math.max(...capasElementoR.map(item => item.elementos.length));
+      const minElementos = Math.min(...capasElementoR.map(item => item.elementos.length));
 
       // Transmitancia
       if(selectedOption === "Horizontal"){
@@ -178,19 +214,25 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
         console.log(resistenciHorizontal)
       }
       else if(selectedOption === "Vertical"){
-        const resistenciVertical = resistenciaVertical(maxElementos);
+        const resistenciVertical = resistenciaVertical(minElementos);
         setTransmitanciaValue((1/resistenciVertical).toFixed(4));
         console.log("VERTICAL")
         console.log(resistenciVertical)
       }
       else if(selectedOption === "Horizontal/Vertical"){
         const resistenciHorizontal = resistenciaHorizontal(areaTotal);
-        const resistenciVertical = resistenciaVertical(maxElementos);
+        const resistenciVertical = resistenciaVertical(minElementos);
         setTransmitanciaValue((1/((resistenciVertical+resistenciHorizontal)/2)).toFixed(4));
         console.log("VERTICAL--HORIZONTAL")
         console.log(resistenciVertical, resistenciHorizontal)
       }
     }
+  };
+
+  // Orientacion
+  const [estadoSelectOri, setEstadoSelectOri] = useState("--");
+  const handleSelectOriChange = (selectedOption) => {
+    setEstadoSelectOri(selectedOption); 
   };
   // =============================================================
   // Función para agregar un nuevo elemento a la lista
@@ -207,7 +249,9 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
         anchura: parseFloat(inputAnchura),
         area: parseFloat(inputArea).toFixed(3),
         transmitancia: parseFloat(TransmitanciaValue), 
-        otros: {},
+        otros: {
+          Orientacion: estadoSelectOri
+        },
       }
       if (capasElementoR.length > 0){
         Elemento.capas = capasElementoR;
@@ -252,13 +296,13 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
                 <Box mb={2}>
                 <Grid container alignItems="center" justifyContent="center" spacing={2.5}>
                     <Grid item> <Typography variant="h6">Largo (m):</Typography> </Grid>
-                    <Grid item> <TextField value={inputAnchura} onChange={handleAnchuraChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField disabled={areaDisab} value={inputAnchura} onChange={handleAnchuraChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
                 <Box mb={2}>
                 <Grid container alignItems="center" justifyContent="center"  spacing={4}>
                     <Grid item> <Typography variant="h6">Alto (m):</Typography> </Grid>
-                    <Grid item> <TextField value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
+                    <Grid item> <TextField disabled={areaDisab} value={inputLongitud} onChange={handleLongitudChange} label="" variant="outlined" type="number" style={{ width: 155 }} inputProps={{ min: "1", style: { textAlign: "center"}}} /> </Grid>
                 </Grid>
                 </Box>
                 <Box mb={2} ml={8}>
@@ -278,6 +322,9 @@ export default function RadioGroupTecho({agregarElemento, nroElementos}) {
         <Grid container alignItems="center" justifyContent="center"  spacing={2} style={{ marginBottom: '10px' }}>
             <Grid item> <Typography variant="h6">Nombre: </Typography> </Grid>
             <Grid item> <TextField value={inputNombre} onChange={handleNombreChange} style={{ width: 160 }}  inputProps={{ style: {marginLeft:'-13px',height: '20px', textAlign: "center"}}}/> </Grid>
+
+            <Grid item> <Typography variant="h6">Orientación: </Typography> </Grid>
+            <Grid item> <Select2 options={["--","Norte", "Sur", "Este", "Oeste"]}  value={estadoSelectOri} onChange={handleSelectOriChange} style={{ width: "80px" }}/> </Grid> 
         </Grid> 
         <Grid container alignItems="center" justifyContent="center"  spacing={2}>
             <Grid item> <Typography variant="h6">Transmitancia Térmica (W/m²K): </Typography> </Grid>
