@@ -35,11 +35,15 @@ import axios from 'axios';
 import Collapse from "@mui/material/Collapse"; 
 
 // Recoil
-import { useRecoilState} from 'recoil';
-import { datosRes,datosEnvolvente, valsEditar, capasElemento } from 'layouts/dashboard2/components/Recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { datosRes,datosEnvolvente, valsEditar, capasElemento, valoresDatosExtra, datosDemanda } from 'layouts/dashboard2/components/Recoil';
+import { resistenciaVertical, resistenciaHorizontal, obtenerCoeficiente, buscarValorTransPiso } from '../DatosEnvolvente/Funciones/operaciones';
+import { elements } from "chart.js";
 
 function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvolventeR }) {
   // RECOIL
+  const valoresDatosDemandaR = useRecoilValue(datosDemanda);
+  const valoresDatosExtraR = useRecoilValue(valoresDatosExtra);
   const [resultados, setResultados] = useRecoilState(datosRes);
   const [datosEnv, setdatosEnv] = useRecoilState(datosEnvolvente);
   const [valsEditarR, setValsEditarR] = useRecoilState(valsEditar);
@@ -71,22 +75,204 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
         area: elementoMmd.area,
         transmitancia: elementoMmd.transmitancia,
         name: elementoMmd.name,
-        orientacion: elementoMmd.otros? elementoMmd.otros.Orientacion: "--"
+        orientacion: elementoMmd.otros? elementoMmd.otros.Orientacion: "--",
+        otros: elementoMmd.otros? elementoMmd.otros: {},
+        familia: elementoMmd.familia,
+        tipo: elementoMmd.tipo
       });
       setCapasElemento(capasEl);
       // Activar eliminacion de capas
       setEliminarCapas(true);
     }
   }
+  const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   const procesarDatos = () => {
+
+    let datosFinales = null;
+    let nuevosDatosDemanda = {};
+    if(true){
+
+      const areaExterior = Elementos.reduce((acc, obj) => {
+                                                    if (obj.familia === "Techo" && obj.tipo.includes("contacto con el aire")) {
+                                                      const areaTot = obj.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
+                                                      return acc + areaTot;
+                                                    }
+                                                    return acc;
+                                                  }, 0);
+      const areaENH = Elementos.reduce((acc, obj) => {
+                                                    if (obj.familia === "Techo" && obj.tipo.includes("contacto con ANH")) {
+                                                      const areaTot = obj.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
+                                                      return acc + areaTot;
+                                                    }
+                                                    return acc;
+                                                  }, 0);
+      
+      const nuevosElementos = Elementos.map(elem => {
+
+
+        const areaTotal = elem.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
+        let transTermica = null;
+        if(elem.familia === "Piso" && ("otros" in elem && "resistencia_aislante" in elem.otros && "ancho_aislante" in elem.otros)){
+
+          const perimetro = 2*(elem.longitud + elem.anchura);
+          const constB = (areaTotal === 0? elem.area : areaTotal)  / (0.5*perimetro);
+          //console.log("constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante")
+          //console.log(constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante)
+
+          transTermica = buscarValorTransPiso(constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante);
+
+        }
+
+        if(transTermica === null){
+          let minElementos = Math.min(...elem.capas.map(item => item.elementos.length));
+          if (!isFinite(minElementos)) {
+            minElementos = 0;
+          }
+
+          const resistenciHorizontal = resistenciaHorizontal(elem.capas, areaTotal, elem.tipo.includes("con el aire"), elem.familia);
+          const resistenciVertical = resistenciaVertical(elem.capas, minElementos, elem.tipo.includes("con el aire"), elem.familia);
+
+          let coefRedduccion = 1;
+          if(elem.familia === "Techo" && elem.tipo.includes("contacto con ANH") && ("otros" in elem && "estanqueidad" in elem.otros && "aislante" in elem.otros)){
+            coefRedduccion = obtenerCoeficiente(areaENH/areaExterior, elem.otros.aislante, elem.otros.estanqueidad);
+            //console.log("aislanteaislanteaislanteaislante", coefRedduccion, areaENH/areaExterior, elem.otros.aislante, elem.otros.estanqueidad)
+          }
+
+          transTermica = (1*coefRedduccion / ((resistenciVertical + resistenciHorizontal) / 2));
+          //console.log(elem.name)
+          //console.log(resistenciVertical, resistenciHorizontal,parseFloat(transTermica), parseFloat(areaTotal))
+        }
+        return {
+          ...elem,
+          transmitancia: parseFloat(transTermica.toFixed(4)),
+          area: parseFloat((areaTotal === 0? elem.area : areaTotal).toFixed(2))
+        };
+      });
+
+      setEstadoElementos(nuevosElementos);
+      datosFinales = nuevosElementos;
+      // DATOS PARA LA DEMANDA DE CALEFACCION Y REFRIGERACION
+      const envelopeHeat = {"walls":[], "roofs": [], "floors": [], "doors": []};
+      const envelopeCool = {"walls":[], "roofs": [], "floors": [], "doors": []};
+      for(const regs of datosFinales){
+        if(regs.name.includes("Muro")){
+          const hetRec = {
+            "K": regs.transmitancia, 
+            "A": regs.area, 
+            "ori": regs.otros.Orientacion === "Sur"? "S" : regs.otros.Orientacion === "Norte"? "N" : regs.otros.Orientacion === "Oeste"? "W" : "E",
+          }
+          const colRec = {
+            "K": regs.transmitancia, 
+            "A": regs.area, 
+            "ori": regs.otros.Orientacion === "Sur"? "S" : regs.otros.Orientacion === "Norte"? "N" : regs.otros.Orientacion === "Oeste"? "W" : "E",
+          }
+          if (regs.otros.Orientacion === "Oeste"){
+            hetRec["Te_eff"] =  -2.27 + 7
+            colRec["Te_eff"] =  28 + 7
+          }
+          else if ( regs.otros.Orientacion ==="Este"){
+            hetRec["Te_eff"] = -2.27 + 5
+            colRec["Te_eff"] = 28 + 5
+          }
+          else if ( regs.otros.Orientacion ==="Norte"){
+            hetRec["Te_eff"] = -2.27 + 8
+            colRec["Te_eff"] = 28 + 8
+          }
+          else if ( regs.otros.Orientacion ==="Sur"){
+            hetRec["Te_eff"] = -2.27 + 2
+            colRec["Te_eff"] = 28 + 2
+          }
+          envelopeHeat["walls"].push(hetRec);
+          envelopeCool["walls"].push(colRec);
+        }
+
+        else if(regs.name.includes("Techo")){
+          
+          const hetRec = {
+            "K": regs.transmitancia, 
+            "A": regs.area, 
+            "ori": regs.otros.Orientacion === "Sur"? "S" : regs.otros.Orientacion === "Norte"? "N" : regs.otros.Orientacion === "Oeste"? "W" : "E",
+          }
+          const colRec = {
+            "K": regs.transmitancia, 
+            "A": regs.area, 
+            "ori": regs.otros.Orientacion === "Sur"? "S" : regs.otros.Orientacion === "Norte"? "N" : regs.otros.Orientacion === "Oeste"? "W" : "E",
+          }
+          if (regs.otros.Orientacion === "Oeste"){
+            hetRec["Te_eff"] =  -2.27 + 12
+            colRec["Te_eff"] =  28 + 12
+          }
+          else if ( regs.otros.Orientacion ==="Este"){
+            hetRec["Te_eff"] = -2.27 + 10
+            colRec["Te_eff"] = 28 + 10
+          }
+          envelopeHeat["roofs"].push(hetRec);
+          envelopeCool["roofs"].push(colRec);
+        }
+        
+        else if(regs.name.includes("Piso")){
+          envelopeHeat["floors"].push({
+            "K": regs.transmitancia, 
+            "A": regs.area, 
+            "ori": regs.otros.Orientacion === "Sur"? "S" : regs.otros.Orientacion === "Norte"? "N" : regs.otros.Orientacion === "Oeste"? "W" : "E",
+            "Te_eff": 12
+          });
+          envelopeCool["floors"].push({
+            "K": regs.transmitancia, 
+            "A": regs.area, 
+            "ori": regs.otros.Orientacion === "Sur"? "S" : regs.otros.Orientacion === "Norte"? "N" : regs.otros.Orientacion === "Oeste"? "W" : "E",
+            "Te_eff": 12
+          });
+        }
+      }
+      nuevosDatosDemanda = {
+        ...valoresDatosDemandaR,               // copia el estado actual
+        cooling: {
+          ...valoresDatosDemandaR.cooling,         // copia lo que hay en mmd
+          envelope: envelopeCool       // modifica solo asd
+        },             
+        heating: {
+          ...valoresDatosDemandaR.heating,         // copia lo que hay en mmd
+          envelope: envelopeHeat       // modifica solo asd
+        }
+      };
+      console.log(JSON.stringify(nuevosDatosDemanda));
+      /* valoresDatosDemandaR.cooling.envelope = envelopeCool;
+      valoresDatosDemandaR.heating.envelope = envelopeHeat; */
+      //console.log("Los datos se enviaron", nuevaVariable );
+    }
+    else
     try {
       const loadingMsg = message.loading("Procesando datos...", 0); // Muestra el mensaje de carga
-  
-      console.log("Los datos se enviaron", Elementos);
-      axios
-        .post(
+      //console.log("Los datos se enviaron", Elementos, valoresDatosExtraR);
+      axios.post(
           "https://c370x9jte2.execute-api.sa-east-1.amazonaws.com/ejecucion/EvaluacionNormaEM110",
-          { Cerramientos: Elementos }
+          { Cerramientos: datosFinales, valoresDatosExtra: valoresDatosExtraR }
+        )
+        .then((response) => {
+          console.log("Los datos se procesaron");
+          console.log(response.data);
+          setResultados(response.data);
+          setdatosEnv(Elementos);
+  
+          loadingMsg(); // Cierra el mensaje de carga
+          message.success("Datos procesados exitosamente"); // Muestra éxito
+        })
+        .catch((error) => {
+          loadingMsg(); // Cierra el mensaje de carga
+          message.error("Error al procesar los datos"); // Muestra error
+          console.error("Hubo un error al enviar los datos a Lambda:", error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+    
+    try {
+      const loadingMsg = message.loading("Procesando datos...", 0); // Muestra el mensaje de carga
+      //console.log("Los datos se enviaron", Elementos, valoresDatosExtraR);
+      axios.post(
+          "https://t5ftjz71a0.execute-api.sa-east-1.amazonaws.com/default/DemandaClimatizacion",
+          nuevosDatosDemanda
         )
         .then((response) => {
           console.log("Los datos se procesaron");

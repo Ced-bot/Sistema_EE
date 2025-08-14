@@ -230,8 +230,8 @@ function Tables() {
         </div>
       )}
 
-      <DashboardNavbar />
-      <ArgonBox py={3}>
+      {/* <DashboardNavbar /> */}
+      <ArgonBox py={0}>
 
         <ArgonBox mb={3}>
           <Card>

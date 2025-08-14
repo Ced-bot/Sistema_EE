@@ -52,8 +52,8 @@ function Default() {
   const arrNombres = ["Nombre del proyecto","Tipo de vivienda","Zona de la vivienda","Dirección o Dirección de referencia","Altura sobre el nivel del mar (m)"]
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <ArgonBox py={3}>
+      {/* <DashboardNavbar /> */}
+      <ArgonBox py={0}>
         <Grid container spacing={3} mb={3}>
           {/* <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard

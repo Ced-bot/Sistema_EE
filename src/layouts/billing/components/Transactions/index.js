@@ -25,7 +25,11 @@ import ArgonTypography from "components/ArgonTypography";
 
 // Billing page components
 import Transaction from "layouts/billing/components/Transaction";
-
+const today = new Date().toLocaleDateString("es-PE", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric"
+});
 function Transactions() {
   return (
     <Card sx={{ height: "100%" }}>
@@ -40,7 +44,7 @@ function Transactions() {
             </Icon>
           </ArgonBox>
           <ArgonTypography variant="button" color="text" fontWeight="regular">
-            23 - 30 March 2020
+            {today}
           </ArgonTypography>
         </ArgonBox>
       </ArgonBox>

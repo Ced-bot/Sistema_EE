@@ -87,8 +87,8 @@ function HFM100Detalles() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <ArgonBox mt={3}>
+      {/* <DashboardNavbar /> */}
+      <ArgonBox mt={0}>
 
         {!cargando ? (
           <ArgonBox mb={3}>

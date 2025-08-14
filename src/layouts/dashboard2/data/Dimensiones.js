@@ -20,15 +20,51 @@ import ArgonBox from "components/ArgonBox";
 // Argon Dashboard 2 MUI base styles
 import breakpoints from "assets/theme/base/breakpoints";
 
-import RadioGroupTecho from "layouts/dashboard2/components/DatosEnvolvente/Techo";
-import RadioGroupMuro from "layouts/dashboard2/components/DatosEnvolvente/Muro";
-import RadioGroupPiso from "layouts/dashboard2/components/DatosEnvolvente/Piso";
+import RadioGroupGeneral from "layouts/dashboard2/components/DatosEnvolvente/Funciones/componentes";
 import RadioGroupVanosLucernarios from "layouts/dashboard2/components/DatosEnvolvente/VanosLucernarios";
 
 // Recoil
 import { useRecoilState} from 'recoil';
 import { transmCerramiento } from '../components/Recoil';
 
+// ELEMENTOS DEL TECHO
+const elementosRadioTecho = [
+  { value: '1', label: 'Enterrado' },
+  { value: '2', label: 'En contacto con el aire' },
+  { value: '3', label: 'En contacto con ambiente no habitable' }
+];
+const LabelsTecho = ["Techo enterrado","Techo en contacto con el aire","Techo en contacto con ANH"];
+const Labels2Techo = ["Techo enterrado","Techo con aire","Techo con ANH"];
+const Image1Techo = 'images/SistemaEE/techoEnterrada.jpg'; 
+const Image2Techo = 'images/SistemaEE/techoAire.jpg';
+const Image3Techo = 'images/SistemaEE/techoANH.jpg'; 
+
+
+// ELEMENTOS DEL MURO
+const elementosRadioMuro = [
+  { value: '1', label: 'En contacto con el terreno' },
+  { value: '2', label: 'En contacto con el aire' },
+  { value: '3', label: 'En contacto con ambiente no habitable' }
+];
+const LabelsMuro = ["Muro en contacto con el terreno","Muro en contacto con el aire","Muro en contacto con ANH"];
+const Labels2Muro = ["Muro de terreno","Muro de fachada","Muro con ANH"];
+const Image1Muro = 'images/SistemaEE/muroTerreno.jpg'; 
+const Image2Muro = 'images/SistemaEE/muroFachada.jpg'; 
+const Image3Muro = 'images/SistemaEE/muroANH.jpg'; 
+
+// ELEMENTOS DEL PISO
+const elementosRadioPiso = [
+  { value: '1', label: 'En contacto con el terreno' },
+  { value: '2', label: 'En contacto con el aire' },
+  { value: '3', label: 'En contacto con ambiente no habitable' }
+];
+const LabelsPiso = ["Piso en contacto con el terreno","Piso en contacto con el aire","Piso en contacto con ANH"];
+const Labels2Piso = ["Piso con terreno","Piso con aire","Piso con ANH"];
+const Image1Piso = 'images/SistemaEE/sueloTerreno.jpg'; 
+const Image2Piso = 'images/SistemaEE/sueloAire.jpg'; 
+const Image3Piso = 'images/SistemaEE/sueloANH.jpg'; 
+
+/////////////////////////////////////////////////////////////////////////////
 function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
   const Techo = () => (
     <Grid container spacing={3} alignItems="center">
@@ -36,7 +72,7 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
       </Grid>
       <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}>
         <Grid container alignItems="center" justifyContent="center">
-          <RadioGroupTecho agregarElemento={agregarElemento} nroElementos={nroElementos} />
+          <RadioGroupGeneral agregarElemento={agregarElemento} nroElementos={nroElementos} elementosRadio={elementosRadioTecho} Labels={LabelsTecho} Labels2={Labels2Techo} Image1={Image1Techo} Image2={Image2Techo}  Image3={Image3Techo}  />
         </Grid>
       </Grid>
     </Grid>
@@ -47,7 +83,7 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
       </Grid>
       <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}>
         <Grid container alignItems="center" justifyContent="center">
-          <RadioGroupMuro agregarElemento={agregarElemento} nroElementos={nroElementos} />
+          <RadioGroupGeneral agregarElemento={agregarElemento} nroElementos={nroElementos} elementosRadio={elementosRadioMuro} Labels={LabelsMuro} Labels2={Labels2Muro} Image1={Image1Muro} Image2={Image2Muro}  Image3={Image3Muro} />
         </Grid>
       </Grid>
     </Grid>
@@ -58,7 +94,7 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
       </Grid>
       <Grid item xs={9} md={2} lg={14} sx={{ ml: "auto" }}>
         <Grid container alignItems="center" justifyContent="center">
-          <RadioGroupPiso agregarElemento={agregarElemento} nroElementos={nroElementos} />
+          <RadioGroupGeneral agregarElemento={agregarElemento} nroElementos={nroElementos} elementosRadio={elementosRadioPiso} Labels={LabelsPiso} Labels2={Labels2Piso} Image1={Image1Piso} Image2={Image2Piso}  Image3={Image3Piso} />
         </Grid>
       </Grid>
     </Grid>

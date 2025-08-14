@@ -29,8 +29,8 @@ import Footer from "examples/Footer";
 function BaseLayout({ stickyNavbar, children }) {
   return (
     <DashboardLayout>
-      <DashboardNavbar absolute={!stickyNavbar} isMini />
-      <ArgonBox mt={stickyNavbar ? 3 : 10}>{/* 
+      {/* <DashboardNavbar absolute={!stickyNavbar} isMini /> */}
+      <ArgonBox mt={stickyNavbar ? 0 : 10}>{/* 
         <Grid container>
           <Grid item xs={12} sm={8} lg={4}>
             <AppBar position="static">

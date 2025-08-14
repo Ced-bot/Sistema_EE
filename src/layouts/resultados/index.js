@@ -66,8 +66,8 @@ function Billing() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <ArgonBox mt={3}>
+      {/* <DashboardNavbar /> */}
+      <ArgonBox mt={0}>
         
         <ArgonBox mb={3}>
           <Grid container spacing={3}>

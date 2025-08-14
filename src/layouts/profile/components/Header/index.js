@@ -64,7 +64,7 @@ function Header() {
 
   return (
     <ArgonBox position="relative">
-      <DashboardNavbar absolute light />
+      {/* <DashboardNavbar absolute light /> */}
       <ArgonBox height="220px" />
       <Card
         sx={{

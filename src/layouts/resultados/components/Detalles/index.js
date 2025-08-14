@@ -38,8 +38,10 @@ function Detalles() {
 
   let arrCumplen = []
   let arrNoCumplen = []
+  let arrStrRes = ""
   // Generar la lista de los valores que se deben mostrar
   if (indicador === "Transmitancia térmica máxima") {
+    arrStrRes = "Transmitancia térmica máxima";
     resultados["resultadosTTM"].forEach(dictionary => {
       for (const key in dictionary) {
         let Nombre = key, ext1 = "Valor de TTM: "+ (dictionary[key][1] === "Nulo"? "No hay datos": (dictionary[key][1]+ " W/m²K"));
@@ -48,6 +50,7 @@ function Detalles() {
       }
     });
   } else if (indicador === "Infiltraciones") {
+    arrStrRes = "Infiltraciones no deseadas de aire";
     // Revisar que elementos cumplen o no con la norma 
     const ventPuer = [...resultados["resultadosInfiltraciones"][0], ...resultados["resultadosInfiltraciones"][1]];
     ventPuer.forEach(dictionary => {
@@ -68,7 +71,8 @@ function Detalles() {
       }
     });
   } else if (indicador === "Condensación") {
-    resultados["resultadosCondensacion"].forEach(dictionary => {
+    arrStrRes = "Riesgo de condensación superficial";
+    /* resultados["resultadosCondensacion"].forEach(dictionary => {
       for (const key in dictionary) {
         let Nombre = "--",  ext1 = dictionary[key][1];
         datosEnv.forEach(cerr => {
@@ -78,8 +82,18 @@ function Detalles() {
         if (dictionary[key][0] === "Si cumple" & key != "msg") { arrCumplen.push([Nombre,ext1]); }
         else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
       }
+    }); */
+    resultados["resultadosCondensacion"].forEach(dictionary => {
+      for (const key in dictionary) {
+        let Nombre = dictionary[key][2],  
+        ext1 = dictionary[key][1];
+        // Colocar los datos donde corresponden
+        if (dictionary[key][0] === "Si cumple" & key != "msg") { arrCumplen.push([Nombre,ext1]); }
+        else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
+      }
     });
   } else if (indicador === "Incidencias") {
+    arrStrRes = "Incidencias solares";
     resultados["resultadosIncidencia"].forEach(dictionary => {
       for (const key in dictionary) {
         let Nombre = "--",  ext1 = dictionary[key][1];
@@ -96,14 +110,18 @@ function Detalles() {
   }
 
   // Resultados de la TTM
-  
+  const today = new Date().toLocaleDateString("es-PE", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  });
   //console.log("ssd");
   //console.log(datosEnv);
   return (
     <Card sx={{ height: "100%" }}>
       <ArgonBox display="flex" justifyContent="space-between" alignItems="center" pt={3} px={2}>
         <ArgonTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-          Detalles
+          Detalles: {arrStrRes}
         </ArgonTypography>
         <ArgonBox display="flex" alignItems="flex-start">
           <ArgonBox color="text" mr={0.5} lineHeight={0}>
@@ -112,7 +130,7 @@ function Detalles() {
             </Icon>
           </ArgonBox>
           <ArgonTypography variant="button" color="text" fontWeight="regular">
-            23 - 30 March 2020
+            {today}
           </ArgonTypography>
         </ArgonBox>
       </ArgonBox>

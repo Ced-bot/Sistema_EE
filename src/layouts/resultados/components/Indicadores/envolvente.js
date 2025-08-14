@@ -65,7 +65,7 @@ function IndicadoresEM110() {
     <Card id="delete-account">
       <ArgonBox pt={3} px={2}>
         <ArgonTypography variant="h6" fontWeight="medium">
-          Indicadores
+          Indicadores de la norma EM. 110
         </ArgonTypography>
       </ArgonBox>
       <ArgonBox pt={1} pb={2} px={2}>

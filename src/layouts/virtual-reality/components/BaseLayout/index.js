@@ -78,7 +78,7 @@ function BaseLayout({ children }) {
   return (
     <ArgonBox sx={baseLayout}>
       <ArgonBox bgColor={darkMode ? "transparent" : "info"} borderRadius="xl" mt={3} mx={3}>
-        <DashboardNavbar />
+        {/* <DashboardNavbar /> */}
       </ArgonBox>
       <ArgonBox sx={baseLayoutBackground}>
         <ArgonBox display={{ xs: "block", lg: "none" }}>
