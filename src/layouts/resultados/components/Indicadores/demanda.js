@@ -46,8 +46,8 @@ function IndicadoresDemanda() {
   const perTotales = "Perdidas totales: " + datosResDemandaCalR["Perdidas totales"];
   const ganTotales = "Ganancias totales: " + datosResDemandaCalR["Ganancias totales"];
   const perGanTotales = "Pérdidas y ganancias térmicas para un día típico de invierno en W: " + datosResDemandaCalR["Pérdidas y ganancias térmicas para un día típico de invierno en W"];
-  const energia = "QCAL (energía)" + datosResDemandaCalR["QCAL (energía)"];
-  const demanda = "Conclusión" + datosResDemandaCalR["Conclusión"];
+  const energia = "Potencia requerida: " + datosResDemandaCalR["Potencia requerida"];
+  const demanda = "Conclusión: " + datosResDemandaCalR["Conclusión"];
  
   // Resultados dia tipico de verano
   const perEnvolventeB = "Pérdidas térmicas de la envolvente:" + datosResDemandaRefR["Pérdidas térmicas de la envolvente"];
@@ -59,7 +59,7 @@ function IndicadoresDemanda() {
   const perTotalesB = "Perdidas totales: " + datosResDemandaRefR["Perdidas totales"];
   const ganTotalesB = "Ganancias totales: " + datosResDemandaRefR["Ganancias totales"];
   const perGanTotalesB = "Pérdidas y ganancias térmicas para un día típico de invierno en W: " + datosResDemandaRefR["Pérdidas y ganancias térmicas para un día típico de invierno en W"];
-  const energiaB = "QCAL (energía): " + datosResDemandaRefR["QCAL (energía)"];
+  const energiaB = "Potencia requerida: " + datosResDemandaRefR["Potencia requerida"];
   const demandaB = "Conclusión: " + datosResDemandaRefR["Conclusión"];
 
   return (

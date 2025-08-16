@@ -3868,7 +3868,8 @@ export const datosDemanda = atom({
       "alt_m": 3985,
       "ti": 25,
       "te": 28,
-      "RHe": 35, "RHi": 50,
+      "RHe": 0.35, 
+      "RHi": 0.50,
       "envelope": {
         "walls": [
           { "K": 1.60, "A": 30.0, "ori": "N" },
@@ -3954,7 +3955,7 @@ export const datosResDemandaCal = atom({
     "Perdidas totales": "2200 W + 600 W + 350 W = 3150 W",
     "Ganancias totales": "900 W + 700 W = 1600 W",
     "Pérdidas y ganancias térmicas para un día típico de invierno en W": "3150 W − 1600 W = 1550 W",
-    "QCAL (energía)": "1550 W × 24 h = 37.2 kWh",
+    "Potencia requerida": "1550 W × 24 h = 37.2 kWh",
     "Conclusión": "Demanda de calefacción (QCAL) es de 37.2 kWh para un día típico de invierno"
   }
 });
@@ -3968,7 +3969,7 @@ export const datosResDemandaRef = atom({
     "Perdidas totales": "1800 W + 450 W = 2250 W",
     "Ganancias totales": "1000 W + 2700 W = 3700 W",
     "Pérdidas y ganancias térmicas para un día típico de verano en W": "2250 W - 3700 W = -1450 W",
-    "QCAL (energía)": "1450 W × 24 h = 34.8 kWh",
+    "Potencia requerida": "1450 W × 24 h = 34.8 kWh",
     "Conclusión": "Demanda de refrigeración (QCAL) es de 34.8 kWh para un día típico de verano"
   }
 });

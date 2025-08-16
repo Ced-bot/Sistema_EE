@@ -36,9 +36,14 @@ import Collapse from "@mui/material/Collapse";
 
 // Recoil
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { datosRes,datosEnvolvente, valsEditar, capasElemento, valoresDatosExtra, datosDemanda } from 'layouts/dashboard2/components/Recoil';
+import { datosRes,datosEnvolvente, valsEditar, capasElemento, valoresDatosExtra, datosDemanda, datosResDemandaCal, datosResDemandaRef } from 'layouts/dashboard2/components/Recoil';
 import { resistenciaVertical, resistenciaHorizontal, obtenerCoeficiente, buscarValorTransPiso } from '../DatosEnvolvente/Funciones/operaciones';
 import { elements } from "chart.js";
+
+function wattsToBTU(watts) {
+  const factor = 3.412141633;
+  return watts * factor;
+}
 
 function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvolventeR }) {
   // RECOIL
@@ -48,6 +53,8 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
   const [datosEnv, setdatosEnv] = useRecoilState(datosEnvolvente);
   const [valsEditarR, setValsEditarR] = useRecoilState(valsEditar);
   const [capasElementoR, setCapasElemento] = useRecoilState(capasElemento);
+  const [datosResDemandaCalR, setDatosResDemandaCalR] = useRecoilState(datosResDemandaCal);
+  const [datosResDemandaRefR, setDatosResDemandaRefR] = useRecoilState(datosResDemandaRef);
 
   const [eliminarCapas, setEliminarCapas] = useState(false);
   //////////////////////////////////////////////////////////////////////
@@ -277,8 +284,38 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
         .then((response) => {
           console.log("Los datos se procesaron");
           console.log(response.data);
-          setResultados(response.data);
-          setdatosEnv(Elementos);
+
+          if("heating" in response.data && "cooling" in response.data){
+            const perTot = response.data.heating.Qc + response.data.heating.Qr_infil + response.data.heating.Qa;
+            const ganTot = response.data.heating.Qo_sensible + response.data.heating.Qs;
+            setDatosResDemandaCalR({
+                  "Pérdidas térmicas de la envolvente": (response.data.heating.Qc).toFixed(2).toString() + " W",
+                  "Pérdidas por infiltración": (response.data.heating.Qr_infil).toFixed(2).toString() + " W",
+                  "Pérdidas por ventilación": (response.data.heating.Qa).toFixed(2).toString() + " W",
+                  "Ganancias internas": (response.data.heating.Qo_sensible).toFixed(2).toString() + " W",
+                  "Ganancias solares": (response.data.heating.Qs).toFixed(2).toString() + " W",
+                  
+                  "Perdidas totales": (response.data.heating.Qc).toFixed(2).toString() + " W + " + (response.data.heating.Qr_infil).toFixed(2).toString()+ " W + " + (response.data.heating.Qa).toFixed(2).toString() + " W = "+ perTot.toFixed(2).toString() +" W",
+                  "Ganancias totales": (response.data.heating.Qo_sensible).toFixed(2).toString() + " W + " + (response.data.heating.Qs).toFixed(2).toString() + " W = " + ganTot.toFixed(2).toString() + " W",
+                  "Pérdidas y ganancias térmicas para un día típico de invierno en W": perTot.toFixed(2).toString() + " W − "+ganTot.toFixed(2).toString()+" W = "+(perTot-ganTot).toFixed(2).toString()+" W",
+                  "Potencia requerida": (perTot-ganTot).toFixed(2).toString() + " W ≈ "+wattsToBTU(perTot-ganTot).toFixed(2).toString()+" BTU/h",
+                  "Conclusión": "Con base en el cálculo, se recomienda una calefacción de ~"+(((perTot-ganTot) * 1.1)/1000).toFixed(2).toString()+" kW (≈ "+wattsToBTU(perTot-ganTot).toFixed(2).toString()+" BTU/h) para cubrir el pico de " + (perTot-ganTot).toFixed(2).toString() +" kW con 10 % de holgura."
+            });
+            const perTotRef = response.data.cooling.Qc + response.data.cooling.Qr_infil + response.data.cooling.Qa;
+            const ganTotRef = response.data.cooling.Qo_sensible + response.data.cooling.Qs;
+            setDatosResDemandaRefR({
+              "Pérdidas térmicas de la envolvente": (response.data.heating.Qc).toFixed(2).toString() + " W",
+              "Pérdidas por ventilación": (response.data.heating.Qc).toFixed(2).toString() + " W",
+              "Ganancias internas": (response.data.heating.Qc).toFixed(2).toString() + " W",
+              "Ganancias solares": (response.data.heating.Qc).toFixed(2).toString() + " W",
+              
+              "Perdidas totales": "1800 W + 450 W = 2250 W",
+              "Ganancias totales": "1000 W + 2700 W = 3700 W",
+              "Pérdidas y ganancias térmicas para un día típico de verano en W": "2250 W - 3700 W = -1450 W",
+              "QCAL (energía)": "1450 W × 24 h = 34.8 kWh",
+              "Conclusión": "Demanda de refrigeración (QCAL) es de 34.8 kWh para un día típico de verano"
+            });
+          }
   
           loadingMsg(); // Cierra el mensaje de carga
           message.success("Datos procesados exitosamente"); // Muestra éxito
