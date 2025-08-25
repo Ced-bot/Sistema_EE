@@ -39,28 +39,31 @@ function IndicadoresDemanda() {
   // Resultados dia tipico de invierno
   const perEnvolvente = "Pérdidas térmicas de la envolvente: " + datosResDemandaCalR["Pérdidas térmicas de la envolvente"];
   const perInfiltraciones = "Pérdidas por infiltración: " + datosResDemandaCalR["Pérdidas por infiltración"];
-  const perVentilaciones = "Pérdidas por ventilación:" + datosResDemandaCalR["Pérdidas por ventilación"];
-  const ganInternas = "Ganancias internas:" + datosResDemandaCalR["Ganancias internas"];
-  const ganSolares = "Ganancias solares:" + datosResDemandaCalR["Ganancias solares"];
+  const perVentilaciones = "Pérdidas por ventilación: " + datosResDemandaCalR["Pérdidas por ventilación"];
+  const ganInternas = "Ganancias internas: " + datosResDemandaCalR["Ganancias internas"];
+  const ganSolares = "Ganancias solares: " + datosResDemandaCalR["Ganancias solares"];
 
   const perTotales = "Perdidas totales: " + datosResDemandaCalR["Perdidas totales"];
   const ganTotales = "Ganancias totales: " + datosResDemandaCalR["Ganancias totales"];
-  const perGanTotales = "Pérdidas y ganancias térmicas para un día típico de invierno en W: " + datosResDemandaCalR["Pérdidas y ganancias térmicas para un día típico de invierno en W"];
+  const perGanTotales = "Pérdidas y ganancias térmicas para un día típico de la estación fria en W: " + datosResDemandaCalR["Pérdidas y ganancias térmicas para un día típico de la estación fria en W"];
   const energia = "Potencia requerida: " + datosResDemandaCalR["Potencia requerida"];
-  const demanda = "Conclusión: " + datosResDemandaCalR["Conclusión"];
+  const titulo = "Conclusión: " + datosResDemandaCalR["Título"];
+  const demanda = datosResDemandaCalR["Conclusión"];
  
   // Resultados dia tipico de verano
-  const perEnvolventeB = "Pérdidas térmicas de la envolvente:" + datosResDemandaRefR["Pérdidas térmicas de la envolvente"];
-  //const perInfiltracionesB = "Pérdidas por infiltración: 500 W";
-  const perVentilacionesB = "Pérdidas por ventilación:" + datosResDemandaRefR["Pérdidas por ventilación"];
-  const ganInternasB = "Ganancias internas: " + datosResDemandaRefR["Ganancias internas"];
-  const ganSolaresB = "Ganancias solares:" + datosResDemandaRefR["Ganancias solares"];
+  const sensEnvolvente = "Carga sensible de la envolvente: " + datosResDemandaRefR["Carga sensible de la envolvente"];
+  const sensVentana = "Carga sensible del sol en ventanas: " + datosResDemandaRefR["Carga sensible del sol en ventanas"];
+  const sensInt = "Carga sensible interna: " + datosResDemandaRefR["Carga sensible interna"];
+  const sensiVent = "Carga sensible por ventilación: " + datosResDemandaRefR["Carga sensible por ventilación"];
+  const latenteInt = "Carga latente interna: " + datosResDemandaRefR["Carga latente interna"];
+  const latenteVent = "Carga latente por ventilación: " + datosResDemandaRefR["Carga latente por ventilación"];
   
-  const perTotalesB = "Perdidas totales: " + datosResDemandaRefR["Perdidas totales"];
-  const ganTotalesB = "Ganancias totales: " + datosResDemandaRefR["Ganancias totales"];
-  const perGanTotalesB = "Pérdidas y ganancias térmicas para un día típico de invierno en W: " + datosResDemandaRefR["Pérdidas y ganancias térmicas para un día típico de invierno en W"];
+  const perTotalesB = "Carga sensible total: " + datosResDemandaRefR["Carga sensible total"];
+  const ganTotalesB = "Carga latente total: " + datosResDemandaRefR["Carga latente total"];
+  const perGanTotalesB = "Parte sensible y latente para un día típico de la estación más calida en W: " + datosResDemandaRefR["Parte sensible y latente para un día típico de la estación más calida en W"];
   const energiaB = "Potencia requerida: " + datosResDemandaRefR["Potencia requerida"];
-  const demandaB = "Conclusión: " + datosResDemandaRefR["Conclusión"];
+  const tituloB = "Conclusión: " + datosResDemandaRefR["Título"];
+  const demandaB = datosResDemandaRefR["Conclusión"];
 
   return (
     <Card id="delete-account">
@@ -72,31 +75,35 @@ function IndicadoresDemanda() {
       <ArgonBox pt={1} pb={2} px={2}>
         <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
           <IndicadorDemanda
-            tittle="Estación seca"
+            tittle="Estación fria"
             perEnvolvente = {perEnvolvente}
             perInfiltraciones = {perInfiltraciones}
             perVentilaciones = {perVentilaciones}
             ganInternas = {ganInternas}
             ganSolares = {ganSolares}
+            latenteVent = {""}
 
             perTotales = {perTotales}
             ganTotales = {ganTotales}
             perGanTotales = {perGanTotales}
             energia = {energia}
+            titulo = {titulo}
             demanda = {demanda}
           />
           <IndicadorDemanda
-            tittle="Estación húmeda"
-            perEnvolvente = {perEnvolventeB}
-            perInfiltraciones = {""}
-            perVentilaciones = {perVentilacionesB}
-            ganInternas = {ganInternasB}
-            ganSolares = {ganSolaresB}
+            tittle="Estación calida"
+            perEnvolvente = {sensEnvolvente}
+            perInfiltraciones = {sensVentana}
+            perVentilaciones = {sensInt}
+            ganInternas = {sensiVent}
+            ganSolares = {latenteInt}
+            latenteVent = {latenteVent}
 
             perTotales = {perTotalesB}
             ganTotales = {ganTotalesB}
             perGanTotales = {perGanTotalesB}
             energia = {energiaB}
+            titulo = {tituloB}
             demanda = {demandaB}
           />
         </ArgonBox>

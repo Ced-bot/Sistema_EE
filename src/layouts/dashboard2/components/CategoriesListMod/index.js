@@ -44,6 +44,51 @@ function wattsToBTU(watts) {
   const factor = 3.412141633;
   return watts * factor;
 }
+function classifyHeating(heatingW) {
+  if (heatingW >= 5000) {
+    return {
+      title: "Sistema fijo",
+      detail:"Se recomienda un equipo de ~"+(((heatingW) * 1.1)/1000).toFixed(2).toString()+" kW (≈ "+wattsToBTU(heatingW).toFixed(2).toString()+" BTU/h) para cubrir el pico de " + (heatingW).toFixed(2).toString() +" kW con 10 % de holgura.",
+      tone: "text-red-600",
+    };
+  } else if (heatingW >= 2000) {
+    return {
+      title: "Sistema fijo pequeño o respaldo",
+      detail:
+        "Se recomienda el sellado + aislamiento en las partes necesarias de la envolvente; ó considerar equipo fijo pequeño o portátiles como respaldo de ~"+(((heatingW) * 1.1)/1000).toFixed(2).toString()+" kW (≈ "+wattsToBTU(heatingW).toFixed(2).toString()+" BTU/h) para cubrir el pico de " + (heatingW).toFixed(2).toString() +" kW con 10 % de holgura.",
+      tone: "text-amber-600",
+    };
+  }
+  return {
+    title: "Sin sistema fijo (en general)",
+    detail: "Se recomienda el control pasivo: Cortavientos casero (segunda puerta o cortina gruesa en el ingreso), cerrrar ambientes no usados o dormir en cuartos mas pequeños, alfombras o esteras con espuma.",
+    tone: "text-emerald-600",
+  };
+}
+function classifyCooling(coolingW, latentShare) {
+  if (coolingW >= 3000) {
+    return {
+      title: "Refrigeración activa recomendada",
+      detail:"Se recomienda un equipo de ~"+(((coolingW) * 1.1)/1000).toFixed(2).toString()+" kW (≈ "+wattsToBTU(coolingW).toFixed(2).toString()+" BTU/h) para cubrir el pico de " + (coolingW).toFixed(2).toString() +" kW con 10 % de holgura.",
+      tone: "text-sky-700",
+    };
+  } else if (coolingW >= 1500) {
+    return {
+      title: "Zona gris, a evaluar",
+      detail:
+        "Priorizar sombra E/W, techo aislado y ventilación nocturna; si persiste el desconfort se puede emplear un equipo de ~"+(((coolingW) * 1.1)/1000).toFixed(2).toString()+" kW (≈ "+wattsToBTU(coolingW).toFixed(2).toString()+" BTU/h) para cubrir el pico de " + (coolingW).toFixed(2).toString() +" kW con 10 % de holgura.",
+      tone: "text-amber-600",
+    };
+  }
+  // <1.5 kW
+  const evapHint = latentShare < 0.1 ? " En clima seco, un evaporativo pequeño es viable." : "";
+  return {
+    title: "Sin sistema fijo (en general)",
+    detail:"Se recomienda el control pasivo: Reducir radiación solar directa (con sombras y colores claros), favorecer ventilación cruzada y aprovechar la masa térmica de los materiales tradicionales (adobe/piedra) para estabilizar el confort." + evapHint,
+    tone: "text-emerald-600",
+  };
+}
+
 
 function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvolventeR }) {
   // RECOIL
@@ -248,7 +293,6 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
       valoresDatosDemandaR.heating.envelope = envelopeHeat; */
       //console.log("Los datos se enviaron", nuevaVariable );
     }
-    else
     try {
       const loadingMsg = message.loading("Procesando datos...", 0); // Muestra el mensaje de carga
       //console.log("Los datos se enviaron", Elementos, valoresDatosExtraR);
@@ -286,8 +330,16 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
           console.log(response.data);
 
           if("heating" in response.data && "cooling" in response.data){
+
             const perTot = response.data.heating.Qc + response.data.heating.Qr_infil + response.data.heating.Qa;
             const ganTot = response.data.heating.Qo_sensible + response.data.heating.Qs;
+
+            const sensTot = response.data.cooling.Qc + response.data.cooling.Qs + response.data.cooling.Qo_sensible + response.data.cooling.Qa_sensible;
+            const latTot = response.data.cooling.Qo_latente + response.data.cooling.Qa_latente;
+            const latentShare = (response.data.cooling.QR_total) ? response.data.cooling.QR_latente / response.data.cooling.QR_total : 0;
+            const repSummHot = classifyHeating(perTot-ganTot);
+            const repSummCool = classifyCooling(sensTot+latTot, latentShare);
+
             setDatosResDemandaCalR({
                   "Pérdidas térmicas de la envolvente": (response.data.heating.Qc).toFixed(2).toString() + " W",
                   "Pérdidas por infiltración": (response.data.heating.Qr_infil).toFixed(2).toString() + " W",
@@ -297,23 +349,26 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
                   
                   "Perdidas totales": (response.data.heating.Qc).toFixed(2).toString() + " W + " + (response.data.heating.Qr_infil).toFixed(2).toString()+ " W + " + (response.data.heating.Qa).toFixed(2).toString() + " W = "+ perTot.toFixed(2).toString() +" W",
                   "Ganancias totales": (response.data.heating.Qo_sensible).toFixed(2).toString() + " W + " + (response.data.heating.Qs).toFixed(2).toString() + " W = " + ganTot.toFixed(2).toString() + " W",
-                  "Pérdidas y ganancias térmicas para un día típico de invierno en W": perTot.toFixed(2).toString() + " W − "+ganTot.toFixed(2).toString()+" W = "+(perTot-ganTot).toFixed(2).toString()+" W",
+                  "Pérdidas y ganancias térmicas para un día típico de la estación fria en W": (perTot.toFixed(2).toString() + " W − "+ganTot.toFixed(2).toString()+" W = "+(perTot-ganTot).toFixed(2).toString()+" W"),
                   "Potencia requerida": (perTot-ganTot).toFixed(2).toString() + " W ≈ "+wattsToBTU(perTot-ganTot).toFixed(2).toString()+" BTU/h",
-                  "Conclusión": "Con base en el cálculo, se recomienda una calefacción de ~"+(((perTot-ganTot) * 1.1)/1000).toFixed(2).toString()+" kW (≈ "+wattsToBTU(perTot-ganTot).toFixed(2).toString()+" BTU/h) para cubrir el pico de " + (perTot-ganTot).toFixed(2).toString() +" kW con 10 % de holgura."
+                  "Título": repSummHot.title,
+                  "Conclusión": repSummHot.detail
             });
-            const perTotRef = response.data.cooling.Qc + response.data.cooling.Qr_infil + response.data.cooling.Qa;
-            const ganTotRef = response.data.cooling.Qo_sensible + response.data.cooling.Qs;
+            console.log(response.data.cooling)
             setDatosResDemandaRefR({
-              "Pérdidas térmicas de la envolvente": (response.data.heating.Qc).toFixed(2).toString() + " W",
-              "Pérdidas por ventilación": (response.data.heating.Qc).toFixed(2).toString() + " W",
-              "Ganancias internas": (response.data.heating.Qc).toFixed(2).toString() + " W",
-              "Ganancias solares": (response.data.heating.Qc).toFixed(2).toString() + " W",
+              "Carga sensible de la envolvente": (response.data.cooling.Qc).toFixed(2).toString() + " W",
+              "Carga sensible del sol en ventanas": (response.data.cooling.Qs).toFixed(2).toString() + " W",
+              "Carga sensible interna": (response.data.cooling.Qo_sensible).toFixed(2).toString() + " W",
+              "Carga sensible por ventilación": (response.data.cooling.Qa_sensible).toFixed(2).toString() + " W",
+              "Carga latente interna": (response.data.cooling.Qo_latente).toFixed(2).toString() + " W",
+              "Carga latente por ventilación": (response.data.cooling.Qa_latente).toFixed(2).toString() + " W",
               
-              "Perdidas totales": "1800 W + 450 W = 2250 W",
-              "Ganancias totales": "1000 W + 2700 W = 3700 W",
-              "Pérdidas y ganancias térmicas para un día típico de verano en W": "2250 W - 3700 W = -1450 W",
-              "QCAL (energía)": "1450 W × 24 h = 34.8 kWh",
-              "Conclusión": "Demanda de refrigeración (QCAL) es de 34.8 kWh para un día típico de verano"
+              "Carga sensible total": (response.data.cooling.Qc).toFixed(2).toString() +" W + "+(response.data.cooling.Qs).toFixed(2).toString() +" W + "+(response.data.cooling.Qo_sensible).toFixed(2).toString() +" W + "+(response.data.cooling.Qa_sensible).toFixed(2).toString()+" W = "+sensTot.toFixed(2).toString()+" W",
+              "Carga latente total": (response.data.cooling.Qo_latente).toFixed(2).toString()+" W + "+(response.data.cooling.Qa_latente).toFixed(2).toString()+" W = "+latTot.toFixed(2).toString()+" W",
+              "Parte sensible y latente para un día típico de la estación más calida en W": sensTot.toFixed(2).toString()+" W + "+latTot.toFixed(2).toString()+" W = "+(sensTot+latTot).toFixed(2).toString()+" W",
+              "Potencia requerida": (sensTot+latTot).toFixed(2).toString() + " W ≈ "+wattsToBTU(sensTot+latTot).toFixed(2).toString()+" BTU/h",
+              "Título": repSummCool.title,
+              "Conclusión": repSummCool.detail
             });
           }
   

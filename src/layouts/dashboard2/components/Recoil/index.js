@@ -39,8 +39,8 @@ export const datosRes = atom({
 
 
 // DATOS DE ENVOLVENTE ADOBE
-export const datosEnvolventeAD = atom({
-  key: 'datosEnvolventeAD',
+export const datosEnvolvente = atom({
+  key: 'datosEnvolvente',
   default: [
     {
        "id":0,
@@ -1786,8 +1786,8 @@ export const datosEnvolventeAD = atom({
 });
 
 // DATOS DE ENVOLVENTE LADRILLO
-export const datosEnvolvente = atom({
-  key: 'datosEnvolvente',
+export const datosEnvolventeLA = atom({
+  key: 'datosEnvolventeLA',
   default: [
     {
        "id":5,
@@ -3866,10 +3866,10 @@ export const datosDemanda = atom({
     {
     "cooling": {
       "alt_m": 3985,
-      "ti": 25,
-      "te": 28,
-      "RHe": 0.35, 
-      "RHi": 0.50,
+      "ti": 30,
+      "te": 30,
+      "RHe": 0.3, 
+      "RHi": 0.5,
       "envelope": {
         "walls": [
           { "K": 1.60, "A": 30.0, "ori": "N" },
@@ -3887,10 +3887,6 @@ export const datosDemanda = atom({
       },
 
       "windows": [
-        { "A": 1.0, "ori": "N", "Fes": 0.14 },
-        { "A": 1.0, "ori": "E", "Fes": 0.14 },
-        { "A": 1.0, "ori": "S", "Fes": 0.14 },
-        { "A": 1.0, "ori": "W", "Fes": 0.14 }
       ],
       "solar": {
         "IS_orientation_Wm2": {
@@ -3908,8 +3904,8 @@ export const datosDemanda = atom({
 
     "heating": {
       "alt_m": 3985,
-      "ti_winter": 20,
-      "te_winter": -2.27,
+      "ti_winter": 12,
+      "te_winter": -3,
 
       "envelope": {
         "walls": [
@@ -3928,18 +3924,14 @@ export const datosDemanda = atom({
       },
 
       "windows": [
-        { "A": 1.0, "ori": "N", "Fes": 0.14 },
-        { "A": 1.0, "ori": "E", "Fes": 0.14 },
-        { "A": 1.0, "ori": "S", "Fes": 0.14 },
-        { "A": 1.0, "ori": "W", "Fes": 0.14 }
       ],
 
-      "people": { "N": 4, "Ms": 47, "Ml": 30 },
+      "people": { "N": 1, "Ms": 47, "Ml": 30 },
       "lighting": [ { "A": 42, "q_ilum": 10, "CT": 0.20 } ],
       "ventilation": { "Caire": 15 },
 
       "volume_m3": 100.8, "area_m2": 42,
-      "infiltration_ach": 0.5
+      "infiltration_ach": 0.0
     }
   }
 });
@@ -3956,6 +3948,7 @@ export const datosResDemandaCal = atom({
     "Ganancias totales": "900 W + 700 W = 1600 W",
     "Pérdidas y ganancias térmicas para un día típico de invierno en W": "3150 W − 1600 W = 1550 W",
     "Potencia requerida": "1550 W × 24 h = 37.2 kWh",
+    "Título": "Título",
     "Conclusión": "Demanda de calefacción (QCAL) es de 37.2 kWh para un día típico de invierno"
   }
 });
@@ -3970,6 +3963,7 @@ export const datosResDemandaRef = atom({
     "Ganancias totales": "1000 W + 2700 W = 3700 W",
     "Pérdidas y ganancias térmicas para un día típico de verano en W": "2250 W - 3700 W = -1450 W",
     "Potencia requerida": "1450 W × 24 h = 34.8 kWh",
+    "Título": "Título",
     "Conclusión": "Demanda de refrigeración (QCAL) es de 34.8 kWh para un día típico de verano"
   }
 });

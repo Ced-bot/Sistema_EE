@@ -34,11 +34,11 @@ import { useArgonController } from "context";
 import { useRecoilState } from 'recoil';
 import { resIndicador } from 'layouts/resultados/components/Recoil';
 
-function IndicadorDemanda({ tittle,perEnvolvente,perInfiltraciones,perVentilaciones,ganInternas,ganSolares,perTotales,ganTotales,perGanTotales,energia,demanda }) {
+function IndicadorDemanda({ tittle,perEnvolvente,perInfiltraciones,perVentilaciones,ganInternas,ganSolares, latenteVent,perTotales,ganTotales,perGanTotales,energia,titulo,demanda }) {
   const [controller] = useArgonController();
   const { darkMode } = controller;
 
-  const invierno = tittle === "Estación seca";
+  const invierno = tittle === "Estación fria";
   // Variables
   const palabra = invierno ? 'Si se cumple' :'No se cumple';
   const color = invierno ? 'green' :'red';
@@ -107,9 +107,14 @@ function IndicadorDemanda({ tittle,perEnvolvente,perInfiltraciones,perVentilacio
                 {ganInternas}
             </ArgonTypography>
         </ArgonBox>
-        <ArgonBox mb={4} lineHeight={0}  style= {{ display: 'flex', marginLeft: '20%' }}>
+        <ArgonBox mb={0} lineHeight={0}  style= {{ display: 'flex', marginLeft: '20%' }}>
             <ArgonTypography variant="button" fontWeight="medium">
                 {ganSolares}
+            </ArgonTypography>
+        </ArgonBox>
+        <ArgonBox mb={4} lineHeight={0}  style= {{ display: 'flex', marginLeft: '20%' }}>
+            <ArgonTypography variant="button" fontWeight="medium">
+                {latenteVent}
             </ArgonTypography>
         </ArgonBox>
         
@@ -124,23 +129,38 @@ function IndicadorDemanda({ tittle,perEnvolvente,perInfiltraciones,perVentilacio
                 {ganTotales}
             </ArgonTypography>
         </ArgonBox>
-        <ArgonBox mb={2} lineHeight={0} style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
+        <ArgonBox mb={0} lineHeight={0} style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
             <ArgonTypography variant="button" fontWeight="medium">
                 {perGanTotales}
             </ArgonTypography>
         </ArgonBox>
-        {/* Resultado final */}
-        <ArgonBox mb={0} lineHeight={0} style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
+        <ArgonBox mb={2} lineHeight={0} style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
             <ArgonTypography variant="button" fontWeight="medium">
                 {energia}
             </ArgonTypography>
         </ArgonBox>
-        <ArgonBox mb={0} lineHeight={0} style= {{ display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
+        {/* Resultado final */}
+
+        <ArgonBox mb={0} lineHeight={0} style= {{ display: 'flex', marginLeft: '20%' }} >
+            <ArgonTypography variant="button" fontWeight="medium">
+                {titulo}
+            </ArgonTypography>
+        </ArgonBox>
+        <ArgonBox
+            mb={0}
+            lineHeight={0}
+            style={{
+                width: "80%",                 // 🔹 solo ocupa el 80% del ancho
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto"              // 🔹 centra el contenedor
+            }}
+            >
             <ArgonTypography variant="button" fontWeight="medium">
                 {demanda}
             </ArgonTypography>
         </ArgonBox>
-
 
 
       </ArgonBox>
@@ -160,10 +180,12 @@ IndicadorDemanda.propTypes = {
   perVentilaciones: PropTypes.string,
   ganInternas: PropTypes.string,
   ganSolares: PropTypes.string,
+  latenteVent: PropTypes.string,
   perTotales: PropTypes.string,
   ganTotales: PropTypes.string,
   perGanTotales: PropTypes.string,
   energia: PropTypes.string,
+  titulo: PropTypes.string,
   demanda: PropTypes.string,
 };
 
