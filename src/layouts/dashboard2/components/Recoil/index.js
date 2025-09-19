@@ -39,8 +39,8 @@ export const datosRes = atom({
 
 
 // DATOS DE ENVOLVENTE ADOBE
-export const datosEnvolvente = atom({
-  key: 'datosEnvolvente',
+export const datosEnvolventeAD = atom({
+  key: 'datosEnvolventeAD',
   default: [
     {
        "id":0,
@@ -1493,7 +1493,7 @@ export const datosEnvolvente = atom({
        "capas": [
           {
             "nombre":"TECHO 1",      // e.g. "Techo"
-            "anchura": 3.74,
+            "anchura": 2.49,
             "longitud": 1,
             "elementos": [
               {
@@ -1512,7 +1512,7 @@ export const datosEnvolvente = atom({
           },
           {
             "nombre":"TECHO 2",      // e.g. "Techo"
-            "anchura": 4.96,
+            "anchura": 3.3,
             "longitud": 1,
             "elementos": [
               {
@@ -1531,7 +1531,7 @@ export const datosEnvolvente = atom({
           },
           {
             "nombre":"VANO CENITAL: TECHO",      // e.g. "Techo"
-            "anchura": 6.66,
+            "anchura": 4.43,
             "longitud": 1,
             "elementos": [
               {
@@ -1593,7 +1593,7 @@ export const datosEnvolvente = atom({
        "capas": [
           {
             "nombre":"TECHO",      // e.g. "Techo"
-            "anchura": 2.08,
+            "anchura": 2.24,
             "longitud": 1,
             "elementos": [
               {
@@ -1631,7 +1631,7 @@ export const datosEnvolvente = atom({
           },
           {
             "nombre":"Acristalamiento",      // e.g. "Techo"
-            "anchura": 2.48,
+            "anchura": 2.44,
             "longitud": 1,
             "elementos": [
               {
@@ -1785,9 +1785,308 @@ export const datosEnvolvente = atom({
  ], // Valor inicial
 });
 
+// DATOS DE ENVOLVENTE 2014
+export const datosEnvolvente22 = atom({
+  key: 'datosEnvolvente22',
+  default: [
+    {
+       "id":5,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.23,
+       "transmitancia":5.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":6,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.27,
+       "transmitancia":5.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":7,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Contraventana de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.23,
+       "transmitancia":3.5,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":8,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco de muro 2",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.53,
+       "transmitancia":2.0,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":9,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Puerta de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":1.74,
+       "transmitancia":4.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+
+    
+    {
+       "id":10,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro 1",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":38.63,
+       "transmitancia":1.51,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":11,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro 2",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.29,
+       "transmitancia":1.53,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":12,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Sobrecimiento",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.06,
+       "transmitancia":1.24,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":13,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Viga N.1",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":3.21,
+       "transmitancia":1.65,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":14,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.02,
+       "transmitancia":14.17,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":15,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.04,
+       "transmitancia":56.00,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+
+    
+    {
+       "id":16,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.24,
+       "transmitancia":3.06,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+    {
+       "id":17,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco",
+       "tipo":"Marco",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.15,
+       "transmitancia":5.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+    {
+       "id":18,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Cielorraso",
+       "tipo":"Cielorraso",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":18.19,
+       "transmitancia":4.9,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+
+    
+    {
+       "id":19,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana",
+       "tipo":"Ventana",
+       "familia":"Techo",
+       "longitud":0,
+       "anchura":0,
+       "area":4.43,
+       "transmitancia":6.9,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+    {
+       "id":20,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana",
+       "tipo":"Ventana",
+       "familia":"Techo",
+       "longitud":0,
+       "anchura":0,
+       "area":50.01,
+       "transmitancia":0.55,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+
+
+    
+    {
+       "id":21,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Piso",
+       "tipo":"Piso",
+       "familia":"Piso",
+       "longitud":0,
+       "anchura":0,
+       "area":21.3,
+       "transmitancia":3.78,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+
+ ], // Valor inicial
+});
+
+
 // DATOS DE ENVOLVENTE LADRILLO
-export const datosEnvolventeLA = atom({
-  key: 'datosEnvolventeLA',
+export const datosEnvolvente = atom({
+  key: 'datosEnvolvente',
   default: [
     {
        "id":5,
@@ -3357,7 +3656,7 @@ export const datosEnvolventeLA = atom({
        "capas": [
           {
             "nombre":"TECHO 1",      // e.g. "Techo"
-            "anchura": 3.71,
+            "anchura": 2.24,
             "longitud": 1,
             "elementos": [
               {
@@ -3376,7 +3675,7 @@ export const datosEnvolventeLA = atom({
           },
           {
             "nombre":"TECHO 2",      // e.g. "Techo"
-            "anchura": 8.07,
+            "anchura": 4.9,
             "longitud": 1,
             "elementos": [
               {
@@ -3395,7 +3694,7 @@ export const datosEnvolventeLA = atom({
           },
           {
             "nombre":"VANO CENITAL: TECHO",      // e.g. "Techo"
-            "anchura": 4.16,
+            "anchura": 2.52,
             "longitud": 1,
             "elementos": [
               {
@@ -3457,7 +3756,7 @@ export const datosEnvolventeLA = atom({
        "capas": [
           {
             "nombre":"TECHO",      // e.g. "Techo"
-            "anchura": 2.52,
+            "anchura": 2.06,
             "longitud": 1,
             "elementos": [
               {
@@ -3495,7 +3794,7 @@ export const datosEnvolventeLA = atom({
           },
           {
             "nombre":"Acristalamiento",      // e.g. "Techo"
-            "anchura": 2.0,
+            "anchura": 1.59,
             "longitud": 1,
             "elementos": [
               {

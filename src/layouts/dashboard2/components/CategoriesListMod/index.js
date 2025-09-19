@@ -145,14 +145,14 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
     if(true){
 
       const areaExterior = Elementos.reduce((acc, obj) => {
-                                                    if (obj.familia === "Techo" && obj.tipo.includes("contacto con el aire")) {
+                                                    if (obj.capas.length > 0 && obj.familia === "Techo" && obj.tipo.includes("contacto con el aire")) {
                                                       const areaTot = obj.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
                                                       return acc + areaTot;
                                                     }
                                                     return acc;
                                                   }, 0);
       const areaENH = Elementos.reduce((acc, obj) => {
-                                                    if (obj.familia === "Techo" && obj.tipo.includes("contacto con ANH")) {
+                                                    if (obj.capas.length > 0 && obj.familia === "Techo" && obj.tipo.includes("contacto con ANH")) {
                                                       const areaTot = obj.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
                                                       return acc + areaTot;
                                                     }
@@ -161,48 +161,53 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
       
       const nuevosElementos = Elementos.map(elem => {
 
+        if(elem.capas.length > 0 || elem.familia === "Piso"){
+          const areaTotal = elem.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
+          let transTermica = null;
+          if(elem.familia === "Piso" && ("otros" in elem && "resistencia_aislante" in elem.otros && "ancho_aislante" in elem.otros)){
 
-        const areaTotal = elem.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
-        let transTermica = null;
-        if(elem.familia === "Piso" && ("otros" in elem && "resistencia_aislante" in elem.otros && "ancho_aislante" in elem.otros)){
+            const perimetro = 2*(elem.longitud + elem.anchura);
+            const constB = (areaTotal === 0? elem.area : areaTotal)  / (0.5*perimetro);
+            //console.log("constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante")
+            //console.log(constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante)
 
-          const perimetro = 2*(elem.longitud + elem.anchura);
-          const constB = (areaTotal === 0? elem.area : areaTotal)  / (0.5*perimetro);
-          //console.log("constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante")
-          //console.log(constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante)
+            transTermica = buscarValorTransPiso(constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante);
 
-          transTermica = buscarValorTransPiso(constB, elem.otros.resistencia_aislante, elem.otros.ancho_aislante);
-
-        }
-
-        if(transTermica === null){
-          let minElementos = Math.min(...elem.capas.map(item => item.elementos.length));
-          if (!isFinite(minElementos)) {
-            minElementos = 0;
           }
 
-          const resistenciHorizontal = resistenciaHorizontal(elem.capas, areaTotal, elem.tipo.includes("con el aire"), elem.familia);
-          const resistenciVertical = resistenciaVertical(elem.capas, minElementos, elem.tipo.includes("con el aire"), elem.familia);
+          if(transTermica === null){
+            let minElementos = Math.min(...elem.capas.map(item => item.elementos.length));
+            if (!isFinite(minElementos)) {
+              minElementos = 0;
+            }
 
-          let coefRedduccion = 1;
-          if(elem.familia === "Techo" && elem.tipo.includes("contacto con ANH") && ("otros" in elem && "estanqueidad" in elem.otros && "aislante" in elem.otros)){
-            coefRedduccion = obtenerCoeficiente(areaENH/areaExterior, elem.otros.aislante, elem.otros.estanqueidad);
-            //console.log("aislanteaislanteaislanteaislante", coefRedduccion, areaENH/areaExterior, elem.otros.aislante, elem.otros.estanqueidad)
+            const resistenciHorizontal = resistenciaHorizontal(elem.capas, areaTotal, elem.tipo.includes("con el aire"), elem.familia);
+            const resistenciVertical = resistenciaVertical(elem.capas, minElementos, elem.tipo.includes("con el aire"), elem.familia);
+
+            let coefRedduccion = 1;
+            if(elem.familia === "Techo" && elem.tipo.includes("contacto con ANH") && ("otros" in elem && "estanqueidad" in elem.otros && "aislante" in elem.otros)){
+              coefRedduccion = obtenerCoeficiente(areaENH/areaExterior, elem.otros.aislante, elem.otros.estanqueidad);
+              //console.log("aislanteaislanteaislanteaislante", coefRedduccion, areaENH/areaExterior, elem.otros.aislante, elem.otros.estanqueidad)
+            }
+
+            transTermica = (1*coefRedduccion / ((resistenciVertical + resistenciHorizontal) / 2));
+            //console.log(elem.name)
+            //console.log(resistenciVertical, resistenciHorizontal,parseFloat(transTermica), parseFloat(areaTotal))
           }
-
-          transTermica = (1*coefRedduccion / ((resistenciVertical + resistenciHorizontal) / 2));
-          //console.log(elem.name)
-          //console.log(resistenciVertical, resistenciHorizontal,parseFloat(transTermica), parseFloat(areaTotal))
+          return {
+            ...elem,
+            transmitancia: parseFloat(transTermica.toFixed(4)),
+            area: parseFloat((areaTotal === 0? elem.area : areaTotal).toFixed(2))
+          };
         }
-        return {
-          ...elem,
-          transmitancia: parseFloat(transTermica.toFixed(4)),
-          area: parseFloat((areaTotal === 0? elem.area : areaTotal).toFixed(2))
-        };
+        else{
+          return elem;
+        }
       });
 
       setEstadoElementos(nuevosElementos);
       datosFinales = nuevosElementos;
+      console.log(JSON.stringify(datosFinales))
       // DATOS PARA LA DEMANDA DE CALEFACCION Y REFRIGERACION
       const envelopeHeat = {"walls":[], "roofs": [], "floors": [], "doors": []};
       const envelopeCool = {"walls":[], "roofs": [], "floors": [], "doors": []};
