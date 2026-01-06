@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // SwiperJS
 import SwiperCore, { Autoplay, Navigation } from "swiper";
@@ -22,6 +22,8 @@ import bg2 from "assets/images/SistemaEE/casa2.jpg";
 import bg3 from "assets/images/SistemaEE/casa3.jpg";
 
 function Slider() {
+  const [bg, setBg] = useState(bg1);
+  const fileInputRef = useRef(null);
   // install SwiperJS modules
   SwiperCore.use([Autoplay, Navigation]);
 
@@ -92,42 +94,44 @@ function Slider() {
             </svg>
           </ArgonBox>
         </ArgonBox>
+
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              setBg(URL.createObjectURL(file));
+            }
+          }}
+        /> 
         <SwiperSlide>
           <ArgonBox
+            onClick={() => fileInputRef.current.click()}
             sx={{
               position: "relative",
-              backgroundImage: `url(${bg1})`,
+              backgroundImage: `url(${bg})`,
               backgroundSize: "cover",
+              backgroundPosition: "center",
               height: "100%",
+              cursor: "pointer",
             }}
           >
-            <ArgonBox position="absolute" bottom={16} ml={6} py={2.5} textAlign="left" width="80%">
-              {/* <ArgonBox
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                width="32px"
-                height="32px"
-                bgColor="white"
-                borderRadius="md"
-                textAlign="center"
-                mb={2}
-              >
-                <ArgonTypography variant="caption" color="dark" lineHeight={0}>
-                  <ArgonBox component="i" color="dark" className="ni ni-camera-compact" />
-                </ArgonTypography>
-              </ArgonBox> */}
-              {/* 
-              <ArgonTypography variant="h5" color="white" mb={0.5}>
-                Get started with Argon
-              </ArgonTypography>
-              <ArgonTypography variant="body2" color="white">
-                There&apos;s nothing I really wanted to do in life that I wasn&apos;t able to get
-                good at.
-              </ArgonTypography> */}
+            <ArgonBox
+              position="absolute"
+              bottom={16}
+              ml={6}
+              py={2.5}
+              textAlign="left"
+              width="80%"
+            >
+              {/* contenido */}
             </ArgonBox>
           </ArgonBox>
         </SwiperSlide>
+
         {/* <SwiperSlide>
           <ArgonBox
             sx={{

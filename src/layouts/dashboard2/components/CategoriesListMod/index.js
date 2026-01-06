@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // react-router-dom components
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -36,7 +36,7 @@ import Collapse from "@mui/material/Collapse";
 
 // Recoil
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { datosRes,datosEnvolvente, valsEditar, capasElemento, valoresDatosExtra, datosDemanda, datosResDemandaCal, datosResDemandaRef } from 'layouts/dashboard2/components/Recoil';
+import { datosRes,datosEnvolvente, valsEditar, capasElemento, valoresDatosExtra, datosDemanda, datosResDemandaCal, datosResDemandaRef, direccionVivienda, valoresDatosGenerales } from 'layouts/dashboard2/components/Recoil';
 import { resistenciaVertical, resistenciaHorizontal, obtenerCoeficiente, buscarValorTransPiso } from '../DatosEnvolvente/Funciones/operaciones';
 import { elements } from "chart.js";
 
@@ -91,7 +91,11 @@ function classifyCooling(coolingW, latentShare) {
 
 
 function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvolventeR }) {
+  const navigate = useNavigate();
   // RECOIL
+  
+  const valoresDatosGeneralesR = useRecoilValue(valoresDatosGenerales);
+  const direccionViviendaR = useRecoilValue(direccionVivienda);
   const valoresDatosDemandaR = useRecoilValue(datosDemanda);
   const valoresDatosExtraR = useRecoilValue(valoresDatosExtra);
   const [resultados, setResultados] = useRecoilState(datosRes);
@@ -138,21 +142,21 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
     }
   }
   const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-  const procesarDatos = () => {
+  const procesarDatos = async () => {
 
     let datosFinales = null;
     let nuevosDatosDemanda = {};
     if(true){
 
       const areaExterior = Elementos.reduce((acc, obj) => {
-                                                    if (obj.capas.length > 0 && obj.familia === "Techo" && obj.tipo.includes("contacto con el aire")) {
+                                                    if (obj.capas && obj.capas.length > 0 && obj.familia === "Techo" && obj.tipo.includes("contacto con el aire")) {
                                                       const areaTot = obj.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
                                                       return acc + areaTot;
                                                     }
                                                     return acc;
                                                   }, 0);
       const areaENH = Elementos.reduce((acc, obj) => {
-                                                    if (obj.capas.length > 0 && obj.familia === "Techo" && obj.tipo.includes("contacto con ANH")) {
+                                                    if (obj.capas && obj.capas.length > 0 && obj.familia === "Techo" && obj.tipo.includes("contacto con ANH")) {
                                                       const areaTot = obj.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
                                                       return acc + areaTot;
                                                     }
@@ -161,7 +165,7 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
       
       const nuevosElementos = Elementos.map(elem => {
 
-        if(elem.capas.length > 0 || elem.familia === "Piso"){
+        if(elem.capas && elem.capas.length > 0 || elem.familia === "Piso"){
           const areaTotal = elem.capas.reduce((acc, item) => acc + (item.anchura * item.longitud), 0);
           let transTermica = null;
           if(elem.familia === "Piso" && ("otros" in elem && "resistencia_aislante" in elem.otros && "ancho_aislante" in elem.otros)){
@@ -197,17 +201,20 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
           return {
             ...elem,
             transmitancia: parseFloat(transTermica.toFixed(4)),
-            area: parseFloat((areaTotal === 0? elem.area : areaTotal).toFixed(2))
+            area: parseFloat((areaTotal === 0? elem.area : areaTotal).toFixed(3))
           };
         }
         else{
-          return elem;
+          return {
+            ...elem,
+            area: parseFloat(elem.area)
+          };
         }
       });
 
       setEstadoElementos(nuevosElementos);
       datosFinales = nuevosElementos;
-      console.log(JSON.stringify(datosFinales))
+      //console.log(JSON.stringify(datosFinales))
       // DATOS PARA LA DEMANDA DE CALEFACCION Y REFRIGERACION
       const envelopeHeat = {"walls":[], "roofs": [], "floors": [], "doors": []};
       const envelopeCool = {"walls":[], "roofs": [], "floors": [], "doors": []};
@@ -286,108 +293,133 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
         ...valoresDatosDemandaR,               // copia el estado actual
         cooling: {
           ...valoresDatosDemandaR.cooling,         // copia lo que hay en mmd
-          envelope: envelopeCool       // modifica solo asd
+          envelope: envelopeCool,       // modifica solo asd
+          people:{
+            N: valoresDatosGeneralesR["Cantidad de personas en la vivienda"],
+            Ms:valoresDatosDemandaR.cooling.people.Ms,
+            Ml:valoresDatosDemandaR.cooling.people.Ml
+          },
+          alt_m: direccionViviendaR.altitud
         },             
         heating: {
           ...valoresDatosDemandaR.heating,         // copia lo que hay en mmd
-          envelope: envelopeHeat       // modifica solo asd
+          envelope: envelopeHeat,       // modifica solo asd
+          people:{
+            N: valoresDatosGeneralesR["Cantidad de personas en la vivienda"],
+            Ms:valoresDatosDemandaR.heating.people.Ms,
+            Ml:valoresDatosDemandaR.heating.people.Ml
+          },
+          alt_m: direccionViviendaR.altitud
         }
       };
-      console.log(JSON.stringify(nuevosDatosDemanda));
+      //console.log(JSON.stringify(nuevosDatosDemanda));
       /* valoresDatosDemandaR.cooling.envelope = envelopeCool;
       valoresDatosDemandaR.heating.envelope = envelopeHeat; */
       //console.log("Los datos se enviaron", nuevaVariable );
     }
+
+
+
     try {
-      const loadingMsg = message.loading("Procesando datos...", 0); // Muestra el mensaje de carga
-      //console.log("Los datos se enviaron", Elementos, valoresDatosExtraR);
-      axios.post(
+      const loadingMsg = message.loading("Procesando datos...", 0);
+      const [resNorma, resDemanda] = await Promise.all([
+        axios.post(
           "https://c370x9jte2.execute-api.sa-east-1.amazonaws.com/ejecucion/EvaluacionNormaEM110",
-          { Cerramientos: datosFinales, valoresDatosExtra: valoresDatosExtraR }
-        )
-        .then((response) => {
-          console.log("Los datos se procesaron");
-          console.log(response.data);
-          setResultados(response.data);
-          setdatosEnv(Elementos);
-  
-          loadingMsg(); // Cierra el mensaje de carga
-          message.success("Datos procesados exitosamente"); // Muestra éxito
-        })
-        .catch((error) => {
-          loadingMsg(); // Cierra el mensaje de carga
-          message.error("Error al procesar los datos"); // Muestra error
-          console.error("Hubo un error al enviar los datos a Lambda:", error);
-        });
-    } catch (error) {
-      console.error(error);
-    }
-    
-    try {
-      const loadingMsg = message.loading("Procesando datos...", 0); // Muestra el mensaje de carga
-      //console.log("Los datos se enviaron", Elementos, valoresDatosExtraR);
-      axios.post(
+          {
+            Cerramientos: datosFinales,
+            valoresDatosExtra: valoresDatosExtraR
+          }
+        ),
+        axios.post(
           "https://t5ftjz71a0.execute-api.sa-east-1.amazonaws.com/default/DemandaClimatizacion",
           nuevosDatosDemanda
         )
-        .then((response) => {
-          console.log("Los datos se procesaron");
-          console.log(response.data);
+      ]);
 
-          if("heating" in response.data && "cooling" in response.data){
+      /* ================= NORMA EM110 ================= */
+      setResultados(resNorma.data);
+      //console.log(resNorma.data)
+      setdatosEnv(Elementos);
 
-            const perTot = response.data.heating.Qc + response.data.heating.Qr_infil + response.data.heating.Qa;
-            const ganTot = response.data.heating.Qo_sensible + response.data.heating.Qs;
+      /* ================= DEMANDA ================= */
+      const data = resDemanda.data;
 
-            const sensTot = response.data.cooling.Qc + response.data.cooling.Qs + response.data.cooling.Qo_sensible + response.data.cooling.Qa_sensible;
-            const latTot = response.data.cooling.Qo_latente + response.data.cooling.Qa_latente;
-            const latentShare = (response.data.cooling.QR_total) ? response.data.cooling.QR_latente / response.data.cooling.QR_total : 0;
-            const repSummHot = classifyHeating(perTot-ganTot);
-            const repSummCool = classifyCooling(sensTot+latTot, latentShare);
+      if ("heating" in data && "cooling" in data) {
+        const perTot =
+          data.heating.Qc +
+          data.heating.Qr_infil +
+          data.heating.Qa;
 
-            setDatosResDemandaCalR({
-                  "Pérdidas térmicas de la envolvente": (response.data.heating.Qc).toFixed(2).toString() + " W",
-                  "Pérdidas por infiltración": (response.data.heating.Qr_infil).toFixed(2).toString() + " W",
-                  "Pérdidas por ventilación": (response.data.heating.Qa).toFixed(2).toString() + " W",
-                  "Ganancias internas": (response.data.heating.Qo_sensible).toFixed(2).toString() + " W",
-                  "Ganancias solares": (response.data.heating.Qs).toFixed(2).toString() + " W",
-                  
-                  "Perdidas totales": (response.data.heating.Qc).toFixed(2).toString() + " W + " + (response.data.heating.Qr_infil).toFixed(2).toString()+ " W + " + (response.data.heating.Qa).toFixed(2).toString() + " W = "+ perTot.toFixed(2).toString() +" W",
-                  "Ganancias totales": (response.data.heating.Qo_sensible).toFixed(2).toString() + " W + " + (response.data.heating.Qs).toFixed(2).toString() + " W = " + ganTot.toFixed(2).toString() + " W",
-                  "Pérdidas y ganancias térmicas para un día típico de la estación fria en W": (perTot.toFixed(2).toString() + " W − "+ganTot.toFixed(2).toString()+" W = "+(perTot-ganTot).toFixed(2).toString()+" W"),
-                  "Potencia requerida": (perTot-ganTot).toFixed(2).toString() + " W ≈ "+wattsToBTU(perTot-ganTot).toFixed(2).toString()+" BTU/h",
-                  "Título": repSummHot.title,
-                  "Conclusión": repSummHot.detail
-            });
-            console.log(response.data.cooling)
-            setDatosResDemandaRefR({
-              "Carga sensible de la envolvente": (response.data.cooling.Qc).toFixed(2).toString() + " W",
-              "Carga sensible del sol en ventanas": (response.data.cooling.Qs).toFixed(2).toString() + " W",
-              "Carga sensible interna": (response.data.cooling.Qo_sensible).toFixed(2).toString() + " W",
-              "Carga sensible por ventilación": (response.data.cooling.Qa_sensible).toFixed(2).toString() + " W",
-              "Carga latente interna": (response.data.cooling.Qo_latente).toFixed(2).toString() + " W",
-              "Carga latente por ventilación": (response.data.cooling.Qa_latente).toFixed(2).toString() + " W",
-              
-              "Carga sensible total": (response.data.cooling.Qc).toFixed(2).toString() +" W + "+(response.data.cooling.Qs).toFixed(2).toString() +" W + "+(response.data.cooling.Qo_sensible).toFixed(2).toString() +" W + "+(response.data.cooling.Qa_sensible).toFixed(2).toString()+" W = "+sensTot.toFixed(2).toString()+" W",
-              "Carga latente total": (response.data.cooling.Qo_latente).toFixed(2).toString()+" W + "+(response.data.cooling.Qa_latente).toFixed(2).toString()+" W = "+latTot.toFixed(2).toString()+" W",
-              "Parte sensible y latente para un día típico de la estación más calida en W": sensTot.toFixed(2).toString()+" W + "+latTot.toFixed(2).toString()+" W = "+(sensTot+latTot).toFixed(2).toString()+" W",
-              "Potencia requerida": (sensTot+latTot).toFixed(2).toString() + " W ≈ "+wattsToBTU(sensTot+latTot).toFixed(2).toString()+" BTU/h",
-              "Título": repSummCool.title,
-              "Conclusión": repSummCool.detail
-            });
-          }
-  
-          loadingMsg(); // Cierra el mensaje de carga
-          message.success("Datos procesados exitosamente"); // Muestra éxito
-        })
-        .catch((error) => {
-          loadingMsg(); // Cierra el mensaje de carga
-          message.error("Error al procesar los datos"); // Muestra error
-          console.error("Hubo un error al enviar los datos a Lambda:", error);
+        const ganTot =
+          data.heating.Qo_sensible +
+          data.heating.Qs;
+
+        const sensTot =
+          data.cooling.Qc +
+          data.cooling.Qs +
+          data.cooling.Qo_sensible +
+          data.cooling.Qa_sensible;
+
+        const latTot =
+          data.cooling.Qo_latente +
+          data.cooling.Qa_latente;
+
+        const latentShare = data.cooling.QR_total
+          ? data.cooling.QR_latente / data.cooling.QR_total
+          : 0;
+
+        const repSummHot = classifyHeating(perTot - ganTot);
+        const repSummCool = classifyCooling(sensTot + latTot, latentShare);
+
+        setDatosResDemandaCalR({
+          "Pérdidas térmicas de la envolvente": `${data.heating.Qc.toFixed(2)} W`,
+          "Pérdidas por infiltración": `${data.heating.Qr_infil.toFixed(2)} W`,
+          "Pérdidas por ventilación": `${data.heating.Qa.toFixed(2)} W`,
+          "Ganancias internas": `${data.heating.Qo_sensible.toFixed(2)} W`,
+          "Ganancias solares": `${data.heating.Qs.toFixed(2)} W`,
+          "Perdidas totales": `${perTot.toFixed(2)} W`,
+          "Ganancias totales": `${ganTot.toFixed(2)} W`,
+          "Pérdidas y ganancias térmicas para un día típico de la estación fria en W":
+            `${(perTot - ganTot).toFixed(2)} W`,
+          "Potencia requerida":
+            `${(perTot - ganTot).toFixed(2)} W ≈ ${wattsToBTU(perTot - ganTot).toFixed(2)} BTU/h`,
+          "Título": repSummHot.title,
+          "Conclusión": repSummHot.detail
         });
+
+        setDatosResDemandaRefR({
+          "Carga sensible de la envolvente": `${data.cooling.Qc.toFixed(2)} W`,
+          "Carga sensible del sol en ventanas": `${data.cooling.Qs.toFixed(2)} W`,
+          "Carga sensible interna": `${data.cooling.Qo_sensible.toFixed(2)} W`,
+          "Carga sensible por ventilación": `${data.cooling.Qa_sensible.toFixed(2)} W`,
+          "Carga latente interna": `${data.cooling.Qo_latente.toFixed(2)} W`,
+          "Carga latente por ventilación": `${data.cooling.Qa_latente.toFixed(2)} W`,
+          "Carga sensible total": `${sensTot.toFixed(2)} W`,
+          "Carga latente total": `${latTot.toFixed(2)} W`,
+          "Parte sensible y latente para un día típico de la estación más calida en W":
+            `${(sensTot + latTot).toFixed(2)} W`,
+          "Potencia requerida":
+            `${(sensTot + latTot).toFixed(2)} W ≈ ${wattsToBTU(sensTot + latTot).toFixed(2)} BTU/h`,
+          "Título": repSummCool.title,
+          "Conclusión": repSummCool.detail
+        });
+      }
+
+      /* ================= FINAL ================= */
+      loadingMsg();
+      message.success("Datos procesados exitosamente");
+
+      // 🔥 REDIRECCIÓN
+      //window.open("/resultados", "_blank");
+      navigate("/Resultados");
+      // o: window.location.href = "/resultados";
+
     } catch (error) {
-      console.error(error);
+      loadingMsg();
+      message.error("Error al procesar los datos");
+      console.error("Error:", error);
     }
+
   };
   // ===================================================================== // ====================================================== //
   // Renderizado de elementos de la envolvente

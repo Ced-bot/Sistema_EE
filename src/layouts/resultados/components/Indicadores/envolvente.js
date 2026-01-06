@@ -32,7 +32,6 @@ import { datosRes } from 'layouts/dashboard2/components/Recoil';
 function IndicadoresEM110() {
   // Recoil
   const resultados = useRecoilValue(datosRes);
-  //console.log(resultados);
   /////////////////////////////
   // Resultados de la TTM
   const respTtmPiso = resultados["resultadosTTM"][0]["Piso"][0] === "Si cumple"? "Si cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][0]["Piso"][0];
@@ -40,7 +39,7 @@ function IndicadoresEM110() {
   const respTtmTecho= resultados["resultadosTTM"][2]["Techo"][0] === "Si cumple"? "Si cumple con lo indicado en la norma EM 110":resultados["resultadosTTM"][2]["Techo"][0];
   //const conclusionTTM = [respTtmPiso,respTtmMuro,respTtmTecho].every(element =>  Object.values(element)[0] === "Si cumple con lo indicado en la norma EM 110");
   const conclusionTTM = [respTtmPiso,respTtmMuro,respTtmTecho].every((variable) => variable === "Si cumplen");
-  console.log([respTtmPiso,respTtmMuro,respTtmTecho]);
+  //console.log([respTtmPiso,respTtmMuro,respTtmTecho]);
 
   // Resultados de las infitraciones 
   const infVentanas = resultados["resultadosInfiltraciones"][0].every(element =>  Object.values(element)[0] === "Si cumple"); // Ni yo lo entiendo xD
@@ -60,12 +59,22 @@ function IndicadoresEM110() {
   const respIncidencia = infIncidencia ? "Si cumplen con lo indicado en la norma EM 110" : ((resultados["resultadosIncidencia"][0]["msg"][0] === "Si cumple")? "No cumplen" : resultados["resultadosIncidencia"][0]["msg"][0]);
   const conclusionInc = (respIncidencia === "Si cumplen con lo indicado en la norma EM 110");
 
-
+  // Variables
+  let palabra = null;
+  let color = null;
+  if("message" in resultados && resultados["message"] === 'No hay datos'){
+    palabra = 'Pendiente';
+    color = 'gray';
+  }
+  else{
+    palabra = (conclusionTTM && conclusionInf && conclusionCerr && conclusionInc) ? 'Si se cumple la Norma' :'No se cumple la Norma';
+    color =(conclusionTTM && conclusionInf && conclusionCerr && conclusionInc)? 'green' :'red';
+  }
   return (
     <Card id="delete-account">
       <ArgonBox pt={3} px={2}>
         <ArgonTypography variant="h6" fontWeight="medium">
-          Indicadores de la norma EM. 110
+          Evaluación de la norma EM.110 <span style={{ color: color }}>({palabra})</span>
         </ArgonTypography>
       </ArgonBox>
       <ArgonBox pt={1} pb={2} px={2}>
