@@ -18,6 +18,7 @@ const DatosResultados = () => {
     /////////////////////////////////////////////////////////////////////////
     let arrCumplen = [];
     let arrNoCumplen = [];
+    let contNoCumplen = 0;
     const resultadosEM110 = {};
     resultados["resultadosTTM"].forEach(dictionary => {
         for (const key in dictionary) {
@@ -26,7 +27,9 @@ const DatosResultados = () => {
             else if (dictionary[key][0] != "Todavía no se procesaron datos"){ arrNoCumplen.push([Nombre,ext1]); }
         }
     });
-    resultadosEM110["Transmitancia Térmica Maxima"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen}; arrCumplen = []; arrNoCumplen = [];
+    resultadosEM110["Transmitancia Térmica Maxima"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen}; 
+    contNoCumplen +=  arrNoCumplen.length;
+    arrCumplen = []; arrNoCumplen = [];
     // Revisar que elementos cumplen o no con la norma 
     const ventPuer = [...resultados["resultadosInfiltraciones"][0], ...resultados["resultadosInfiltraciones"][1]];
     ventPuer.forEach(dictionary => {
@@ -46,7 +49,10 @@ const DatosResultados = () => {
         else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
         }
     });
-    resultadosEM110["Infiltraciones no deseada de aire"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen}; arrCumplen = []; arrNoCumplen = [];
+    resultadosEM110["Infiltraciones no deseada de aire"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen}; 
+    
+    contNoCumplen +=  arrNoCumplen.length;
+    arrCumplen = []; arrNoCumplen = [];
     resultados["resultadosCondensacion"].forEach(dictionary => {
         for (const key in dictionary) {
         let Nombre = "--",  ext1 = dictionary[key][1];
@@ -58,7 +64,10 @@ const DatosResultados = () => {
         else if (key != "msg"){ arrNoCumplen.push([Nombre,ext1]); }
         }
     });
-    resultadosEM110["Riesgo de condensación superficial"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen}; arrCumplen = []; arrNoCumplen = [];
+    resultadosEM110["Riesgo de condensación superficial"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen}; 
+    
+    contNoCumplen +=  arrNoCumplen.length;
+    arrCumplen = []; arrNoCumplen = [];
     resultados["resultadosIncidencia"].forEach(dictionary => {
         for (const key in dictionary) {
         let Nombre = "--",  ext1 = dictionary[key][1];
@@ -71,8 +80,16 @@ const DatosResultados = () => {
         }
     });
     resultadosEM110["Incidencia solar en los vanos"] = { "cumplen": arrCumplen, "noCumplen": arrNoCumplen};
-    //console.log(JSON.stringify(resultadosEM110))
-    //console.log(JSON.stringify(datosEnv))
+    
+    contNoCumplen +=  arrNoCumplen.length;
+    if(contNoCumplen > 0){
+      resultadosEM110["Resultado de la evaluación EM.110"] = { "cumplen": [], "noCumplen":  [['', 'No se cumple con lo establecido en la norma.']]};
+    }
+    else{
+      resultadosEM110["Resultado de la evaluación EM.110"] = { "cumplen": [['', 'Se cumple con lo establecido en la norma.']], "noCumplen":  []};
+    }
+    //console.log(arrCumplen)
+    //console.log( "Contador", contNoCumplen )
     // Datos de resultados (primera hoja)
 
     const [excelData, setExcelData] = useState(null);
@@ -358,10 +375,16 @@ const DatosResultados = () => {
         key: '1',
         render: (text) => {
           // Resaltar valores importantes
-          if(text.includes("Demanda") || text.includes("QCAL")) {
-            return <span style={{ color: '#1890ff', fontWeight: 'bold' }}>{text}</span>;
+          try{
+            const newText =  text.toString();
+            if(newText.includes("Demanda") || newText.includes("QCAL")) {
+              return <span style={{ color: '#1890ff', fontWeight: 'bold' }}>{newText}</span>;
+            }
+            return newText;
           }
-          return text;
+          catch(e){
+            console.log(e)
+          }
         }
       }
     ];

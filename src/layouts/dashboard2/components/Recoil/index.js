@@ -37,6 +37,11 @@ export const datosRes = atom({
   }, // Valor inicial
 });
 
+// DATOS DE ENVOLVENTE ADOBE
+export const datosEnvolventeVA = atom({
+  key: 'datosEnvolventeVA',
+  default: [], // Valor inicial
+});
 
 // DATOS DE ENVOLVENTE ADOBE
 export const datosEnvolventeAD = atom({
@@ -1493,7 +1498,7 @@ export const datosEnvolventeAD = atom({
        "capas": [
           {
             "nombre":"TECHO 1",      // e.g. "Techo"
-            "anchura": 3.74,
+            "anchura": 2.49,
             "longitud": 1,
             "elementos": [
               {
@@ -1512,7 +1517,7 @@ export const datosEnvolventeAD = atom({
           },
           {
             "nombre":"TECHO 2",      // e.g. "Techo"
-            "anchura": 4.96,
+            "anchura": 3.3,
             "longitud": 1,
             "elementos": [
               {
@@ -1531,7 +1536,7 @@ export const datosEnvolventeAD = atom({
           },
           {
             "nombre":"VANO CENITAL: TECHO",      // e.g. "Techo"
-            "anchura": 6.66,
+            "anchura": 4.43,
             "longitud": 1,
             "elementos": [
               {
@@ -1593,7 +1598,7 @@ export const datosEnvolventeAD = atom({
        "capas": [
           {
             "nombre":"TECHO",      // e.g. "Techo"
-            "anchura": 2.08,
+            "anchura": 2.24,
             "longitud": 1,
             "elementos": [
               {
@@ -1631,7 +1636,7 @@ export const datosEnvolventeAD = atom({
           },
           {
             "nombre":"Acristalamiento",      // e.g. "Techo"
-            "anchura": 2.48,
+            "anchura": 2.44,
             "longitud": 1,
             "elementos": [
               {
@@ -1930,7 +1935,8 @@ export const datosEnvolvente = atom({
        "area":16.200,
        "transmitancia":0.7,
        "otros":{
-          "Orientacion":"Sur"
+          "Orientacion":"Sur",
+          "factor_solar": 0.30
        },
        "capas": [
           {
@@ -2084,7 +2090,8 @@ export const datosEnvolvente = atom({
        "area":16.200,
        "transmitancia":0.7,
        "otros":{
-          "Orientacion":"Sur"
+          "Orientacion":"Sur",
+          "factor_solar": 0.30
        },
        "capas": [
           {
@@ -2685,7 +2692,8 @@ export const datosEnvolvente = atom({
        "area":14.850,
        "transmitancia":0.7,
        "otros":{
-          "Orientacion":"Norte"
+          "Orientacion":"Norte",
+          "factor_solar": 0.30
        },
        "capas": [
           {
@@ -3156,7 +3164,8 @@ export const datosEnvolvente = atom({
        "area":14.850,
        "transmitancia":0.7,
        "otros":{
-          "Orientacion":"Oeste"
+          "Orientacion":"Oeste",
+          "factor_solar": 0.30
        },
        "capas": [
           {
@@ -3357,7 +3366,7 @@ export const datosEnvolvente = atom({
        "capas": [
           {
             "nombre":"TECHO 1",      // e.g. "Techo"
-            "anchura": 3.71,
+            "anchura": 2.24,
             "longitud": 1,
             "elementos": [
               {
@@ -3376,7 +3385,7 @@ export const datosEnvolvente = atom({
           },
           {
             "nombre":"TECHO 2",      // e.g. "Techo"
-            "anchura": 8.07,
+            "anchura": 4.9,
             "longitud": 1,
             "elementos": [
               {
@@ -3395,7 +3404,7 @@ export const datosEnvolvente = atom({
           },
           {
             "nombre":"VANO CENITAL: TECHO",      // e.g. "Techo"
-            "anchura": 4.16,
+            "anchura": 2.52,
             "longitud": 1,
             "elementos": [
               {
@@ -3457,7 +3466,7 @@ export const datosEnvolvente = atom({
        "capas": [
           {
             "nombre":"TECHO",      // e.g. "Techo"
-            "anchura": 2.52,
+            "anchura": 2.06,
             "longitud": 1,
             "elementos": [
               {
@@ -3495,7 +3504,7 @@ export const datosEnvolvente = atom({
           },
           {
             "nombre":"Acristalamiento",      // e.g. "Techo"
-            "anchura": 2.0,
+            "anchura": 1.59,
             "longitud": 1,
             "elementos": [
               {
@@ -3642,6 +3651,305 @@ export const datosEnvolvente = atom({
     } */
  ], // Valor inicial
 });
+
+// DATOS DE ENVOLVENTE 2014
+export const datosEnvolvente22 = atom({
+  key: 'datosEnvolvente22',
+  default: [
+    {
+       "id":5,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.23,
+       "transmitancia":5.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":6,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.27,
+       "transmitancia":5.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":7,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Contraventana de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.23,
+       "transmitancia":3.5,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":8,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco de muro 2",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.53,
+       "transmitancia":2.0,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+    {
+       "id":9,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Puerta de muro",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":1.74,
+       "transmitancia":4.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Muro",
+       },
+       "capas": []
+    },
+
+    
+    {
+       "id":10,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro 1",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":38.63,
+       "transmitancia":1.51,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":11,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Muro 2",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.29,
+       "transmitancia":1.53,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":12,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Sobrecimiento",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.06,
+       "transmitancia":1.24,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":13,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Viga N.1",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":3.21,
+       "transmitancia":1.65,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":14,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.02,
+       "transmitancia":14.17,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+    {
+       "id":15,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco",
+       "tipo":"Muro",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.04,
+       "transmitancia":56.00,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+
+    
+    {
+       "id":16,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana",
+       "tipo":"Ventana",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":2.24,
+       "transmitancia":3.06,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+    {
+       "id":17,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Marco",
+       "tipo":"Marco",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":0.15,
+       "transmitancia":5.7,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+    {
+       "id":18,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Cielorraso",
+       "tipo":"Cielorraso",
+       "familia":"Muro",
+       "longitud":0,
+       "anchura":0,
+       "area":18.19,
+       "transmitancia":4.9,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+
+    
+    {
+       "id":19,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana",
+       "tipo":"Ventana",
+       "familia":"Techo",
+       "longitud":0,
+       "anchura":0,
+       "area":4.43,
+       "transmitancia":6.9,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+    {
+       "id":20,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Ventana",
+       "tipo":"Ventana",
+       "familia":"Techo",
+       "longitud":0,
+       "anchura":0,
+       "area":50.01,
+       "transmitancia":0.55,
+       "otros":{
+          "Orientacion":"Sur",
+          "familia_c_a":"Techo",
+       },
+       "capas": []
+    },
+
+
+    
+    {
+       "id":21,
+       "color":"dark",
+       "icon":"ni ni-map-big",
+       "name":"Piso",
+       "tipo":"Piso",
+       "familia":"Piso",
+       "longitud":0,
+       "anchura":0,
+       "area":21.3,
+       "transmitancia":3.78,
+       "otros":{
+          "Orientacion":"Sur"
+       },
+       "capas": []
+    },
+
+ ], // Valor inicial
+});
+
 
 export const capasElemento = atom({
   key: 'capasElemento',
@@ -3832,14 +4140,14 @@ export const valoresDatosGenerales = atom({
     "Provincia": "Canas",
     "Distrito o Villa": "Langui",
     "Dirección o Dirección de referencia": "..., Provincia de Canas, Cusco, Perú",
-    "Altura sobre el nivel del mar (m)": "4035",
-    "Superficie útil habitable (m²)":"33",
-    "Altura libre de la planta (m)":"2.7",
-    "Número de plantas habitables":"1",
-    "Ventilación de la vivienda (ren/h)":"2.1",
-    "Caudal de aire a renovar (m³/h)":"3.4",
-    "Masas en la pariciones internas":"3",
-    "Cantidad de personas en la vivienda":"4",
+    "Altura sobre el nivel del mar (m)": 4035,
+    "Superficie útil habitable (m²)":33,
+    "Altura libre de la planta (m)":2.7,
+    "Número de plantas habitables":1,
+    "Ventilación de la vivienda (ren/h)":2.1,
+    "Caudal de aire a renovar (m³/h)":3.4,
+    "Masas en la pariciones internas":3,
+    "Cantidad de personas en la vivienda":4,
   }
 });
 
@@ -3866,9 +4174,10 @@ export const datosDemanda = atom({
     {
     "cooling": {
       "alt_m": 3985,
-      "ti": 25,
-      "te": 28,
-      "RHe": 35, "RHi": 50,
+      "ti": 30,
+      "te": 30,
+      "RHe": 0.3, 
+      "RHi": 0.5,
       "envelope": {
         "walls": [
           { "K": 1.60, "A": 30.0, "ori": "N" },
@@ -3886,10 +4195,6 @@ export const datosDemanda = atom({
       },
 
       "windows": [
-        { "A": 1.0, "ori": "N", "Fes": 0.14 },
-        { "A": 1.0, "ori": "E", "Fes": 0.14 },
-        { "A": 1.0, "ori": "S", "Fes": 0.14 },
-        { "A": 1.0, "ori": "W", "Fes": 0.14 }
       ],
       "solar": {
         "IS_orientation_Wm2": {
@@ -3907,8 +4212,8 @@ export const datosDemanda = atom({
 
     "heating": {
       "alt_m": 3985,
-      "ti_winter": 20,
-      "te_winter": -2.27,
+      "ti_winter": 12,
+      "te_winter": -3,
 
       "envelope": {
         "walls": [
@@ -3927,18 +4232,14 @@ export const datosDemanda = atom({
       },
 
       "windows": [
-        { "A": 1.0, "ori": "N", "Fes": 0.14 },
-        { "A": 1.0, "ori": "E", "Fes": 0.14 },
-        { "A": 1.0, "ori": "S", "Fes": 0.14 },
-        { "A": 1.0, "ori": "W", "Fes": 0.14 }
       ],
 
-      "people": { "N": 4, "Ms": 47, "Ml": 30 },
+      "people": { "N": 1, "Ms": 47, "Ml": 30 },
       "lighting": [ { "A": 42, "q_ilum": 10, "CT": 0.20 } ],
       "ventilation": { "Caire": 15 },
 
       "volume_m3": 100.8, "area_m2": 42,
-      "infiltration_ach": 0.5
+      "infiltration_ach": 0.0
     }
   }
 });
@@ -3946,29 +4247,33 @@ export const datosDemanda = atom({
 export const datosResDemandaCal = atom({
   key: 'datosResDemandaCal',
   default: {
-    "Pérdidas térmicas de la envolvente": "2200 W",
-    "Pérdidas por infiltración": "600 W",
-    "Pérdidas por ventilación": "350 W",
-    "Ganancias internas": "900 W",
-    "Ganancias solares": "700 W",
-    "Perdidas totales": "2200 W + 600 W + 350 W = 3150 W",
-    "Ganancias totales": "900 W + 700 W = 1600 W",
-    "Pérdidas y ganancias térmicas para un día típico de invierno en W": "3150 W − 1600 W = 1550 W",
-    "QCAL (energía)": "1550 W × 24 h = 37.2 kWh",
-    "Conclusión": "Demanda de calefacción (QCAL) es de 37.2 kWh para un día típico de invierno"
+    "Pérdidas térmicas de la envolvente": "Pendiente",
+    "Pérdidas por infiltración": "Pendiente",
+    "Pérdidas por ventilación": "Pendiente",
+    "Ganancias internas": "Pendiente",
+    "Ganancias solares": "Pendiente",
+    "Perdidas totales": "Pendiente",
+    "Ganancias totales": "Pendiente",
+    "Pérdidas y ganancias térmicas para un día típico de invierno en W": "Pendiente",
+    "Potencia requerida": "Pendiente",
+    "Título": "Pendiente",
+    "Conclusión": "Pendiente"
   }
 });
 export const datosResDemandaRef = atom({
   key: 'datosResDemandaRef',
   default: {
-    "Pérdidas térmicas de la envolvente": "1800 W",
-    "Pérdidas por ventilación": "450 W",
-    "Ganancias internas": "1000 W",
-    "Ganancias solares": "2700 W",
-    "Perdidas totales": "1800 W + 450 W = 2250 W",
-    "Ganancias totales": "1000 W + 2700 W = 3700 W",
-    "Pérdidas y ganancias térmicas para un día típico de verano en W": "2250 W - 3700 W = -1450 W",
-    "QCAL (energía)": "1450 W × 24 h = 34.8 kWh",
-    "Conclusión": "Demanda de refrigeración (QCAL) es de 34.8 kWh para un día típico de verano"
+    "Carga sensible de la envolvente": "Pendiente",
+    "Carga sensible del sol en ventanas": "Pendiente",
+    "Carga sensible interna": "Pendiente",
+    "Carga sensible por ventilación": "Pendiente",
+    "Carga latente interna": "Pendiente",
+    "Carga latente por ventilación": "Pendiente",
+    "Carga sensible total": "Pendiente",
+    "Carga latente total": "Pendiente",
+    "Parte sensible y latente para un día típico de la estación más calida en W": "Pendiente",
+    "Potencia requerida": "Pendiente",
+    "Título": "Pendiente",
+    "Conclusión": "Pendiente"
   }
 });

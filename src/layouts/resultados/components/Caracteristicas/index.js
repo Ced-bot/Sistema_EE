@@ -75,7 +75,7 @@ function Caracteristicas({setOpcionDif}) {
               <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
                 <Tab label="Envolvente" />
                 <Tab label="Demanda" />
-                <Tab label="Mejoras" />
+                <Tab label="Resultados" />
               </Tabs>
             </AppBar>
           </Grid>

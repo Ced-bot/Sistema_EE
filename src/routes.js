@@ -119,7 +119,7 @@ const routes = [
     icon: <ArgonBox component="i" color="error" fontSize="14px" className="ni ni-world-2" />,
     component: <RTL />,
   }, */
-  { type: "title", title: "Cuentas de páginas", key: "account-pages" },
+  /* { type: "title", title: "Cuentas de páginas", key: "account-pages" },
   {
     type: "route",
     name: "Perfil",
@@ -145,7 +145,7 @@ const routes = [
     route: "/authentication/sign-up",
     icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-collection" />,
     component: <SignUp />,
-  },
+  }, */
 ];
 
 export default routes;

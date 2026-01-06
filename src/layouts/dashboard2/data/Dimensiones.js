@@ -160,7 +160,7 @@ function Dimensiones({agregarElemento, nroElementos, setOpcionDif}) {
                         <Tab label="Piso" icon={ <i className="ni ni-ungroup" style={{ marginTop: "6px", marginRight: "8px" }} /> } />
                         {/* <Tab label="Partición interior" icon={ <i className="ni ni-fat-add" style={{ marginTop: "6px", marginRight: "8px" }} /> } /> */}
                         <Tab label="Vanos/Lucernarios" icon={ <i className="ni ni-image" style={{ marginTop: "6px", marginRight: "8px" }} /> } />
-                        <Tab label="Puentes térmico" icon={ <i className="ni ni-chart-pie-35" style={{ marginTop: "6px", marginRight: "8px" }} /> } />
+                        {/* <Tab label="Puentes térmico" icon={ <i className="ni ni-chart-pie-35" style={{ marginTop: "6px", marginRight: "8px" }} /> } /> */}
                     </Tabs>
                 </AppBar>
               </Grid>
