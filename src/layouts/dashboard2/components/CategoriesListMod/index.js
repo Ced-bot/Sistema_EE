@@ -299,7 +299,7 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
             Ms:valoresDatosDemandaR.cooling.people.Ms,
             Ml:valoresDatosDemandaR.cooling.people.Ml
           },
-          alt_m: direccionViviendaR.altitud
+          alt_m: valoresDatosGeneralesR.altura
         },             
         heating: {
           ...valoresDatosDemandaR.heating,         // copia lo que hay en mmd
@@ -309,7 +309,7 @@ function CategoriesListMod({ title, Elementos, setEstadoElementos, setDatosEnvol
             Ms:valoresDatosDemandaR.heating.people.Ms,
             Ml:valoresDatosDemandaR.heating.people.Ml
           },
-          alt_m: direccionViviendaR.altitud
+          alt_m: valoresDatosGeneralesR.altura
         }
       };
       //console.log(JSON.stringify(nuevosDatosDemanda));
