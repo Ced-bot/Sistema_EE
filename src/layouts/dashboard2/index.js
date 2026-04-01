@@ -52,25 +52,33 @@ function Default() {
   // Recoil
   const [datosEnvolventeR, setDatosEnvolventeR] = useRecoilState(datosEnvolvente);
   //console.log(JSON.stringify(datosEnvolventeR)); 
-
-  const [EstadoElementos, setEstadoElementos] = useState(datosEnvolventeR);
   const [nroElementos, setNroElementos] = useState(datosEnvolventeR.length);
   const [opcionDif, setOpcionDif] = useState(0);
   const [elementosEnvol, setElementosEnvol] = useState([]);
   // ========================================================== Funciones ============================================================
   const agregarElemento = (nuevoElemento) => {
+    setDatosEnvolventeR(prev => [...prev, nuevoElemento]);
+    setNroElementos(prev => prev + 1);
+
+    console.log("SE AGREGO EL NUEVO ELEMENTO");
+  };
+  /* const agregarElemento = (nuevoElemento) => {
     setEstadoElementos([...EstadoElementos, nuevoElemento]);
     setNroElementos(nroElementos+1);
     // Guardar los datos agregdos para que no se pierdan
     setDatosEnvolventeR([...datosEnvolventeR, nuevoElemento]);
     //console.log(JSON.stringify([...datosEnvolventeR, nuevoElemento]));
     console.log("SE AGREGO EL NUEVO ELEMENTO");
-  };
+  }; */
   const agregarTransmitancia = (nuevoElemento) => {
     //const existe = elementosEnvol.some( (diccionario) => JSON.stringify(diccionario) === JSON.stringify(nuevoElemento));
     //if (!existe){
     //}
-    nuevoElemento.id = elementosEnvol.length;
+    const maxId = elementosEnvol.length
+      ? Math.max(...elementosEnvol.map(e => e.id))
+      : 0;
+
+    nuevoElemento.id = maxId + 1;
     setElementosEnvol([...elementosEnvol, nuevoElemento]);
     //console.log([...elementosEnvol, nuevoElemento]);
   };
@@ -81,7 +89,7 @@ function Default() {
   const LibreriaTransmitancia = () => (
     <Grid container spacing={3} mb={3}>  
       <Grid item xs={12} md={6}> <PropiedadesTermicas agregarTransmitancia={agregarTransmitancia} limpiarTransmitancias={limpiarTransmitancias}/> </Grid>
-      <Grid item xs={12} md={6}> <ListaCerramientos elementosEnvol={elementosEnvol} /> </Grid>
+      <Grid item xs={12} md={6}> <ListaCerramientos elementosEnvol={elementosEnvol} setElementosEnvol={setElementosEnvol} /> </Grid>
     </Grid>
   );
   const VanosCaracteristicas = () => (
@@ -139,7 +147,7 @@ function Default() {
             {opcionDif === 1 && VanosCaracteristicas()}
           </Grid>
           <Grid item xs={12} md={4}>
-            <CategoriesListMod title="Elementos constructivos de la vivienda" Elementos={EstadoElementos} setEstadoElementos = {setEstadoElementos} setDatosEnvolventeR = {setDatosEnvolventeR} />
+            <CategoriesListMod title="Elementos constructivos de la vivienda" Elementos={datosEnvolventeR} setEstadoElementos = {setDatosEnvolventeR} setDatosEnvolventeR = {setDatosEnvolventeR} />
           </Grid>
         </Grid>
 
